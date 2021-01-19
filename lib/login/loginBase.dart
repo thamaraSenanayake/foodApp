@@ -4,6 +4,7 @@ import 'package:food_app/login/signInName.dart';
 import 'package:food_app/login/signInPassword.dart';
 import 'package:food_app/login/signInPhone.dart';
 import 'package:food_app/login/splash.dart';
+import 'package:food_app/model/user.dart';
 
 import 'login.dart';
 
@@ -18,10 +19,12 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
   double _height;
   double _width;
   LoginPageList _page = LoginPageList.SplashScreen;
+  User _user;
 
   @override
   void initState() {
     super.initState();
+    _user = User();
     _autoLoginCheck();
   }
 
@@ -55,11 +58,11 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
             _page == LoginPageList.Login?
             LoginPage(listener: this,):
             _page == LoginPageList.SignInName?
-            SignInName(listener: this,):
+            SignInName(listener: this, user: _user,):
             _page == LoginPageList.SignInPhone?
-            SignInPhone(listener: this,):
+            SignInPhone(listener: this, user: _user,):
             _page == LoginPageList.SignInPassword?
-            SignInPassword(listener: this,):
+            SignInPassword(listener: this, user: _user,):
             Container()
 
           ],

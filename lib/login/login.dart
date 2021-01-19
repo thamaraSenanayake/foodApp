@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/const.dart';
+import 'package:food_app/database/databse.dart';
+import 'package:food_app/model/user.dart';
 import 'package:food_app/module/customButton.dart';
 import 'package:food_app/module/textbox.dart';
 
@@ -17,7 +20,44 @@ class _LoginPageState extends State<LoginPage> {
   double _height;
   double _width;
   String _phoneNumber = "";
+  String _phoneNumberError = "";
   String _password = "";
+  String _passwordError = "";
+  String _loginError = "";
+  bool _loading = false;
+
+  _login() async {
+    bool validation = true;
+    User user;
+    if( _phoneNumber.isEmpty) {
+      _phoneNumberError = "Required field";
+      validation = false;
+    }
+    if( _password.isEmpty) {
+      _passwordError = "Required field";
+      validation = false;
+    }
+
+    if(validation){
+
+      setState(() {
+        _loading = true;
+      });
+      user = await Database().login(_phoneNumber, _password);
+      setState(() {
+        _loading = false;
+      });
+
+      if(user == null){
+        _loginError = "Invalid login details";
+      }else{
+        _loginError = "valid login";
+        //todo 
+      }
+    }
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,78 +68,101 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       height:_height,
       width:_width,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(),
-            Column(
-              children: [
-                Container(
-                  height: 200,
-                  child: Image.asset(
-                    AppData.LOGOPATH
+      child: Stack(
+        children: [
+          Container(
+            height:_height,
+            width:_width,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Column(
+                    children: [
+                      Container(
+                        height: 200,
+                        child: Image.asset(
+                          AppData.LOGOPATH
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      TextBox(
+                        textBoxKey: "null", 
+                        onChange: (val){
+
+                        }, 
+                        errorText: _phoneNumberError,
+                        textBoxHint: "Phone Number",
+                        prefixIcon: Icons.phone,
+                      ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+
+
+                      TextBox(
+                        textBoxKey: "null", 
+                        onChange: (val){
+
+                        }, 
+                        errorText: _passwordError,
+                        textBoxHint: "Password",
+                        prefixIcon: Icons.lock,
+                        obscureText: true,
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+                  Column(
+                    children: [
+                      Text(
+                        _loginError,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15
+                        ),
+                      ),
+                      CustomButton(
+                        text: "Login", 
+                        buttonClick: (){
+                          _login();
+                        }
+                      ),
 
-                TextBox(
-                  textBoxKey: "null", 
-                  onChange: (val){
+                      SizedBox(
+                        height: 20,
+                      ),
 
-                  }, 
-                  errorText: "",
-                  textBoxHint: "Phone Number",
-                  prefixIcon: Icons.phone,
-                ),
+                      CustomButton(
+                        text: "Create a New Account", 
+                        buttonClick: (){
+                          widget.listener.moveToPage(LoginPageList.SignInName);
+                        }
+                      ),
 
-                SizedBox(
-                  height: 20,
-                ),
-
-
-                TextBox(
-                  textBoxKey: "null", 
-                  onChange: (val){
-
-                  }, 
-                  errorText: "",
-                  textBoxHint: "Password",
-                  prefixIcon: Icons.lock,
-                  obscureText: true,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-
-                CustomButton(
-                  text: "Login", 
-                  buttonClick: (){
-
-                  }
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                CustomButton(
-                  text: "Create a New Account", 
-                  buttonClick: (){
-                    widget.listener.moveToPage(LoginPageList.SignInName);
-                  }
-                ),
-
-              ],
-            ),
-          ],
-         ),
-       ),
+                    ],
+                  ),
+                ],
+               ),
+             ),
+          ),
+          _loading
+            ? Container(
+              color: Color.fromRGBO(128, 128, 128, 0.3),
+              child: SpinKitSquareCircle(
+                color: Colors.blue,
+                size: 50.0,
+              ),
+            )
+            : Container(),
+        ],
+      ),
     );
   }
 }

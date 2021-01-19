@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
+import 'package:food_app/model/user.dart';
 import 'package:food_app/module/customButton.dart';
 import 'package:food_app/module/textbox.dart';
 
@@ -7,7 +8,9 @@ import 'loginBase.dart';
 
 class SignInPhone extends StatefulWidget {
   final LoginBaseListener listener;
-  SignInPhone({Key key,@required this.listener}) : super(key: key);
+  final User user;
+
+  SignInPhone({Key key,@required this.listener,@required this.user}) : super(key: key);
 
   @override
   _SignInPhoneState createState() => _SignInPhoneState();
@@ -17,6 +20,18 @@ class _SignInPhoneState extends State<SignInPhone> {
   double _height;
   double _width;
   String _phone = "";
+  String _phoneError = "";
+
+  _next(){
+    if(_phone.isEmpty){
+      setState(() {
+        _phoneError = "Required Field";
+      });
+    }else{
+      widget.user.name = _phone;
+      widget.listener.moveToPage(LoginPageList.SignInPassword);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +71,7 @@ class _SignInPhoneState extends State<SignInPhone> {
                     _phone = val;
                   }, 
                   errorText: "",
-                  textBoxHint: "",
+                  textBoxHint: _phoneError,
                 ),
 
               ],
@@ -67,7 +82,7 @@ class _SignInPhoneState extends State<SignInPhone> {
                 CustomButton(
                   text: "Next", 
                   buttonClick: (){
-                    widget.listener.moveToPage(LoginPageList.SignInPassword);
+                    _next();
                   }
                 ),
 
