@@ -62,13 +62,24 @@ class _SignInNameState extends State<SignInName> {
                 ),
 
                 SizedBox(
-                  height: 80,
+                  height: 60,
+                ),
+
+                Text(
+                  _nameError,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15
+                  ),
                 ),
 
                 TextBox(
                   textBoxKey: "null", 
                   onChange: (val){
                     _name = val;
+                    setState(() {
+                      _nameError = "";
+                    });
                   }, 
                   errorText: _nameError,
                   textBoxHint: "",

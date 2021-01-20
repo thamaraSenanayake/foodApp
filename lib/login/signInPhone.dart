@@ -28,7 +28,7 @@ class _SignInPhoneState extends State<SignInPhone> {
         _phoneError = "Required Field";
       });
     }else{
-      widget.user.name = _phone;
+      widget.user.telNumber = _phone;
       widget.listener.moveToPage(LoginPageList.SignInPassword);
     }
   }
@@ -62,16 +62,28 @@ class _SignInPhoneState extends State<SignInPhone> {
                 ),
 
                 SizedBox(
-                  height: 80,
+                  height: 60,
+                ),
+
+                Text(
+                  _phoneError,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15
+                  ),
                 ),
 
                 TextBox(
+                  textInputType:TextInputType.phone,
                   textBoxKey: "null", 
                   onChange: (val){
                     _phone = val;
+                    setState(() {
+                      _phoneError = "";
+                    });
                   }, 
                   errorText: "",
-                  textBoxHint: _phoneError,
+                  textBoxHint: "",
                 ),
 
               ],

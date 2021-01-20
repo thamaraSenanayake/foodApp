@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   _login() async {
     bool validation = true;
     User user;
+    print("login");
     if( _phoneNumber.isEmpty) {
       _phoneNumberError = "Required field";
       validation = false;
@@ -90,12 +91,22 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(
                         height: 20,
+                        child: Text(
+                          _phoneNumberError,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 15
+                          ),
+                        ),
                       ),
 
                       TextBox(
                         textBoxKey: "null", 
                         onChange: (val){
-
+                          setState(() {
+                            _phoneNumber = val;
+                            _phoneNumberError = "";
+                          });
                         }, 
                         errorText: _phoneNumberError,
                         textBoxHint: "Phone Number",
@@ -104,13 +115,23 @@ class _LoginPageState extends State<LoginPage> {
 
                       SizedBox(
                         height: 20,
+                        child: Text(
+                          _passwordError,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 15
+                          ),
+                        ),
                       ),
 
 
                       TextBox(
                         textBoxKey: "null", 
                         onChange: (val){
-
+                          setState(() {
+                            _password = val;
+                            _passwordError = "";
+                          });
                         }, 
                         errorText: _passwordError,
                         textBoxHint: "Password",

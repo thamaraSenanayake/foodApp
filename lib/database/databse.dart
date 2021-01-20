@@ -46,10 +46,11 @@ class Database{
       "name":user.name,
       "flowers":[],
       "flowing":[],
-      "email":user.email,
+      "email":"",
       "profilePicUrl":"",
       "password":user.password,
       "address":"",
+      "userCategory":""
     });
   }
 

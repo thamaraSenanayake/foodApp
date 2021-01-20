@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:food_app/const.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/customButton.dart';
@@ -32,16 +31,19 @@ class _SignInPasswordState extends State<SignInPassword> {
       setState(() {
         _passwordError = "Required Field";
       });
+      _validation = false;
     }
     if(_confirmPassword.isEmpty){
       setState(() {
         _confirmPasswordError = "Required Field";
       });
+      _validation = false;
     }
     if(_password !=_confirmPassword ){
       setState(() {
         _confirmPasswordError = "password isn't matched";
       });
+      _validation = false;
     }
     if(_validation){
       widget.user.password = _password;
@@ -91,20 +93,33 @@ class _SignInPasswordState extends State<SignInPassword> {
                       ),
 
                       SizedBox(
-                        height: 80,
+                        height: 60,
+                      ),
+
+                      Text(
+                        _passwordError,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15
+                        ),
                       ),
 
                       TextBox(
                         textBoxKey: "null", 
                         onChange: (val){
                           _password = val;
+                          setState(() {
+                            _passwordError = "";
+                          });
                         }, 
                         errorText: _passwordError,
                         textBoxHint: "",
+                        obscureText: true,
                       ),
 
                       SizedBox(
                         height: 30,
+                        
                       ),
 
                       Text(
@@ -116,16 +131,35 @@ class _SignInPasswordState extends State<SignInPassword> {
                       ),
 
                       SizedBox(
-                        height: 80,
+                        height: 40,
+                      ),
+                      Text(
+                        _passwordError,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15
+                        ),
+                      ),
+
+                      Text(
+                        _confirmPasswordError,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15
+                        ),
                       ),
 
                       TextBox(
                         textBoxKey: "null", 
                         onChange: (val){
                           _confirmPassword = val;
+                          setState(() {
+                            _confirmPasswordError = "";
+                          });
                         }, 
                         errorText: _confirmPasswordError,
                         textBoxHint: "",
+                        obscureText: true,
                       ),
 
                     ],
@@ -134,7 +168,7 @@ class _SignInPasswordState extends State<SignInPassword> {
                     children: [
 
                       CustomButton(
-                        text: "Next", 
+                        text: "Sign in", 
                         buttonClick: (){
                           _next();
                         }
