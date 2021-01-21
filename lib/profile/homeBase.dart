@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/model/user.dart';
 
 import '../const.dart';
+import 'home.dart';
 
 class HomeBase extends StatefulWidget {
-  HomeBase({Key key}) : super(key: key);
+  final User user;
+  HomeBase({Key key, @required this.user}) : super(key: key);
 
   @override
   _HomeBaseState createState() => _HomeBaseState();
@@ -34,6 +37,24 @@ class _HomeBaseState extends State<HomeBase> {
               ),
             ),
 
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: _width,
+                height: 50,
+                color: Colors.white,
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: _width,
+                height: 40,
+                color: Colors.white,
+              ),
+            ),
+
             Container(
               height:_height,
               width:_width,
@@ -42,8 +63,23 @@ class _HomeBaseState extends State<HomeBase> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 70,
+                      height: 40,
                       width: _width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        //  boxShadow: <BoxShadow>[
+                        //   BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
+                        //   BoxShadow(
+                        //     color: Color.fromRGBO(0, 0, 0, 0.25),
+                        //     blurRadius: 12.0,
+                        //     spreadRadius: 3.0,
+                        //     offset: Offset(
+                        //       1.0,
+                        //       1.0,
+                        //     ),
+                        //   )
+                        // ],
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -81,10 +117,11 @@ class _HomeBaseState extends State<HomeBase> {
                       ),
                     ),
                     Expanded(
-                      child: Container()
+                      child: HomePage(user: widget.user,)
                     ),
                     Container(
-                      height: 100,
+                      height: 50,
+                      color: Colors.white,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,

@@ -29,8 +29,8 @@ class Database{
       user = User()
         ..telNumber= item['telNumber']
         ..name= item['name']
-        ..flowers= item['flowers']
-        ..flowing= item['flowing']
+        ..flowers= item['flowers'].cast<String>()
+        ..flowing= item['flowing'].cast<String>()
         ..email= item['email']
         ..profilePicUrl= item['profilePicUrl']
         ..password= item['password']

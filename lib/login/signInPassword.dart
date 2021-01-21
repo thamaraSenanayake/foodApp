@@ -4,6 +4,7 @@ import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/customButton.dart';
 import 'package:food_app/module/textbox.dart';
+import 'package:food_app/profile/homeBase.dart';
 
 import 'loginBase.dart';
 
@@ -55,7 +56,14 @@ class _SignInPasswordState extends State<SignInPassword> {
       setState(() {
         _loading = false;
       });
-      //todo move to home page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeBase(
+            user: widget.user,
+          )
+        )
+      );
     }
   }
 

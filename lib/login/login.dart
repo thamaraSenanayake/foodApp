@@ -5,6 +5,7 @@ import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/customButton.dart';
 import 'package:food_app/module/textbox.dart';
+import 'package:food_app/profile/homeBase.dart';
 
 import 'loginBase.dart';
 
@@ -31,11 +32,15 @@ class _LoginPageState extends State<LoginPage> {
     User user;
     print("login");
     if( _phoneNumber.isEmpty) {
-      _phoneNumberError = "Required field";
+      setState(() {
+        _phoneNumberError = "Required field";
+      });
       validation = false;
     }
     if( _password.isEmpty) {
-      _passwordError = "Required field";
+      setState(() {
+        _passwordError = "Required field";
+      });
       validation = false;
     }
 
@@ -53,7 +58,14 @@ class _LoginPageState extends State<LoginPage> {
         _loginError = "Invalid login details";
       }else{
         _loginError = "valid login";
-        //todo 
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeBase(
+              user: user,
+            )
+          )
+        );
       }
     }
 
