@@ -21,3 +21,12 @@ enum UserCategory{
   Education,
   Others,
 }
+
+enum ProfilePage{
+  Profile,
+  Search,
+  Home,
+  Category,
+  Message,
+  Add
+}

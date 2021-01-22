@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/profile/profile.dart';
 
 import '../const.dart';
 import 'home.dart';
@@ -15,6 +16,7 @@ class HomeBase extends StatefulWidget {
 class _HomeBaseState extends State<HomeBase> {
   double _height;
   double _width;
+  ProfilePage _profilePage = ProfilePage.Home;
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -101,7 +103,9 @@ class _HomeBaseState extends State<HomeBase> {
                           SizedBox(width:10),
                           GestureDetector(
                             onTap: (){
-
+                              setState(() {
+                                _profilePage = ProfilePage.Profile;
+                              });
                             },
                             child: Container(
                               height: 70,
@@ -117,7 +121,9 @@ class _HomeBaseState extends State<HomeBase> {
                       ),
                     ),
                     Expanded(
-                      child: HomePage(user: widget.user,)
+                      child: _profilePage == ProfilePage.Home ? HomePage(user: widget.user,):
+                      _profilePage == ProfilePage.Profile ? Profile(user: widget.user):
+                      Container()
                     ),
                     Container(
                       height: 50,
@@ -126,12 +132,19 @@ class _HomeBaseState extends State<HomeBase> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            height: 80,
-                            width: 80,
-                            color: Colors.white,
-                            child: Icon(
-                              Icons.home
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                _profilePage = ProfilePage.Home;
+                              });
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              color: Colors.white,
+                              child: Icon(
+                                Icons.home
+                              ),
                             ),
                           ),
                           Container(
