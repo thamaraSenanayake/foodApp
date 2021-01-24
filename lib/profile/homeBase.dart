@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/profile/Message.dart';
+import 'package:food_app/profile/addPost.dart';
 import 'package:food_app/profile/profile.dart';
+import 'package:food_app/profile/search.dart';
+import 'package:food_app/profile/userCategorySelect.dart';
 
 import '../const.dart';
 import 'home.dart';
@@ -88,7 +92,9 @@ class _HomeBaseState extends State<HomeBase> {
                         children: [
                           GestureDetector(
                             onTap: (){
-
+                              setState(() {
+                                _profilePage = ProfilePage.Search;
+                              });
                             },
                             child: Container(
                               height: 70,
@@ -123,6 +129,10 @@ class _HomeBaseState extends State<HomeBase> {
                     Expanded(
                       child: _profilePage == ProfilePage.Home ? HomePage(user: widget.user,):
                       _profilePage == ProfilePage.Profile ? Profile(user: widget.user):
+                      _profilePage == ProfilePage.Add ? AddPost(user: widget.user):
+                      _profilePage == ProfilePage.Message ? MessageView(user: widget.user):
+                      _profilePage == ProfilePage.Category ? UserCategorySelect(user: widget.user):
+                      _profilePage == ProfilePage.Search ? SearchScreen(user: widget.user):
                       Container()
                     ),
                     Container(
@@ -147,28 +157,49 @@ class _HomeBaseState extends State<HomeBase> {
                               ),
                             ),
                           ),
-                          Container(
-                            height: 80,
-                            width: 80,
-                            color: Colors.white,
-                            child: Icon(
-                              Icons.menu
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                _profilePage = ProfilePage.Category;
+                              });
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              color: Colors.white,
+                              child: Icon(
+                                Icons.menu
+                              ),
                             ),
                           ),
-                          Container(
-                            height: 80,
-                            width: 80,
-                            color: Colors.white,
-                            child: Icon(
-                              Icons.message
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                _profilePage = ProfilePage.Message;
+                              });
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              color: Colors.white,
+                              child: Icon(
+                                Icons.message
+                              ),
                             ),
                           ),
-                          Container(
-                            height: 80,
-                            width: 80,
-                            color: Colors.white,
-                            child: Icon(
-                              Icons.add
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                _profilePage = ProfilePage.Add;
+                              });
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              color: Colors.white,
+                              child: Icon(
+                                Icons.add
+                              ),
                             ),
                           )
                         ],
