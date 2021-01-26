@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                         height: 50,
                         width: 50,
                         child: Icon(
-                          Icons.border_vertical_rounded,
+                          Icons.more_vert,
                           size: 35,
                           color: Colors.black,
                         ),

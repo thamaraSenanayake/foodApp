@@ -26,14 +26,14 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
       body: Container(
         width : _width,
         height :_height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image:AssetImage(
-              AppData.BACKGROUNDPATH,
-            ),
-            fit: BoxFit.cover
-          )
-        ),
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(
+        //     image:AssetImage(
+        //       AppData.BACKGROUNDPATH,
+        //     ),
+        //     fit: BoxFit.cover
+        //   )
+        // ),
         child: SafeArea(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,

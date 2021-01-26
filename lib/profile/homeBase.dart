@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
-import 'package:food_app/profile/Message.dart';
+import 'package:food_app/profile/message/Message.dart';
 import 'package:food_app/profile/addPost.dart';
 import 'package:food_app/profile/profile.dart';
 import 'package:food_app/profile/search.dart';
@@ -34,21 +34,21 @@ class _HomeBaseState extends State<HomeBase> {
         child: Stack(
           children: [
             
-            Container(
-              height:_height,
-              width:_width,
-              child: Image.asset(
-                AppData.BACKGROUNDPATH,
-                fit:BoxFit.cover
-              ),
-            ),
+            // Container(
+            //   height:_height,
+            //   width:_width,
+            //   child: Image.asset(
+            //     AppData.BACKGROUNDPATH,
+            //     fit:BoxFit.cover
+            //   ),
+            // ),
 
             Align(
               alignment: Alignment.topCenter,
               child: Container(
                 width: _width,
                 height: 50,
-                color: Colors.white,
+                color: AppData.secondaryColor,
               ),
             ),
 
@@ -57,7 +57,7 @@ class _HomeBaseState extends State<HomeBase> {
               child: Container(
                 width: _width,
                 height: 40,
-                color: Colors.white,
+                color: AppData.secondaryColor,
               ),
             ),
 
@@ -72,19 +72,7 @@ class _HomeBaseState extends State<HomeBase> {
                       height: 40,
                       width: _width,
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        //  boxShadow: <BoxShadow>[
-                        //   BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
-                        //   BoxShadow(
-                        //     color: Color.fromRGBO(0, 0, 0, 0.25),
-                        //     blurRadius: 12.0,
-                        //     spreadRadius: 3.0,
-                        //     offset: Offset(
-                        //       1.0,
-                        //       1.0,
-                        //     ),
-                        //   )
-                        // ],
+                        color: AppData.secondaryColor,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -102,6 +90,7 @@ class _HomeBaseState extends State<HomeBase> {
                               child: Center(
                                 child: Icon(
                                   Icons.search,
+                                  color: AppData.primaryColor,
                                 ),
                               ),
                             ),
@@ -119,6 +108,7 @@ class _HomeBaseState extends State<HomeBase> {
                               child: Center(
                                 child: Icon(
                                   Icons.person,
+                                  color: AppData.primaryColor,
                                 ),
                               ),
                             ),
@@ -137,7 +127,7 @@ class _HomeBaseState extends State<HomeBase> {
                     ),
                     Container(
                       height: 50,
-                      color: Colors.white,
+                      color: AppData.secondaryColor,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,9 +141,10 @@ class _HomeBaseState extends State<HomeBase> {
                             child: Container(
                               height: 80,
                               width: 80,
-                              color: Colors.white,
+                              color: AppData.secondaryColor,
                               child: Icon(
-                                Icons.home
+                                Icons.home,
+                                color: AppData.primaryColor,
                               ),
                             ),
                           ),
@@ -166,9 +157,10 @@ class _HomeBaseState extends State<HomeBase> {
                             child: Container(
                               height: 80,
                               width: 80,
-                              color: Colors.white,
+                              color: AppData.secondaryColor,
                               child: Icon(
-                                Icons.menu
+                                Icons.menu,
+                                color: AppData.primaryColor,
                               ),
                             ),
                           ),
@@ -181,9 +173,10 @@ class _HomeBaseState extends State<HomeBase> {
                             child: Container(
                               height: 80,
                               width: 80,
-                              color: Colors.white,
+                              color: AppData.secondaryColor,
                               child: Icon(
-                                Icons.message
+                                Icons.message,
+                                color: AppData.primaryColor,
                               ),
                             ),
                           ),
@@ -196,9 +189,10 @@ class _HomeBaseState extends State<HomeBase> {
                             child: Container(
                               height: 80,
                               width: 80,
-                              color: Colors.white,
+                              color: AppData.secondaryColor,
                               child: Icon(
-                                Icons.add
+                                Icons.add,
+                                color: AppData.primaryColor,
                               ),
                             ),
                           )

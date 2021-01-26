@@ -44,14 +44,14 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
         width:_width,
         child: Stack(
           children: [
-            Container(
-              height:_height,
-              width:_width,
-              child: Image.asset(
-                AppData.BACKGROUNDPATH,
-                fit:BoxFit.cover
-              ),
-            ),
+            // Container(
+            //   height:_height,
+            //   width:_width,
+            //   child: Image.asset(
+            //     AppData.BACKGROUNDPATH,
+            //     fit:BoxFit.cover
+            //   ),
+            // ),
 
             _page == LoginPageList.SplashScreen?
             SplashScreen(listener: this,):

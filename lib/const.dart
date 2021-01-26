@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 enum LoginPageList{
   SplashScreen,
   Login,
@@ -8,8 +10,10 @@ enum LoginPageList{
 
 class AppData{
   static const String APPNAME = 'Food App';
-  static const String LOGOPATH = 'assets/images/logo.jpg';
+  static const String LOGOPATH = 'assets/images/logo.png';
   static const String BACKGROUNDPATH = 'assets/images/background.jpg';
+  static Color secondaryColor= Color(0xff393939);
+  static Color primaryColor= Color(0xFFFFFBFB);
 }
 
 enum UserCategory{
