@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/model/message.dart';
+import 'package:food_app/model/messageHead.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/module/singleMessageView.dart';
 
 import '../../const.dart';
 
@@ -16,6 +19,8 @@ class _MessageScreenState extends State<MessageScreen> {
   List<Widget> _msgListWidget = [];
   double _height =0.0;
   double _width =0.0;
+  TextEditingController _messageController = TextEditingController();
+  MessageHeader _messageHeader = MessageHeader();
   @override
   void initState() {
     super.initState();
@@ -41,6 +46,34 @@ class _MessageScreenState extends State<MessageScreen> {
     //   initialScrollOffset: 0.0,
     //   keepScrollOffset: true,
     // );
+  }
+
+  _sendMsg(){
+    String text = _messageController.text;
+    _messageController.text = '';
+    List<Widget> _msgListWidgetTemp = [];
+    if(text.isNotEmpty){
+      if(_messageHeader.msgList == null ){
+        _messageHeader.msgList = [];  
+      }
+      _messageHeader.msgList.add(
+        SingleMessage()
+        ..userTelNumber = widget.user.telNumber
+        ..msg = text
+        ..dateTime =DateTime.now()
+      );
+    }
+
+    for (var item in _messageHeader.msgList) {
+      _msgListWidgetTemp.add(
+        SingleMessageView(singleMessage: item, user: widget.user,)
+      );
+    }
+
+    setState(() {
+      _msgListWidget = _msgListWidgetTemp;
+    });
+
   }
 
   @override
@@ -135,44 +168,10 @@ class _MessageScreenState extends State<MessageScreen> {
                           controller: _controller,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            // children: _msgListWidget,
-                            children: [
-                              Container(
-                                width: _width-20,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    child: Text(
-                                      "data"
-                                    ),
-                                    constraints: BoxConstraints(
-                                      maxWidth: _width - 80,
-                                      minHeight: 40
-                                    ),
-                                    padding:EdgeInsets.only(
-                                      left:20 ,
-                                      right:20,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(3),
-                                      boxShadow: [
-                                        BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
-                                        BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                                          blurRadius: 12.0,
-                                          spreadRadius: 3.0,
-                                          offset: Offset(
-                                            1.0,
-                                            1.0,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
+                            children: _msgListWidget,
+                            // children: [
+                              
+                            // ],
                           ),
                         ),
                       ),
@@ -190,7 +189,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 60),
                         child: TextField(
                           style: TextStyle(color: Colors.black, fontSize: 15),
-                          // controller: _messageController,
+                          controller: _messageController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "Type something...",
@@ -207,7 +206,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             // _removeTitleError();
                           },
                           onSubmitted: (val){
-                            // _sendMsg();
+                            _sendMsg();
                           },
                         ),
                       ) ,
