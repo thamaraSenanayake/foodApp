@@ -88,101 +88,107 @@ class _LoginPageState extends State<LoginPage> {
             width:_width,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(),
-                  Column(
+              child: SingleChildScrollView(
+                child: Container(
+                  height:_height-100,
+                  width:_width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: 200,
-                        child: Image.asset(
-                          AppData.LOGOPATH
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                        child: Text(
-                          _phoneNumberError,
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 15
+                      Container(),
+                      Column(
+                        children: [
+                          Container(
+                            height: 200,
+                            child: Image.asset(
+                              AppData.LOGOPATH
+                            ),
                           ),
-                        ),
-                      ),
-
-                      TextBox(
-                        textBoxKey: "null", 
-                        onChange: (val){
-                          setState(() {
-                            _phoneNumber = val;
-                            _phoneNumberError = "";
-                          });
-                        }, 
-                        errorText: _phoneNumberError,
-                        textBoxHint: "Phone Number",
-                        prefixIcon: Icons.phone,
-                      ),
-
-                      SizedBox(
-                        height: 20,
-                        child: Text(
-                          _passwordError,
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 15
+                          SizedBox(
+                            height: 20,
+                            child: Text(
+                              _phoneNumberError,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 15
+                              ),
+                            ),
                           ),
-                        ),
+
+                          TextBox(
+                            textBoxKey: "null", 
+                            onChange: (val){
+                              setState(() {
+                                _phoneNumber = val;
+                                _phoneNumberError = "";
+                              });
+                            }, 
+                            errorText: _phoneNumberError,
+                            textBoxHint: "Phone Number",
+                            prefixIcon: Icons.phone,
+                          ),
+
+                          SizedBox(
+                            height: 20,
+                            child: Text(
+                              _passwordError,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 15
+                              ),
+                            ),
+                          ),
+
+
+                          TextBox(
+                            textBoxKey: "null", 
+                            onChange: (val){
+                              setState(() {
+                                _password = val;
+                                _passwordError = "";
+                              });
+                            }, 
+                            errorText: _passwordError,
+                            textBoxHint: "Password",
+                            prefixIcon: Icons.lock,
+                            obscureText: true,
+                          ),
+                        ],
                       ),
+                      Column(
+                        children: [
+                          Text(
+                            _loginError,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 15
+                            ),
+                          ),
+                          CustomButton(
+                            text: "Login", 
+                            buttonClick: (){
+                              _login();
+                            }
+                          ),
 
+                          SizedBox(
+                            height: 20,
+                          ),
 
-                      TextBox(
-                        textBoxKey: "null", 
-                        onChange: (val){
-                          setState(() {
-                            _password = val;
-                            _passwordError = "";
-                          });
-                        }, 
-                        errorText: _passwordError,
-                        textBoxHint: "Password",
-                        prefixIcon: Icons.lock,
-                        obscureText: true,
+                          CustomButton(
+                            text: "Create a New Account", 
+                            buttonClick: (){
+                              widget.listener.moveToPage(LoginPageList.SignInName);
+                            }
+                          ),
+
+                        ],
                       ),
                     ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        _loginError,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 15
-                        ),
-                      ),
-                      CustomButton(
-                        text: "Login", 
-                        buttonClick: (){
-                          _login();
-                        }
-                      ),
-
-                      SizedBox(
-                        height: 20,
-                      ),
-
-                      CustomButton(
-                        text: "Create a New Account", 
-                        buttonClick: (){
-                          widget.listener.moveToPage(LoginPageList.SignInName);
-                        }
-                      ),
-
-                    ],
-                  ),
-                ],
-               ),
+                   ),
+                ),
+              ),
              ),
           ),
           _loading

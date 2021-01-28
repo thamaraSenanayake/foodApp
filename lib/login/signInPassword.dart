@@ -90,7 +90,7 @@ class _SignInPasswordState extends State<SignInPassword> {
                   Column(
                     children: [
                       SizedBox(
-                        height: 130,
+                        height: 10,
                       ),
                       Text(
                         "Enter your password",
@@ -101,7 +101,7 @@ class _SignInPasswordState extends State<SignInPassword> {
                       ),
 
                       SizedBox(
-                        height: 60,
+                        height: 20,
                       ),
 
                       Text(
