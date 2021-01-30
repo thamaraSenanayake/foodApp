@@ -518,7 +518,19 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
 
   @override
   takeCall(String userTelNumber) {
-  // TODO: implement takeCall
-  throw UnimplementedError();
+    // TODO: implement takeCall
+    throw UnimplementedError();
+  }
+
+  @override
+  canEdit(Post postId) {
+    // TODO: implement moreClick
+    throw UnimplementedError();
+  }
+
+  @override
+  addToFavorite(String postId) {
+    // TODO: implement moreClick
+    throw UnimplementedError();
   }
 }

@@ -5,13 +5,16 @@ class Post{
   String userTelNumber;
   String title;
   String place;
+  String city;
   // LatLang location;
-  String price;
+  double price;
+  int qty;
   String amount;
   DateTime intendDate;
   DateTime insertTime;
   String description;
   String imgUrl;
   List<User> clapUser;
+  bool forSale;
 
 }

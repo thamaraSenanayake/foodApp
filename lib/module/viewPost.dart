@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/const.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 
@@ -7,7 +8,8 @@ class ViewPost extends StatefulWidget {
   final User user;
   final bool myPost;
   final ViewPostListener listener;
-  ViewPost({Key key,@required this.post,@required this.user, this.myPost = false,@required this.listener}) : super(key: key);
+  final bool canEdit;
+  ViewPost({Key key,@required this.post,@required this.user, this.myPost = false,@required this.listener, this.canEdit = false}) : super(key: key);
 
   @override
   _ViewPostState createState() => _ViewPostState();
@@ -58,9 +60,22 @@ class _ViewPostState extends State<ViewPost> {
                       fontWeight: FontWeight.w500
                     ),
                   ),
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.red,
+                  !widget.canEdit? GestureDetector(
+                    onTap: (){
+                      widget.listener.addToFavorite(widget.post.id);
+                    },
+                    child: Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                  ):GestureDetector(
+                    onTap: (){
+                      widget.listener.canEdit(widget.post);
+                    },
+                    child: Icon(
+                      Icons.edit,
+                      color: AppData.secondaryColor,
+                    ),
                   )
                 ],
               ),
@@ -295,4 +310,6 @@ abstract class ViewPostListener{
   takeCall(String userTelNumber);
   goToLocation(location);
   moreClick(String postId);
+  canEdit(Post postId);
+  addToFavorite(String postId);
 }

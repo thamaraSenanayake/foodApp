@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
-import 'package:food_app/profile/profileInfo/personalInformation.dart';
+import 'package:food_app/profile/profile/myUploads.dart';
+import 'package:food_app/profile/profile/personalInformation.dart';
+import 'package:food_app/profile/profile/settings.dart';
 
 class Profile extends StatefulWidget {
   final User user;
@@ -98,72 +100,84 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: _width-40,
-                      height: 80,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(
-                                color: Colors.blue,
-                                width: 3
-                              )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => MyUploads(
+                              user: widget.user,
                             ),
-                            child: Center(
-                              child: Text(
-                                "My Upload",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w800
+                            opaque: false
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: _width-40,
+                        height: 80,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border.all(
+                                  color: Colors.blue,
+                                  width: 3
+                                )
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "My Upload",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 3
-                              )
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Text(
-                                "Following 10",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w800
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 3
+                                )
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Text(
+                                  "Following 10",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 3
-                              )
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Text(
-                                "Followers 3",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w800
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 3
+                                )
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Text(
+                                  "Followers 3",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          
-                        ],
+                            
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -224,6 +238,19 @@ class _ProfileState extends State<Profile> {
                     Container(
                       color: Colors.white,
                       child: ListTile(
+                        onTap: (){
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, _, __) => SettingsScreen(
+                                user: widget.user,
+                                logout: (){
+
+                                },
+                              ),
+                              opaque: false
+                            ),
+                          );
+                        },
                         leading: Icon(
                           Icons.settings,
 

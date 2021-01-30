@@ -54,6 +54,12 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   }
 
   @override
+  addToFavorite(String postId) {
+    // TODO: implement moreClick
+    throw UnimplementedError();
+  }
+
+  @override
   moveToProfile(String userTelNumber) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -63,6 +69,12 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
         opaque: false
       ),
     );
+  }
+
+  @override
+  canEdit(Post postId) {
+    // TODO: implement moreClick
+    throw UnimplementedError();
   }
 
   @override

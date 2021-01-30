@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/message/Message.dart';
 import 'package:food_app/profile/addPost.dart';
-import 'package:food_app/profile/profile.dart';
+import 'package:food_app/profile/profile/profile.dart';
 import 'package:food_app/profile/search.dart';
 import 'package:food_app/profile/userCategorySelect.dart';
 
@@ -119,7 +120,7 @@ class _HomeBaseState extends State<HomeBase> {
                     Expanded(
                       child: _profilePage == ProfilePage.Home ? HomePage(user: widget.user,):
                       _profilePage == ProfilePage.Profile ? Profile(user: widget.user):
-                      _profilePage == ProfilePage.Add ? AddPost(user: widget.user):
+                      _profilePage == ProfilePage.Add ? AddPost(user: widget.user,post: Post(),):
                       _profilePage == ProfilePage.Message ? MessageView(user: widget.user):
                       _profilePage == ProfilePage.Category ? UserCategorySelect(user: widget.user):
                       _profilePage == ProfilePage.Search ? SearchScreen(user: widget.user):

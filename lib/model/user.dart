@@ -1,4 +1,5 @@
 import 'package:food_app/model/post.dart';
+import 'package:food_app/model/review.dart';
 
 class User {
   String telNumber;
@@ -9,6 +10,6 @@ class User {
   String profilePicUrl;
   String password;
   String address;
-  List<Post>  favoritePost;
-
+  List<Post> favoritePost;
+  List<Review> reviewList;
 }

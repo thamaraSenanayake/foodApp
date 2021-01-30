@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/res/saveImage.dart';
 
-import '../../const.dart';
-
 class PersonalInformation extends StatefulWidget {
   final User user;
   PersonalInformation({Key key,@required this.user}) : super(key: key);
