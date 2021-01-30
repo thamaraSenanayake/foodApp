@@ -1,4 +1,5 @@
 import 'package:food_app/model/user.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Post{
   String id;
@@ -6,7 +7,7 @@ class Post{
   String title;
   String place;
   String city;
-  // LatLang location;
+  LatLng location;
   double price;
   int qty;
   String amount;

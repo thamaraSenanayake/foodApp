@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/module/notificationItem.dart';
 
 
 class NotificationScreen extends StatefulWidget {
   final User user;
-  final Function logout;
-  NotificationScreen({Key key,@required this.user,@required this.logout}) : super(key: key);
+  NotificationScreen({Key key,@required this.user}) : super(key: key);
 
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
@@ -73,9 +73,13 @@ class _NotificationScreenState extends State<NotificationScreen>  {
 
               Container(
                 height: _height - 128,
-                child: Column(
-                  children: [
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      NotificationItem(),
+                      NotificationItem()
+                    ],
+                  ),
                 ),
               ),
 

@@ -286,7 +286,7 @@ class _ViewPostState extends State<ViewPost> {
                       height: 40,
                       width: 40,
                       child: Icon(
-                        Icons.more_vert,
+                        Icons.share,
                         size: 25,
                         color: Colors.black,
                       ),
@@ -313,3 +313,5 @@ abstract class ViewPostListener{
   canEdit(Post postId);
   addToFavorite(String postId);
 }
+
+//

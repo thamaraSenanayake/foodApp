@@ -6,6 +6,7 @@ import 'package:food_app/module/customButton.dart';
 import 'package:food_app/module/textbox.dart';
 import 'package:food_app/profile/homeBase.dart';
 
+import '../const.dart';
 import 'loginBase.dart';
 
 class SignInPassword extends StatefulWidget {
@@ -193,7 +194,7 @@ class _SignInPasswordState extends State<SignInPassword> {
             ? Container(
               color: Color.fromRGBO(128, 128, 128, 0.3),
               child: SpinKitSquareCircle(
-                color: Colors.blue,
+                color: AppData.secondaryColor,
                 size: 50.0,
               ),
             )

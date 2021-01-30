@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/profile/profile/myFacourite.dart';
 import 'package:food_app/profile/profile/myUploads.dart';
+import 'package:food_app/profile/profile/notification.dart';
 import 'package:food_app/profile/profile/personalInformation.dart';
 import 'package:food_app/profile/profile/settings.dart';
 
@@ -194,6 +196,16 @@ class _ProfileState extends State<Profile> {
                     Container(
                       color: Colors.white,
                       child: ListTile(
+                        onTap: (){
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, _, __) => NotificationScreen(
+                                user: widget.user,
+                              ),
+                              opaque: false
+                            ),
+                          );
+                        },
                         leading: Icon(
                           Icons.notifications,
 
@@ -210,12 +222,19 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 5,
-                    // ),
                     Container(
                       color: Colors.white,
                       child: ListTile(
+                        onTap: (){
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, _, __) => FavoriteScreen(
+                                user: widget.user,
+                              ),
+                              opaque: false
+                            ),
+                          );
+                        },
                         leading: Icon(
                           Icons.star,
 

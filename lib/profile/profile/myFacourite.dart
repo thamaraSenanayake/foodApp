@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/module/viewPost.dart';
 
 
 class FavoriteScreen extends StatefulWidget {
@@ -10,7 +12,7 @@ class FavoriteScreen extends StatefulWidget {
   _FavoriteScreenState createState() => _FavoriteScreenState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen>  {
+class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostListener {
   double _width = 0.0;
   double _height = 0.0;
 
@@ -72,9 +74,12 @@ class _FavoriteScreenState extends State<FavoriteScreen>  {
 
               Container(
                 height: _height - 128,
-                child: Column(
-                  children: [
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ViewPost(post: null, user: widget.user, listener: this)
+                    ],
+                  ),
                 ),
               ),
 
@@ -84,6 +89,54 @@ class _FavoriteScreenState extends State<FavoriteScreen>  {
         ),
       ),
     );
+  }
+
+  @override
+  addToFavorite(String postId) {
+    // TODO: implement addToFavorite
+    throw UnimplementedError();
+  }
+
+  @override
+  canEdit(Post postId) {
+    // TODO: implement canEdit
+    throw UnimplementedError();
+  }
+
+  @override
+  clap(String postId) {
+    // TODO: implement clap
+    throw UnimplementedError();
+  }
+
+  @override
+  goToLocation(location) {
+    // TODO: implement goToLocation
+    throw UnimplementedError();
+  }
+
+  @override
+  moreClick(String postId) {
+    // TODO: implement moreClick
+    throw UnimplementedError();
+  }
+
+  @override
+  moveToProfile(String userTelNumber) {
+    // TODO: implement moveToProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  sendMessage(String userTelNumber) {
+    // TODO: implement sendMessage
+    throw UnimplementedError();
+  }
+
+  @override
+  takeCall(String userTelNumber) {
+  // TODO: implement takeCall
+  throw UnimplementedError();
   }
 
 }

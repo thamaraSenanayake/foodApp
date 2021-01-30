@@ -56,7 +56,7 @@ class SaveImage extends ModalRoute<void> {
                     children: [
                       GestureDetector(
                         onTap: (){
-                          
+                          listener.imageSelectType(ImageSelectType.Gallery);
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -87,7 +87,7 @@ class SaveImage extends ModalRoute<void> {
                       ),
                       GestureDetector(
                         onTap: (){
-                          // _makePhoneCall(tel);
+                          listener.imageSelectType(ImageSelectType.Camera);
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -119,7 +119,7 @@ class SaveImage extends ModalRoute<void> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      // logoutClickListener.logoutClick(LogoutOption.Yes);
+                      
                       Navigator.pop(context);
                     },
                     child: Container(

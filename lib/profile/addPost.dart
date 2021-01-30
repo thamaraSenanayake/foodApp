@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/module/customButton.dart';
 import 'package:food_app/module/textbox.dart';
 import 'package:food_app/res/convert.dart';
+import 'package:food_app/res/saveImage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class AddPost extends StatefulWidget {
@@ -16,10 +19,22 @@ class AddPost extends StatefulWidget {
   _AddPostState createState() => _AddPostState();
 }
 
-class _AddPostState extends State<AddPost> {
+class _AddPostState extends State<AddPost> implements SaveImageListener {
   double _width = 0.0;
   double _height = 0.0;
   int _radioValues = 1;
+  
+  String userTelNumberError = '';
+  String titleError = '';
+  String placeError = '';
+  String cityError = '';
+  String priceError = '';
+  String qtyError = '';
+  String amountError = '';
+  String descriptionError = '';
+  String imgUrlError = '';
+  File _image;
+  
   bool _isNetworkImage = false;
 
 
@@ -34,6 +49,10 @@ class _AddPostState extends State<AddPost> {
       setState(() {
         widget.post.intendDate = picked;
       });
+  }
+
+  _save(){
+
   }
 
   _initData(){
@@ -77,51 +96,56 @@ class _AddPostState extends State<AddPost> {
               SizedBox(
                 height: 20,
               ),
-              widget.post.imgUrl.isEmpty? Container(
-                width: _width - 40,
-                constraints: BoxConstraints(
-                  minHeight: 50
-                ),
-                padding:EdgeInsets.only(
-                  left:20,
-                  right:20,
-                ),
-                decoration: BoxDecoration(
-                  // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 3
+              _image == null && widget.post.imgUrl.isEmpty? GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(SaveImage(listener:this));
+                },
+                child: Container(
+                  width: _width - 40,
+                  constraints: BoxConstraints(
+                    minHeight: 50
                   ),
-                  borderRadius: BorderRadius.circular(3),
-                  boxShadow: [
-                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.25),
-                      blurRadius: 12.0,
-                      spreadRadius: 3.0,
-                      offset: Offset(
-                        1.0,
-                        1.0,
-                      ),
-                    )
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Add Image",
-                      style: TextStyle(
-                        color: Colors.grey
-                      ),
+                  padding:EdgeInsets.only(
+                    left:20,
+                    right:20,
+                  ),
+                  decoration: BoxDecoration(
+                    // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 3
                     ),
-                    Icon(
-                      Icons.add_a_photo,
-                      color: Colors.grey
-                    )
-                    
-                  ],
+                    borderRadius: BorderRadius.circular(3),
+                    boxShadow: [
+                      BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                        blurRadius: 12.0,
+                        spreadRadius: 3.0,
+                        offset: Offset(
+                          1.0,
+                          1.0,
+                        ),
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Add Image",
+                        style: TextStyle(
+                          color: Colors.grey
+                        ),
+                      ),
+                      Icon(
+                        Icons.add_a_photo,
+                        color: Colors.grey
+                      )
+                      
+                    ],
+                  ),
                 ),
               ):Container(
                   height: 200,
@@ -129,7 +153,7 @@ class _AddPostState extends State<AddPost> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     image: DecorationImage(
-                      image:_isNetworkImage? 
+                      image:_image == null? 
                       NetworkImage('https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'):
                       Image.file(null),
                       fit: BoxFit.cover,
@@ -406,11 +430,34 @@ class _AddPostState extends State<AddPost> {
               SizedBox(
                 height: 20,
               ),
+              CustomButton(
+                text: "Save", 
+                buttonClick: (){
+                  _save();
+                }
+              ),
+              SizedBox(
+                height: 20,
+              ),
               
             ],
           ),
         ),      
       )
     );
+  }
+
+  @override
+  imageSelectType(ImageSelectType imageSelectType) async {
+    PickedFile image;
+    final picker = ImagePicker();
+
+    if (imageSelectType == ImageSelectType.Camera) {
+      image = await picker.getImage(source: ImageSource.camera);
+    } else {
+      image = await picker.getImage(source: ImageSource.gallery);
+    }
+
+    _image = File(image.path);
   }
 }
