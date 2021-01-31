@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/profile/viewLocation.dart';
 import 'package:intl/intl.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewPost extends StatefulWidget {
   final Post post;
@@ -18,6 +21,19 @@ class ViewPost extends StatefulWidget {
 
 class _ViewPostState extends State<ViewPost> {
   double _width = 0;
+
+  _call(String phone) async{
+    
+    var emailAddress = 'tel:'+phone;
+
+    if(await canLaunch(emailAddress)) {
+      await launch(emailAddress);
+    }else{
+      print("cant open dial");
+    }   
+  
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -253,7 +269,8 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      widget.listener.takeCall(widget.post.userTelNumber);
+                      // widget.listener.takeCall(widget.post.userTelNumber);
+                      _call(widget.post.userTelNumber);
                     },
                     child: Container(
                       height: 40,
@@ -267,7 +284,14 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      // widget.listener.goToLocation(location)
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder: (context, _, __) => ViewLocation(
+                            location: widget.post.location,
+                          ),
+                          opaque: false
+                        ),
+                      );
                     },
                     child: Container(
                       height: 40,
@@ -281,7 +305,14 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      widget.listener.moreClick(widget.post.id);
+                      Share.share(
+                        widget.post.city+"\n"
+                        "Rs: "+widget.post.price.toString()+"\n"
+                        "Amount: "+widget.post.amount.toString()+"\n"
+                        "Intend Date "+DateFormat.yMEd().format(widget.post.intendDate)+"\n"
+                        "Description\n"+widget.post.description+"\n",
+                        subject: widget.post.title
+                      );
                     },
                     child: Container(
                       height: 40,

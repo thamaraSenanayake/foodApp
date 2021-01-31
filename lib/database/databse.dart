@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/review.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/res/convert.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Database{
@@ -17,7 +18,6 @@ class Database{
 
   Future<User> login(String telNumber, String password ) async{
     QuerySnapshot querySnapshot;
-    User user;
 
     querySnapshot = await users
     .where('telNumber',isEqualTo: telNumber )
@@ -28,19 +28,35 @@ class Database{
       return null;
     }
 
-    for (var item in querySnapshot.documents) {
-      user = User()
-        ..telNumber= item['telNumber']
-        ..name= item['name']
-        ..flowers= item['flowers'].cast<String>()
-        ..flowing= item['flowing'].cast<String>()
-        ..email= item['email']
-        ..profilePicUrl= item['profilePicUrl']
-        ..password= item['password']
-        ..address= item['address'];
+    return _setUser(querySnapshot);
+  }
+
+  Future<User> getUser(String telNumber) async{
+    QuerySnapshot querySnapshot;
+
+    querySnapshot = await users
+    .where('telNumber',isEqualTo: telNumber )
+    .getDocuments();
+
+    if(querySnapshot.documents.length == 0){
+      return null;
     }
 
-    return user;
+    return _setUser(querySnapshot);
+  }
+
+  Future<bool> checkUser(String telNumber) async{
+    QuerySnapshot querySnapshot;
+
+    querySnapshot = await users
+    .where('telNumber',isEqualTo: telNumber )
+    .getDocuments();
+
+    if(querySnapshot.documents.length == 0){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   Future addUser(User user) async{
@@ -53,7 +69,10 @@ class Database{
       "profilePicUrl":"",
       "password":user.password,
       "address":"",
-      "userCategory":""
+      "userCategory":"",
+      "reviewList":[],
+      "description":"",
+      "favoritePost":[]
     });
   }
 
@@ -97,6 +116,156 @@ class Database{
 
     return await _setPostList(querySnapshot);
   }
+
+  Future<void> addRemoveFavorite(String postId, User user) async{
+    if(user.favoritePost.contains(postId)){
+      user.favoritePost.remove(postId);
+    }else{
+      user.favoritePost.add(postId);
+    }
+
+    await users.document(user.telNumber).updateData({
+      "favoritePost":user.favoritePost
+    });
+
+  }
+
+  Future<List<Post>> getFavorite( User user) async{
+    QuerySnapshot querySnapshot;
+    querySnapshot = await postReference
+    .where('search',whereIn: [user.favoritePost])
+    .orderBy('intendDate',descending:true)
+    .getDocuments();
+
+    return await _setPostList(querySnapshot);
+
+  }
+
+  Future<List<Post>> searchPostList(String searchKey,bool forSale) async{
+    QuerySnapshot querySnapshot;
+    querySnapshot = await postReference
+    .where('search',arrayContainsAny: [searchKey])
+    .where('forSale',isEqualTo: forSale)
+    .orderBy('intendDate',descending:true)
+    .getDocuments();
+
+    return await _setPostList(querySnapshot);
+  }
+
+  Future<List<Post>> getClappedPost(User user) async{
+    QuerySnapshot querySnapshot;
+    querySnapshot = await postReference
+    .where('userTelNumber',isEqualTo: user.telNumber)
+    .orderBy('intendDate',descending:true)
+    .getDocuments();
+    List<Post> postList = await _setPostList(querySnapshot);
+
+    for (var i = 0; i < postList.length; i++) {
+      if(postList[i].clapUser.isEmpty){
+        postList.removeAt(i);
+      }
+    }
+    return postList;
+  }
+
+  Future<List<Post>> getMyPost(User user) async{
+    QuerySnapshot querySnapshot;
+    querySnapshot = await postReference
+    .where('userTelNumber',isEqualTo: user.telNumber)
+    .orderBy('intendDate',descending:true)
+    .getDocuments();
+    return await _setPostList(querySnapshot);
+  }
+
+  Future<bool> addClap(List<User> clappedUsers, User newUser,Post post) async{
+    List<Map<String,dynamic>> clapListMap =[];
+   
+    for (var item in clappedUsers) {
+      if(item.telNumber == newUser.telNumber){
+        return false;
+      }
+      clapListMap.add(
+        {
+          "telNumber":item.telNumber,
+          "name":item.name,
+        }
+      );
+    }
+
+    clapListMap.add(
+        {
+          "telNumber":newUser.telNumber,
+          "name":newUser.name,
+        }
+      );
+
+    await postReference.document(post.id).updateData({
+      "clapUser":clapListMap
+    });
+    return true;
+  }
+
+  Future<bool> addReview(List<Review> review, User reviewedUser) async{
+    List<Map<String,dynamic>> reviewListMap =[];
+   
+    for (var item in review) {
+      reviewListMap.add(
+        {
+          "review": item.review,
+          "starCount": item.starCount,
+          "userTelNumber": item.userTelNumber,
+          "userName": item.userName,
+          "dateTime": item.dateTime,
+        }
+      );
+    }
+    await users.document(reviewedUser.telNumber).updateData({
+      "reviewList":reviewListMap
+    });
+    return true;
+  }
+
+  Future<void> follow(User otherUser, User user) async{
+    user.flowing.add(otherUser.telNumber);
+    otherUser.flowers.add(user.telNumber);
+
+    await users.document(user.telNumber).updateData({
+      "flowing":user.flowing
+    });
+
+    await users.document(otherUser.telNumber).updateData({
+      "flowers":otherUser.flowers
+    });
+
+  }
+
+  Future<void> unFollow(User otherUser, User user) async{
+    user.flowing.remove(otherUser.telNumber);
+    otherUser.flowers.remove(user.telNumber);
+
+    await users.document(user.telNumber).updateData({
+      "flowing":user.flowing
+    });
+
+    await users.document(otherUser.telNumber).updateData({
+      "flowers":otherUser.flowers
+    });
+
+  }
+
+  Future updateUser(User user) async{
+    await users.document(user.telNumber).updateData({
+      "name":user.name,
+      "email":"",
+      "profilePicUrl":"",
+      "address":"",
+      "userCategory":"",
+      "description":user.description,
+      "category":categoryToString(user.category)
+    });
+  }
+
+
 
   Future<List<Post>> _setPostList(QuerySnapshot querySnapshot) async {
     List<Post> postList = [];
@@ -165,6 +334,37 @@ class Database{
 
     }
     return postList;
+  }
+
+  Future<User> _setUser(QuerySnapshot querySnapshot) async {
+    User user;
+    for (var item in querySnapshot.documents) {
+      List<Review> review = [];
+      if(item["reviewList"] != null){
+        for (var reviewItem in item["reviewList"]) {
+          review.add(
+            Review()
+            ..review = reviewItem.review
+            ..starCount = reviewItem.starCount
+            ..userTelNumber = reviewItem.userTelNumber
+            ..userName = reviewItem.userName
+            ..dateTime = reviewItem.dateTime
+          );
+        }
+      }
+      user = User()
+        ..telNumber= item['telNumber']
+        ..name= item['name']
+        ..flowers= item['flowers'].cast<String>()
+        ..flowing= item['flowing'].cast<String>()
+        ..email= item['email']
+        ..profilePicUrl= item['profilePicUrl']
+        ..address= item['address']
+        ..favoritePost=item['favoritePost'].cast<String>()
+        ..category = stringToUserCategory(item['category']);
+    }
+
+    return user;
   }
 
   

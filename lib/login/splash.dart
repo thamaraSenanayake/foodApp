@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/const.dart';
+import 'package:food_app/database/databse.dart';
+import 'package:food_app/model/user.dart';
 import 'package:food_app/module/customButton.dart';
+import 'package:food_app/profile/homeBase.dart';
 
 import 'loginBase.dart';
 
@@ -15,6 +20,37 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   double _height;
   double _width;
+  bool _checking = true;
+
+  _autoLogin() async {
+    final storage = new FlutterSecureStorage();
+    String username = await storage.read(key: KeyContainer.USERNAME);
+    String password = await storage.read(key: KeyContainer.PASSWORD);
+
+    if(username != null && password != null){
+      User user =await Database().login(username, password);
+
+      if(user != null){
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeBase(
+              user: user,
+            )
+          )
+        );
+      }
+    }
+    setState(() {
+      _checking = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _autoLogin();
+  }
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -59,7 +95,14 @@ class _SplashScreenState extends State<SplashScreen> {
               ],
             ),
 
-            CustomButton(
+            _checking?Container(
+              height: 50,
+              width: _width-120,
+              child:SpinKitSquareCircle(
+                color: AppData.secondaryColor,
+                size: 50.0,
+              ),
+            ): CustomButton(
               text: "Next", 
               buttonClick: (){
                 widget.listener.moveToPage(LoginPageList.Login);

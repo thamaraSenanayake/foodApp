@@ -36,6 +36,11 @@ dependencies:
   geolocator: ^6.0.0+4
   uuid: ^2.2.2
   firebase_storage: ^3.1.6
+  url_launcher: ^5.7.6
+  flutter_keyboard_visibility: ^3.2.1
+  flutter_secure_storage: ^3.3.5
+  share: ^0.6.5+4
+
 
 
 

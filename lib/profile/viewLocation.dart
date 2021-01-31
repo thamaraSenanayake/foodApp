@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:food_app/model/user.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 
-import '../../const.dart';
-import 'locationError.dart';
+import '../const.dart';
 
 
-class SetLocation extends StatefulWidget {
-  final User user;
+class ViewLocation extends StatefulWidget {
   final LatLng location;
-  final Function(LatLng) setLocation;
-  SetLocation({Key key,@required this.user,@required this.location,@required this.setLocation}) : super(key: key);
+  ViewLocation({Key key,@required this.location}) : super(key: key);
 
   @override
-  _SetLocationState createState() => _SetLocationState();
+  _ViewLocationState createState() => _ViewLocationState();
 }
 
-class _SetLocationState extends State<SetLocation> implements LocationErrorListener {
+class _ViewLocationState extends State<ViewLocation>  {
   double _width = 0.0;
   double _height = 0.0;
   GoogleMapController _mapController;
@@ -28,32 +23,11 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
 
 
   _initLocation() async {
-    print("get location");
-    Position position;
-    if(widget.location == null){
-      try{
-        position = await getCurrentPosition(desiredAccuracy:LocationAccuracy.best);
-      }
-      catch (e){
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (context, _, __) => LocationError(
-              listener: this,
-            ),
-            opaque: false
-          ),
-        );
-        return;
-      }
-    }else{
-      _location = widget.location;
-    }
-    _location = LatLng(position.latitude, position.longitude);
-    _addMark(LatLng(position.latitude, position.longitude));
+    _location = widget.location;
+    _addMark(LatLng(_location.latitude, _location.longitude));
   }
 
   _addMark(LatLng position) async {
-    // final Uint8List markerIcon = await getBytesFromAsset('assets/icon/user.png', 100);
     _location = position;
     _markers.remove("YOUR_LOCATION");
     var marker = Marker(
@@ -103,7 +77,6 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
                           padding: const EdgeInsets.only(left:10.0),
                           child: GestureDetector(
                             onTap: (){
-                              widget.setLocation(_location);
                               Navigator.pop(context);
                             },
                             child: Center(
@@ -120,7 +93,7 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "Set Location",
+                            "View Location",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w800
@@ -164,12 +137,6 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
       _mapController = controller;
       // controller.setMapStyle(_mapStyle);
     });
-  }
-
-  @override
-  click(bool option) async{
-    await new Future.delayed(const Duration(seconds : 2));
-    _initLocation();
   }
 
 }

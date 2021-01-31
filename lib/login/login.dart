@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/const.dart';
 import 'package:food_app/database/databse.dart';
@@ -57,7 +58,9 @@ class _LoginPageState extends State<LoginPage> {
       if(user == null){
         _loginError = "Invalid login details";
       }else{
-        _loginError = "valid login";
+        final storage = new FlutterSecureStorage();
+        storage.write(key: KeyContainer.USERNAME,value:user.telNumber);
+        storage.write(key: KeyContainer.PASSWORD,value: user.password);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

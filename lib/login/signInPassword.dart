@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
@@ -54,6 +55,9 @@ class _SignInPasswordState extends State<SignInPassword> {
       });
       //todo user availability check  
       await Database().addUser(widget.user);
+      final storage = new FlutterSecureStorage();
+      storage.write(key: KeyContainer.USERNAME,value:widget.user.telNumber);
+      storage.write(key: KeyContainer.PASSWORD,value: widget.user.password);
       setState(() {
         _loading = false;
       });
