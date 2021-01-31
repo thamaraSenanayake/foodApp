@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
+import 'package:intl/intl.dart';
 
 class ViewPost extends StatefulWidget {
   final Post post;
@@ -26,7 +27,7 @@ class _ViewPostState extends State<ViewPost> {
       padding: const EdgeInsets.only(bottom:10.0),
       child: Container(
         width: _width-20,
-        height: 467,
+        // height: 467,
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           color:Colors.white,
@@ -54,10 +55,10 @@ class _ViewPostState extends State<ViewPost> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Title/Boiler",
+                    widget.post.title,
                     style: TextStyle(
                       fontSize: 15,
-                      fontWeight: FontWeight.w500
+                      fontWeight: FontWeight.w800
                     ),
                   ),
                   !widget.canEdit? GestureDetector(
@@ -83,7 +84,7 @@ class _ViewPostState extends State<ViewPost> {
             Padding(
               padding: const EdgeInsets.only(bottom:3.0),
               child: Text(
-                "Place/Anuradhapura.",
+                widget.post.city,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500
@@ -93,7 +94,7 @@ class _ViewPostState extends State<ViewPost> {
             Padding(
               padding: const EdgeInsets.only(bottom:3.0),
               child: Text(
-                "Price/Not fixed.",
+                "Rs: "+widget.post.price.toString(),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500
@@ -103,7 +104,7 @@ class _ViewPostState extends State<ViewPost> {
             Padding(
               padding: const EdgeInsets.only(bottom:3.0),
               child: Text(
-                "Amount/Between 500/600KG",
+                "Amount: "+widget.post.amount.toString(),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500
@@ -113,7 +114,7 @@ class _ViewPostState extends State<ViewPost> {
             Padding(
               padding: const EdgeInsets.only(bottom:3.0),
               child: Text(
-                "Intend Date/2021/05/00",
+                "Intend Date "+DateFormat.yMEd().format(widget.post.intendDate),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500
@@ -124,9 +125,9 @@ class _ViewPostState extends State<ViewPost> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical:10.0),
               child: Text(
-                "Description https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                "Description\n"+widget.post.description,
+                // maxLines: 2,
+                // overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500
@@ -140,7 +141,7 @@ class _ViewPostState extends State<ViewPost> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 image: DecorationImage(
-                  image: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'),
+                  image: NetworkImage(widget.post.imgUrl),
                   fit: BoxFit.cover,
                 )
               ),
@@ -171,7 +172,7 @@ class _ViewPostState extends State<ViewPost> {
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(100),
                               image: DecorationImage(
-                                image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeabWkXTrS3TpRsbQ3ugejErdv4lfff8FgPw&usqp=CAU'),
+                                image: NetworkImage(widget.post.user.profilePicUrl),
                                 fit: BoxFit.cover,
                               )
                             )
@@ -189,7 +190,7 @@ class _ViewPostState extends State<ViewPost> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "Description https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
+                                    widget.post.user.name,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(

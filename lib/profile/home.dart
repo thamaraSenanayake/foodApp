@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
@@ -14,6 +15,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> implements ViewPostListener{
   double _width = 0.0;
+  List<Post> _post = [];
+  List<Widget> _postViewList = [];
+
+  @override
+  void initState() { 
+    super.initState();
+    _loadData();
+  }
+
+  _loadData() async {
+    List<Widget> postViewList = [];
+    _post = await Database().getPostList(); 
+    for (var item in _post) {
+      postViewList.add(
+        ViewPost(post: item, user: widget.user, listener: this)
+      );
+    }
+    setState(() {
+      _postViewList = postViewList;
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -26,11 +48,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
         child: Container(
           width: _width,
           child: Column(
-            children: [
-              ViewPost(post: Post()..id="1"..userTelNumber="077", user: null, listener: this),
-              ViewPost(post: Post()..id="1"..userTelNumber="077", user: null, listener: this),
-              
-            ],
+            children: _postViewList,
           ),
         ),
       ),

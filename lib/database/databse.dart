@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:food_app/model/post.dart';
+import 'package:food_app/model/review.dart';
 import 'package:food_app/model/user.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Database{
   
@@ -8,7 +11,7 @@ class Database{
   //collection reference 
   
   final CollectionReference users = Firestore.instance.collection('user');
-  final CollectionReference food = Firestore.instance.collection('food');
+  final CollectionReference postReference = Firestore.instance.collection('food');
   final CollectionReference systemData = Firestore.instance.collection('systemData');
 
 
@@ -53,5 +56,117 @@ class Database{
       "userCategory":""
     });
   }
+
+  Future addPost(Post post) async{
+
+    String key;
+    List<String> searchText = [];
+    String searchTextValue ="";
+
+    key=post.title.toLowerCase();
+
+    for (var i = 0; i < key.length; i++) {
+      searchTextValue += key[i];
+      searchText.add(searchTextValue);
+    }
+    
+    await postReference.document(post.id).setData({
+      "id" :post.id,
+      "userTelNumber" :post.userTelNumber,
+      "title" :post.title,
+      // "place" :post.place,
+      "city" :post.city,
+      "location" :post.location.latitude.toString()+","+post.location.longitude.toString(),
+      "price" :post.price,
+      "amount" :post.amount,
+      "intendDate" :post.intendDate,
+      "insertTime" :DateTime.now(),
+      "description" :post.description,
+      "imgUrl" :post.imgUrl,
+      "clapUser" :[],
+      "forSale" :post.forSale,
+      "searchText" : searchText
+    });
+  }
+
+  Future<List<Post>> getPostList() async{
+    QuerySnapshot querySnapshot;
+    querySnapshot = await postReference
+    .orderBy('intendDate',descending:true)
+    .getDocuments();
+
+    return await _setPostList(querySnapshot);
+  }
+
+  Future<List<Post>> _setPostList(QuerySnapshot querySnapshot) async {
+    List<Post> postList = [];
+
+    for (var item in querySnapshot.documents) {
+      String userTelNumber = item["userTelNumber"];
+      
+      User user = User();
+
+      QuerySnapshot  userDetails = await users
+      .where('telNumber',isEqualTo: userTelNumber).
+      getDocuments();
+
+      for (var userItem in userDetails.documents) {
+        user.reviewList = [];
+        user.profilePicUrl  =userItem['profilePicUrl'];
+        user.name = userItem['name'];
+        if(userItem["reviewList"] != null){
+          for (var itemReviewList in userItem["reviewList"]) {
+            user.reviewList.add(
+              Review()
+              ..id = itemReviewList['id']
+              ..review = itemReviewList['review']
+              ..starCount = itemReviewList['starCount']
+              ..userTelNumber = itemReviewList['userTelNumber']
+              ..userName = itemReviewList['userName']
+              ..dateTime = itemReviewList['dateTime']
+            );
+          }
+        }
+      }
+
+      List<User> clapUser = [];
+      if(item["clapUser"] != null){
+        for (var clapUserList in item["clapUser"]) {
+          clapUser.add(
+            User()
+            ..telNumber = clapUserList['telNumber']
+            ..name = clapUserList['name']
+          );
+        }
+      }
+
+      Timestamp intendDate = item["intendDate"];
+      Timestamp insertTime = item["insertTime"];
+
+      postList.add( 
+        Post()
+        ..id = item["id"]
+        ..userTelNumber = item["userTelNumber"]
+        ..title = item["title"]
+        ..place = item["place"]
+        ..city = item["city"]
+        ..location =  LatLng(double.parse(item["location"].toString().split(",")[0]),double.parse(item["location"].toString().split(",")[1]))
+        ..price = item["price"]
+        ..amount = item["amount"]
+        ..intendDate = DateTime.fromMillisecondsSinceEpoch(intendDate.millisecondsSinceEpoch) 
+        ..insertTime =  DateTime.fromMillisecondsSinceEpoch(insertTime.millisecondsSinceEpoch) 
+        ..description = item["description"]
+        ..imgUrl = item["imgUrl"]
+        ..clapUser = clapUser
+        ..forSale = item["forSale"]
+        ..user = user
+      );
+
+
+    }
+    return postList;
+  }
+
+  
 
 }

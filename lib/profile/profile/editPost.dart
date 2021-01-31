@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
-import 'package:food_app/profile/addPost.dart';
+import 'package:food_app/profile/addPost/addPost.dart';
 
 
 class EditPost extends StatefulWidget {
@@ -76,7 +76,7 @@ class _EditPostState extends State<EditPost>  {
               Container(
                 height: _height - 128,
                 child: SingleChildScrollView(
-                  child: AddPost(user: widget.user, post: widget.post),
+                  child: AddPost(user: widget.user, post: widget.post,listener: null,),
                 ),
               ),
 

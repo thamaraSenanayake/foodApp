@@ -9,13 +9,13 @@ class Post{
   String city;
   LatLng location;
   double price;
-  int qty;
-  String amount;
+  int amount;
   DateTime intendDate;
   DateTime insertTime;
   String description;
   String imgUrl;
   List<User> clapUser;
   bool forSale;
+  User user;
 
 }
