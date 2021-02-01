@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/database/databse.dart';
+import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/textbox.dart';
+import 'package:food_app/module/viewPost.dart';
 
 class SearchScreen extends StatefulWidget {
   final User user;
@@ -10,11 +13,26 @@ class SearchScreen extends StatefulWidget {
   _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends State<SearchScreen> implements ViewPostListener{
   double _width = 0.0;
   double _height = 0.0;
   int _radioValues = 1;
+  List<Widget> _viewPost = [];
   
+  _search(String searchKey) async {
+    List<Widget> viewPost = [];
+    viewPost = [];
+    List<Post> _post = await Database().searchPostList(searchKey, _radioValues ==1?true:false);
+    for (var item in _post) {
+      viewPost.add(
+        ViewPost(post: item, user: widget.user, listener: this)
+      );
+    }
+    setState(() {
+      _viewPost = viewPost;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -36,6 +54,10 @@ class _SearchScreenState extends State<SearchScreen> {
               errorText: "",
               textBoxHint: "Search",
               prefixIcon: Icons.search,
+              onSubmit: (val){
+                print("onSubmit");
+                _search(val);
+              },
             ),
             SizedBox(
               height:20
@@ -113,11 +135,59 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
 
             Column(
-              children: [],
+              children: _viewPost,
             )
           ],
         ),
       )
     );
+  }
+
+  @override
+  addToFavorite(String postId) {
+      // TODO: implement addToFavorite
+      throw UnimplementedError();
+    }
+  
+    @override
+    canEdit(Post postId) {
+      // TODO: implement canEdit
+      throw UnimplementedError();
+    }
+  
+    @override
+    clap(String postId) {
+      // TODO: implement clap
+      throw UnimplementedError();
+    }
+  
+    @override
+    goToLocation(location) {
+      // TODO: implement goToLocation
+      throw UnimplementedError();
+    }
+  
+    @override
+    moreClick(String postId) {
+      // TODO: implement moreClick
+      throw UnimplementedError();
+    }
+  
+    @override
+    moveToProfile(String userTelNumber) {
+      // TODO: implement moveToProfile
+      throw UnimplementedError();
+    }
+  
+    @override
+    sendMessage(String userTelNumber) {
+      // TODO: implement sendMessage
+      throw UnimplementedError();
+    }
+  
+    @override
+    takeCall(String userTelNumber) {
+    // TODO: implement takeCall
+    throw UnimplementedError();
   }
 }

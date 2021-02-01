@@ -71,7 +71,7 @@ class _ProfileState extends State<Profile> {
                                 100
                               ),
                               image: DecorationImage(
-                                image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeabWkXTrS3TpRsbQ3ugejErdv4lfff8FgPw&usqp=CAU'),
+                                image:widget.user.profilePicUrl.isNotEmpty? NetworkImage(widget.user.profilePicUrl):null,
                                 fit: BoxFit.cover,
                               )
                             ),

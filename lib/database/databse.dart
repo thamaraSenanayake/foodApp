@@ -144,7 +144,7 @@ class Database{
   Future<List<Post>> searchPostList(String searchKey,bool forSale) async{
     QuerySnapshot querySnapshot;
     querySnapshot = await postReference
-    .where('search',arrayContainsAny: [searchKey])
+    .where('searchText',arrayContainsAny: [searchKey.toLowerCase()])
     .where('forSale',isEqualTo: forSale)
     .orderBy('intendDate',descending:true)
     .getDocuments();
@@ -361,7 +361,8 @@ class Database{
         ..profilePicUrl= item['profilePicUrl']
         ..address= item['address']
         ..favoritePost=item['favoritePost'].cast<String>()
-        ..category = stringToUserCategory(item['category']);
+        ..category = stringToUserCategory(item['category'])
+        ..reviewList = review;
     }
 
     return user;

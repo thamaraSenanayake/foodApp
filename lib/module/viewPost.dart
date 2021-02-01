@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/viewLocation.dart';
@@ -21,6 +22,7 @@ class ViewPost extends StatefulWidget {
 
 class _ViewPostState extends State<ViewPost> {
   double _width = 0;
+  double _reviewPercentage = 0.0;
 
   _call(String phone) async{
     
@@ -32,6 +34,20 @@ class _ViewPostState extends State<ViewPost> {
       print("cant open dial");
     }   
   
+  }
+
+  _setReviewCount(){
+    for (var item in widget.user.reviewList) {
+      _reviewPercentage+= item.starCount;
+    }if(widget.user.reviewList.length != 0){
+      _reviewPercentage/=widget.user.reviewList.length;
+    }
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+    _setReviewCount();
   }
 
   @override
@@ -79,10 +95,19 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   !widget.canEdit? GestureDetector(
                     onTap: (){
-                      widget.listener.addToFavorite(widget.post.id);
+                      Database().addRemoveFavorite(widget.post.id, widget.user);
+                      if(widget.user.favoritePost.contains(widget.post.id)){
+                        setState(() {
+                          widget.user.favoritePost.remove(widget.post.id);
+                        });
+                      }else{
+                        setState(() {
+                          widget.user.favoritePost.add(widget.post.id);
+                        });
+                      }
                     },
                     child: Icon(
-                      Icons.favorite,
+                      widget.user.favoritePost.contains(widget.post.id)?Icons.favorite:Icons.favorite_border,
                       color: Colors.red,
                     ),
                   ):GestureDetector(
@@ -204,6 +229,8 @@ class _ViewPostState extends State<ViewPost> {
                             child: Align(
                               alignment: Alignment.bottomCenter,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     widget.post.user.name,
@@ -214,14 +241,14 @@ class _ViewPostState extends State<ViewPost> {
                                       fontWeight: FontWeight.w800
                                     ),
                                   ),
-                                  Row(
+                                  widget.user.reviewList.length != 0? Row(
                                     children: [
                                       Icon(
                                         Icons.star,
                                         color: Colors.yellow[800],
                                       ),
                                       Text(
-                                        "3.5(1K)",
+                                        "$_reviewPercentage(${widget.user.reviewList.length})",
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -230,7 +257,7 @@ class _ViewPostState extends State<ViewPost> {
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ):Container()
                                 ],
                               ),
                             ),
@@ -240,16 +267,23 @@ class _ViewPostState extends State<ViewPost> {
                     ),
                   ):Container(),
                   GestureDetector(
-                    onTap: (){
-                      widget.listener.clap(widget.post.id);
+                    onTap: () async {
+                      bool clap = await Database().addClap(widget.post.clapUser, widget.user, widget.post);
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(clap? "Add your clap":"You already clapped to this post"),
+                          elevation:2
+                        )
+                      );
                     },
                     child: Container(
                       height: 40,
                       width: 40,
-                      child: Icon(
-                        Icons.star,
-                        size: 25,
-                        color: Colors.yellow,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Image.asset(
+                          'assets/icon/clapping.png',
+                        ),
                       ),
                     ),
                   ),
