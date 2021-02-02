@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/const.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/profile/myFacourite.dart';
 import 'package:food_app/profile/profile/myUploads.dart';
@@ -63,7 +64,7 @@ class _ProfileState extends State<Profile> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                         widget.user.profilePicUrl.isNotEmpty? Container(
                             height: 80,
                             width: 80,
                             decoration: BoxDecoration(
@@ -75,9 +76,28 @@ class _ProfileState extends State<Profile> {
                                 fit: BoxFit.cover,
                               )
                             ),
+                          ):Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                100
+                              ),
+                              color: AppData.secondaryColor
+                            ),
+                            child:Center(
+                              child: Text(
+                                widget.user.name[0],
+                                style: TextStyle(
+                                  color: AppData.primaryColor,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 35
+                                ),
+                              ),
+                            ),
                           ),
                           Text(
-                            "Nimal Perera",
+                            widget.user.name,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500
@@ -150,7 +170,7 @@ class _ProfileState extends State<Profile> {
                               child: Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Text(
-                                  "Following 10",
+                                  "Following "+widget.user.flowing.length.toString(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800
@@ -169,7 +189,7 @@ class _ProfileState extends State<Profile> {
                               child: Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Text(
-                                  "Followers 3",
+                                  "Followers "+widget.user.flowers.length.toString(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800
@@ -193,6 +213,63 @@ class _ProfileState extends State<Profile> {
                 
                 child: Column(
                   children: [
+                    Container(
+                      color: Colors.white,
+                      child: ListTile(
+                        onTap: (){
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, _, __) => NotificationScreen(
+                                user: widget.user,
+                              ),
+                              opaque: false
+                            ),
+                          );
+                        },
+                        leading: Icon(
+                          Icons.file_upload
+                        ),
+                        title: Text(
+                          "My Uploads",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20
+                          ),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      child: ListTile(
+                        onTap: (){
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, _, __) => NotificationScreen(
+                                user: widget.user,
+                              ),
+                              opaque: false
+                            ),
+                          );
+                        },
+                        leading: Icon(
+                          Icons.feedback,
+
+                        ),
+                        title: Text(
+                          "User Feedback",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20
+                          ),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward
+                        ),
+                      ),
+                    ),
                     Container(
                       color: Colors.white,
                       child: ListTile(

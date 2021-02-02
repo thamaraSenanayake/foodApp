@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
@@ -15,6 +16,30 @@ class FavoriteScreen extends StatefulWidget {
 class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostListener {
   double _width = 0.0;
   double _height = 0.0;
+  List<Widget> _favoriteList = [];
+  List<Post> _postList = [];
+
+  _getFavoritePosts() async {
+    List<Widget> favoriteList = [];
+    _postList =await Database().getFavorite(widget.user);
+    for (var item in _postList) {
+      favoriteList.add(
+        ViewPost(post: item, user: widget.user, listener: this)
+      );
+    }
+
+    setState(() {
+      _favoriteList = favoriteList;
+    });
+
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getFavoritePosts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +101,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
                 height: _height - 128,
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [
-                      ViewPost(post: null, user: widget.user, listener: this)
-                    ],
+                    children:_favoriteList,
                   ),
                 ),
               ),

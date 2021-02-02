@@ -60,7 +60,7 @@ class _EditPostState extends State<EditPost>  {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "Settings",
+                            "Edit Post",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w800

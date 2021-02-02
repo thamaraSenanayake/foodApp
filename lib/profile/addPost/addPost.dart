@@ -288,7 +288,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                             borderRadius: BorderRadius.circular(10.0),
                             image: DecorationImage(
                               image:_image == null? 
-                              NetworkImage('https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'):
+                              NetworkImage(widget.post.imgUrl):
                               FileImage(_image),
                               fit: BoxFit.cover,
                             )

@@ -256,12 +256,15 @@ class Database{
   Future updateUser(User user) async{
     await users.document(user.telNumber).updateData({
       "name":user.name,
-      "email":"",
-      "profilePicUrl":"",
-      "address":"",
-      "userCategory":"",
+      "email":user.email,
+      "profilePicUrl":user.profilePicUrl,
+      "address":user.address,
       "description":user.description,
-      "category":categoryToString(user.category)
+      "userCategory":categoryToString(user.category),
+      "flowers":user.flowers,
+      "flowing":user.flowing,
+      "reviewList":user.reviewList,
+      "favoritePost":user.favoritePost,
     });
   }
 

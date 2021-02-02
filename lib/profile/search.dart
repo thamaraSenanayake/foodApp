@@ -134,8 +134,14 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
               height:20
             ),
 
-            Column(
-              children: _viewPost,
+            Container(
+              height: _height - 337,
+              width: _width,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: _viewPost,
+                ),
+              ),
             )
           ],
         ),

@@ -194,12 +194,12 @@ class _ViewPostState extends State<ViewPost> {
 
             
 
-            Container(
+            !widget.myPost? Container(
               height: 60,
               child:Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  !widget.myPost? GestureDetector(
+                  GestureDetector(
                     onTap: (){
                       widget.listener.moveToProfile(widget.post.userTelNumber);
                     },
@@ -265,7 +265,7 @@ class _ViewPostState extends State<ViewPost> {
                         ],
                       ),
                     ),
-                  ):Container(),
+                  ),
                   GestureDetector(
                     onTap: () async {
                       bool clap = await Database().addClap(widget.post.clapUser, widget.user, widget.post);
@@ -360,7 +360,7 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                 ],
               )
-            )
+            ):Container()
             
           ],
         ),

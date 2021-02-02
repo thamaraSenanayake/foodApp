@@ -25,6 +25,12 @@ enum UserCategory{
   Education,
   Others,
 }
+enum EditType{
+  Name,
+  Address,
+  Email,
+  Description,
+}
 
 enum ProfilePage{
   Profile,

@@ -1,6 +1,14 @@
+import 'dart:io';
+import 'dart:math';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/const.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/profile/profile/editDialog.dart';
 import 'package:food_app/res/saveImage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PersonalInformation extends StatefulWidget {
   final User user;
@@ -13,6 +21,8 @@ class PersonalInformation extends StatefulWidget {
 class _PersonalInformationState extends State<PersonalInformation> implements SaveImageListener {
   double _width = 0.0;
   double _height = 0.0;
+  File _image;
+  var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +34,6 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
       body: Container(
         width : _width,
         height :_height,
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image:AssetImage(
-        //       AppData.BACKGROUNDPATH,
-        //     ),
-        //     fit: BoxFit.cover
-        //   )
-        // ),
         child: SafeArea(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,17 +88,28 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
+                              color: AppData.secondaryColor,
                               borderRadius: BorderRadius.circular(
                                 100
                               ),
                               border: Border.all(
                                 width: 2
                               ),
-                              image: DecorationImage(
-                                image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeabWkXTrS3TpRsbQ3ugejErdv4lfff8FgPw&usqp=CAU'),
+                              image:_image != null || widget.user.profilePicUrl.isNotEmpty?  DecorationImage(
+                                image:_image != null ? FileImage(_image): NetworkImage(widget.user.profilePicUrl),
                                 fit: BoxFit.cover,
-                              )
+                              ):null
                             ),
+                            child:_image != null || widget.user.profilePicUrl.isNotEmpty?
+                            Center(
+                              child: Text(
+                                widget.user.name[0],
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.w800
+                                ),
+                              ),
+                            ):Container()
                           ),
                         ),
                         Positioned(
@@ -146,6 +159,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                   Container(
                     color: Colors.white,
                     child: ListTile(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => EditDialog(
+                              type: EditType.Name,
+                              user: widget.user,
+                            ),
+                            opaque: false
+                          ),
+                        );
+                      },
                       title: Text(
                         "Your name or business name",
                         style: TextStyle(
@@ -230,9 +254,46 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
     );
   }
 
+  Future<void> _uploadPic() async { 
+    
+    Random rnd = new Random(new DateTime.now().millisecondsSinceEpoch);
+    FirebaseStorage _storage = FirebaseStorage.instance;
+
+    print("upload pic");
+    String imageName = new DateTime.now().millisecondsSinceEpoch.toString();
+    
+    for (var i = 0; i < 10; i++) {
+      imageName += chars[rnd.nextInt(chars.length)];
+    }
+
+    // Create a reference to the location you want to upload to in firebase  
+    StorageReference reference = _storage.ref().child(imageName);
+
+    //Upload the file to firebase 
+    StorageUploadTask uploadTask = reference.putFile(_image);
+    var url = await (await uploadTask.onComplete).ref.getDownloadURL();
+
+    widget.user.profilePicUrl = url;
+    Database().updateUser(widget.user);
+      
+    
+  }
+
   @override
-  imageSelectType(ImageSelectType imageSelectType) {
-    // TODO: implement imageSelectType
-    throw UnimplementedError();
+  imageSelectType(ImageSelectType imageSelectType) async {
+    PickedFile image;
+    final picker = ImagePicker();
+
+    if (imageSelectType == ImageSelectType.Camera) {
+      image = await picker.getImage(source: ImageSource.camera);
+    } else {
+      image = await picker.getImage(source: ImageSource.gallery);
+    }
+    if(image != null){
+      setState(() {
+        _image = File(image.path);
+      });
+      _uploadPic();
+    }
   }
 }

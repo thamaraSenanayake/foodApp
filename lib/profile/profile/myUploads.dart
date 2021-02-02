@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
@@ -16,6 +17,28 @@ class MyUploads extends StatefulWidget {
 class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
   double _width = 0.0;
   double _height = 0.0;
+  List<Widget> _postViewList = [];
+  List<Post> _postList = [];
+  
+  _loadPost() async {
+    List<Widget> postViewList = [];
+    _postList = await Database().getMyPost(widget.user);
+
+    for (var item in _postList) {
+      postViewList.add(
+        ViewPost(post: item, user: widget.user, listener: this,myPost: true,canEdit: true,),
+      );
+    }
+    setState(() {
+      _postViewList =postViewList;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPost();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +101,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
                 width: _width,
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [
-                      ViewPost(post: Post()..id='011'..userTelNumber='088', user: widget.user, listener: this,myPost: true,canEdit: true,),
-                      ViewPost(post: Post()..id='011'..userTelNumber='088', user: widget.user, listener: this,myPost: true,canEdit: true,)
-                    ],
+                    children: _postViewList,
                   ),
                 ),
               ),

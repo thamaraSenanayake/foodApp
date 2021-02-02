@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 
 class NotificationItem extends StatefulWidget {
-  final String postId;
-  final String postName;
-  final List<User> userList;
-  NotificationItem({Key key, this.postId, this.postName, this.userList}) : super(key: key);
+  final Post post;
+  // final List<User> userList;
+  NotificationItem({Key key,@required this.post}) : super(key: key);
 
   @override
   _NotificationItemState createState() => _NotificationItemState();
@@ -13,6 +13,17 @@ class NotificationItem extends StatefulWidget {
 
 class _NotificationItemState extends State<NotificationItem> {
   double _width = 0;
+  String _clappedUserList = "";
+
+  @override
+  void initState() {
+    _clappedUserList += widget.post.clapUser.last.name;
+    if(widget.post.clapUser.length > 1 ){
+      _clappedUserList += " and "+(widget.post.clapUser.length -1).toString()+" others clapped to your post";
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -46,7 +57,7 @@ class _NotificationItemState extends State<NotificationItem> {
               width: 80,
               decoration: BoxDecoration(
                 image:DecorationImage(
-                  image: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'),
+                  image: NetworkImage(widget.post.imgUrl),
                   fit: BoxFit.cover,
                 ) 
               ),
@@ -60,21 +71,12 @@ class _NotificationItemState extends State<NotificationItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Pariatur est cupidatat consectetur incididunt ullamco quis velit. Aliqua do elit quis et in. Occaecat excepteur et et reprehenderit incididunt in sit quis sunt dolor aute quis. Exercitation ad ex proident nostrud ea.",
+                    _clappedUserList,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                     ),
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    "Total claps : 20",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
