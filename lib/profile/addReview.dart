@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/review.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/module/reviewView.dart';
 import 'package:intl/intl.dart';
 
 import '../const.dart';
 
 class AddReview extends StatefulWidget {
+  final User otherUser;
   final User user;
-  AddReview({Key key,@required this.user}) : super(key: key);
+  AddReview({Key key,@required this.user,@required this.otherUser}) : super(key: key);
 
   @override
   _AddReviewState createState() => _AddReviewState();
@@ -23,18 +26,24 @@ class _AddReviewState extends State<AddReview> {
   @override
   void initState() {
     super.initState();
+    _loadReview();
   }
 
-  _loadMsg() async {
-    
+  _loadReview()  {
+    List<Widget> reviewListWidget = [];
+    for (var item in widget.otherUser.reviewList) {
+     reviewListWidget.add(ReviewView(review: item));
+    }
+    setState(() {
+      _reviewListWidget = reviewListWidget;
+    });
   }
 
   _addReview(){
     String text = _reviewController.text;
     _reviewController.text = '';
-    List<Widget> _reviewListWidgetTemp = [];
     if(text.isNotEmpty){
-      _review.add(
+      widget.otherUser.reviewList.add(
         Review()
         ..userTelNumber = widget.user.telNumber
         ..review = text
@@ -43,16 +52,8 @@ class _AddReviewState extends State<AddReview> {
         ..dateTime = DateTime.now()
       );
     }
-
-    for (var item in _review) {
-      // _reviewListWidgetTemp.add(
-        // SingleMessageView(singleMessage: item, user: widget.user,)
-      // );
-    }
-
-    setState(() {
-      _reviewListWidget = _reviewListWidgetTemp;
-    });
+    Database().addReview(widget.otherUser.reviewList, widget.otherUser);
+    _loadReview(); 
 
   }
 
@@ -147,99 +148,7 @@ class _AddReviewState extends State<AddReview> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             // children: _reviewListWidget,
-                            children: [
-                              Container(
-                                width: _width-20,
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(3),
-                                  boxShadow: [
-                                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.25),
-                                      blurRadius: 12.0,
-                                      spreadRadius: 3.0,
-                                      offset: Offset(
-                                        1.0,
-                                        1.0,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Supun Perera",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppData.secondaryColor
-                                          ),
-                                        ),
-                                        Text(
-                                          DateFormat.yMEd().format(DateTime.now()),
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            // fontWeight: FontWeight.w500,
-                                            color: AppData.secondaryColor
-                                          ),
-                                        ),
-
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 8),
-                                      child: Container(
-                                        height: 30,
-                                        width: _width -40,
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow[800],
-                                              size: 20,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow[800],
-                                              size: 20,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow[800],
-                                              size: 20,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow[800],
-                                              size: 20,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow[800],
-                                              size: 20,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Eiusmod laboris veniam id in. Incididunt exercitation sunt fugiat id eiusmod. Amet elit consequat dolor veniam incididunt voluptate est in commodo ullamco tempor duis. Exercitation culpa laborum duis proident cupidatat deserunt et aute Lorem. Sint incididunt dolor veniam anim ex exercitation.",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppData.secondaryColor
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                            children: _reviewListWidget,
                           ),
                         ),
                       ),

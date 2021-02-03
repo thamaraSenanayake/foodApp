@@ -13,6 +13,7 @@ class TextBox extends StatefulWidget {
   final bool firstLetterCapital;
   final TextEditingController textEditingController;
   final String errorText;
+  final bool shadowDisplay;
   TextBox({
     Key key,
     @required this.textBoxKey,
@@ -26,7 +27,8 @@ class TextBox extends StatefulWidget {
     this.initText,
     this.firstLetterCapital = true, 
     this.textEditingController,
-    @required this.errorText
+    @required this.errorText, 
+    this.shadowDisplay = true,
   }) : super(key: key);
 
   @override
@@ -75,8 +77,16 @@ class _TextBoxState extends State<TextBox> {
         borderRadius: BorderRadius.circular(3),
         boxShadow: [
           BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
-          BoxShadow(
+          widget.shadowDisplay? BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.25),
+            blurRadius: 12.0,
+            spreadRadius: 3.0,
+            offset: Offset(
+              1.0,
+              1.0,
+            ),
+          ): BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.0),
             blurRadius: 12.0,
             spreadRadius: 3.0,
             offset: Offset(

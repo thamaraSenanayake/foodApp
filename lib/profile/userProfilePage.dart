@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
@@ -8,7 +10,8 @@ import '../const.dart';
 
 class UserProfilePage extends StatefulWidget {
   final User user;
-  UserProfilePage({Key key,@required this.user}) : super(key: key);
+  final String otherUserId;
+  UserProfilePage({Key key,@required this.user,@required this.otherUserId}) : super(key: key);
 
   @override
   _UserProfilePageState createState() => _UserProfilePageState();
@@ -18,6 +21,35 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
   double _width =0.0;
   double _height = 0.0;
   bool _viewContactDetails = false;
+  int _startCount = 0;
+  User otherUser;
+  bool _loading = true;
+  List<Post> _post = [];
+  List<Widget> _widgetList = [];
+
+  @override
+  void initState() { 
+    super.initState();
+    _getUserData();
+  }
+
+  _getUserData() async {
+    List<Widget> widgetList = [];
+    otherUser = await Database().getUser(widget.otherUserId);
+    _post = await Database().getMyPost(otherUser);
+    for (var item in _post) {
+      widgetList.add(
+        ViewPost(post: item, user: otherUser, listener: this,myPost: false,)
+      );
+    }
+    setState(() {
+      _widgetList = widgetList;
+       _loading = false;
+    });
+    for (var item in otherUser.reviewList) {
+      _startCount += item.starCount;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +58,14 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
       _height =MediaQuery.of(context).size.height;
     });
     return Scaffold(
-      body: Container(
+      body:_loading
+      ? Container(
+        color: Color.fromRGBO(128, 128, 128, 0.3),
+        child: SpinKitSquareCircle(
+          color: AppData.secondaryColor,
+          size: 50.0,
+        ),
+      ): Container(
         child: Stack(
           children: [
 
@@ -59,20 +98,34 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                               height: 110,
                               child: Row(
                                 children:[
-                                  Padding(
-                                    padding: const EdgeInsets.only(top:0.0),
-                                    child: Container(
-                                      height:100,
-                                      width: 100,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(100),
-                                        image: DecorationImage(
-                                          image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeabWkXTrS3TpRsbQ3ugejErdv4lfff8FgPw&usqp=CAU'),
-                                          fit: BoxFit.cover,
-                                        )
+                                  otherUser.profilePicUrl.isNotEmpty? Container(
+                                    height:100,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(100),
+                                      image: DecorationImage(
+                                        image: NetworkImage(otherUser.profilePicUrl),
+                                        fit: BoxFit.cover,
                                       )
+                                    )
+                                  ):Container(
+                                    height:100,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: AppData.primaryColor,
+                                      borderRadius: BorderRadius.circular(100),
                                     ),
+                                    child: Center(
+                                      child: Text(
+                                        otherUser.name[0],
+                                        style: TextStyle(
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.w800
+                                        ),
+                                      ),
+                                    ),
+
                                   ),
                                   Container(
                                     width: _width-160,
@@ -84,7 +137,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Hasith Dulanjana",
+                                            otherUser.name,
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w500,
@@ -103,10 +156,10 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                   Icons.star,
                                                   color: Colors.yellow[800],
                                                 ),
-                                                Padding(
+                                                otherUser.reviewList.length != 0 ?Padding(
                                                   padding: const EdgeInsets.symmetric( horizontal: 8),
                                                   child: Text(
-                                                    "3.5(1K)",
+                                                    "$_startCount(${_startCount/otherUser.reviewList.length})",
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(
@@ -115,11 +168,16 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                       color: AppData.primaryColor
                                                     ),
                                                   ),
+                                                ):Text(
+                                                  "No ",
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w800,
+                                                    color: AppData.primaryColor
+                                                  ),
                                                 ),
                                                 Text(
                                                   "Reviews",
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w800,
@@ -140,7 +198,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                   child: Padding(
                                                     padding: const EdgeInsets.all(3.0),
                                                     child: Text(
-                                                      "Flowing : 18",
+                                                      "Flowing : ${otherUser.flowing.length}",
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                         fontWeight: FontWeight.w500,
@@ -155,7 +213,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                   child: Padding(
                                                     padding: const EdgeInsets.all(3.0),
                                                     child: Text(
-                                                      "Followers : 2",
+                                                      "Followers : ${otherUser.flowers.length}",
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                         fontWeight: FontWeight.w500,
@@ -187,7 +245,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                 children: [
                                   GestureDetector(
                                     onTap: (){
-                                      // widget.buttonClick();
+                                      Database().follow(otherUser, widget.user);
                                     },
                                     child: Container(
                                       height: 30,
@@ -225,6 +283,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                         PageRouteBuilder(
                                           pageBuilder: (context, _, __) => AddReview(
                                             user: widget.user,
+                                            otherUser: otherUser,
                                           ),
                                           opaque: false
                                         ),
@@ -307,8 +366,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                               ),
                             ),
 
-                            _viewContactDetails?AnimatedContainer(
-                              duration: Duration(seconds:1),
+                            _viewContactDetails?Container(
                               width: _width,
                               // transform: ,
                               padding: EdgeInsets.symmetric(horizontal:10,vertical:5 ),
@@ -329,7 +387,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             ),
                                           ),
                                           TextSpan(
-                                            text:"078..........23",
+                                            text:otherUser.telNumber,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
@@ -354,7 +412,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             ),
                                           ),
                                           TextSpan(
-                                            text:"hasith@gmail.com",
+                                            text:otherUser.email,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
@@ -379,7 +437,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             ),
                                           ),
                                           TextSpan(
-                                            text:"Samagipura, Mahabulankulama, Anuradhapura.",
+                                            text:otherUser.address,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
@@ -404,7 +462,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             ),
                                           ),
                                           TextSpan(
-                                            text:"lorem Excepteur eu tempor proident laborum minim nisi in esse commodo laboris. Est mollit nisi culpa in enim pariatur qui. Veniam dolor dolore quis est laboris elit ullamco ex ad sint pariatur minim magna nisi. Velit ut ex laboris esse velit consectetur ullamco dolor pariatur. Cupidatat deserunt enim veniam eu mollit ex id ipsum commodo ut aliqua id.",
+                                            text:otherUser.description,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
@@ -432,10 +490,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                               ),
                             ),
                             Column(
-                              children: [
-                                ViewPost(post: Post()..id="1"..userTelNumber="077", user: null, listener: this,myPost: true,),
-                                ViewPost(post: Post()..id="1"..userTelNumber="077", user: null, listener: this,myPost: true,),
-                              ],
+                              children: _widgetList,
                             ),
                           ],
                         ),

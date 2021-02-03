@@ -7,6 +7,7 @@ import 'package:food_app/const.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/profile/editDialog.dart';
+import 'package:food_app/profile/profile/multLine.dart';
 import 'package:food_app/res/saveImage.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,6 +32,8 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
       _height= MediaQuery.of(context).size.height;
     });
     return Scaffold(
+      resizeToAvoidBottomPadding:false,
+      resizeToAvoidBottomInset:false,
       body: Container(
         width : _width,
         height :_height,
@@ -185,6 +188,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                   Container(
                     color: Colors.white,
                     child: ListTile(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => EditDialog(
+                              type: EditType.Address,
+                              user: widget.user,
+                            ),
+                            opaque: false
+                          ),
+                        );
+                      },
                       title: Text(
                         "Permanent Address",
                         style: TextStyle(
@@ -200,6 +214,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                   Container(
                     color: Colors.white,
                     child: ListTile(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => EditDialog(
+                              type: EditType.Email,
+                              user: widget.user,
+                            ),
+                            opaque: false
+                          ),
+                        );
+                      },
                       title: Text(
                         "Email",
                         style: TextStyle(
@@ -215,6 +240,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                   Container(
                     color: Colors.white,
                     child: ListTile(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => MultiLineDialog(
+                              type: EditType.Description,
+                              user: widget.user,
+                            ),
+                            opaque: false
+                          ),
+                        );
+                      },
                       title: Text(
                         "Description",
                         style: TextStyle(

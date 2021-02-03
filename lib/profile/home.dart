@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, _, __) => UserProfilePage(
-          user: widget.user,
+          user: widget.user, otherUserId: userTelNumber,
         ),
         opaque: false
       ),

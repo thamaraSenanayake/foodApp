@@ -6,6 +6,7 @@ import 'package:food_app/profile/profile/myUploads.dart';
 import 'package:food_app/profile/profile/notification.dart';
 import 'package:food_app/profile/profile/personalInformation.dart';
 import 'package:food_app/profile/profile/settings.dart';
+import 'package:food_app/profile/profile/viewReview.dart';
 
 class Profile extends StatefulWidget {
   final User user;
@@ -219,7 +220,7 @@ class _ProfileState extends State<Profile> {
                         onTap: (){
                           Navigator.of(context).push(
                             PageRouteBuilder(
-                              pageBuilder: (context, _, __) => NotificationScreen(
+                              pageBuilder: (context, _, __) => MyUploads(
                                 user: widget.user,
                               ),
                               opaque: false
@@ -247,7 +248,7 @@ class _ProfileState extends State<Profile> {
                         onTap: (){
                           Navigator.of(context).push(
                             PageRouteBuilder(
-                              pageBuilder: (context, _, __) => NotificationScreen(
+                              pageBuilder: (context, _, __) => ViewReview(
                                 user: widget.user,
                               ),
                               opaque: false
