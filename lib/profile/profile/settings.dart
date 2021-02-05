@@ -156,6 +156,7 @@ class _SettingsScreenState extends State<SettingsScreen>  {
                     color: Colors.white,
                     child: ListTile(
                       onTap: (){
+                        Navigator.pop(context);
                         widget.logout();
                       },
                       title: Text(

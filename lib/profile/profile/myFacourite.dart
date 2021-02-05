@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
+
+import '../../const.dart';
 
 
 class FavoriteScreen extends StatefulWidget {
@@ -18,6 +21,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
   double _height = 0.0;
   List<Widget> _favoriteList = [];
   List<Post> _postList = [];
+  bool _loading = true;
 
   _getFavoritePosts() async {
     List<Widget> favoriteList = [];
@@ -30,6 +34,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
 
     setState(() {
       _favoriteList = favoriteList;
+      _loading = false;
     });
 
 
@@ -97,7 +102,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
                 ],
               ),
 
-              Container(
+              _loading?Container(
+                height: _height - 128,
+                color: Color.fromRGBO(128, 128, 128, 0.3),
+                child: SpinKitSquareCircle(
+                  color: AppData.secondaryColor,
+                  size: 50.0,
+                ),
+              ): Container(
                 height: _height - 128,
                 child: SingleChildScrollView(
                   child: Column(

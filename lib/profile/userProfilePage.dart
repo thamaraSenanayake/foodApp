@@ -39,7 +39,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
     _post = await Database().getMyPost(otherUser);
     for (var item in _post) {
       widgetList.add(
-        ViewPost(post: item, user: otherUser, listener: this,myPost: false,)
+        ViewPost(post: item, user: widget.user, listener: this,myPost: false,)
       );
     }
     setState(() {
@@ -91,7 +91,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                       height: 150,
                       color: AppData.secondaryColor,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.only(left: 30),
                         child: Column(
                           children: [
                             Container(
@@ -159,7 +159,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                 otherUser.reviewList.length != 0 ?Padding(
                                                   padding: const EdgeInsets.symmetric( horizontal: 8),
                                                   child: Text(
-                                                    "$_startCount(${_startCount/otherUser.reviewList.length})",
+                                                    "${_startCount/otherUser.reviewList.length}(${otherUser.reviewList.length})",
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(
@@ -327,172 +327,174 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                       ),
                     ),
                     
-                    Container(
-                      height: _height - 228,
-                      width: _width,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            //details container
-                            Padding(
-                              padding: const EdgeInsets.only(top:10.0),
-                              child: GestureDetector(
-                                onTap: (){
-                                  setState(() {
-                                    _viewContactDetails = !_viewContactDetails;
-                                  });
-                                },
-                                child: Container(
-                                  height: 30,
-                                  width: _width,
-                                  padding: EdgeInsets.symmetric(horizontal:10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Contact Details",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w800,
-                                          color: AppData.secondaryColor,
+                    Expanded(
+                      child: Container(
+                        // height: _height - 228,
+                        width: _width,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              //details container
+                              Padding(
+                                padding: const EdgeInsets.only(top:10.0),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      _viewContactDetails = !_viewContactDetails;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: _width,
+                                    padding: EdgeInsets.symmetric(horizontal:10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Contact Details",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w800,
+                                            color: AppData.secondaryColor,
+                                          ),
+                                        ),
+                                        Icon(
+                                          !_viewContactDetails? Icons.keyboard_arrow_down:Icons.keyboard_arrow_up
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              _viewContactDetails?Container(
+                                width: _width,
+                                // transform: ,
+                                padding: EdgeInsets.symmetric(horizontal:10,vertical:5 ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom:4.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children:[
+                                            TextSpan(
+                                              text:"Tel: ",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:otherUser.telNumber,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            )
+                                          ]
                                         ),
                                       ),
-                                      Icon(
-                                        !_viewContactDetails? Icons.keyboard_arrow_down:Icons.keyboard_arrow_up
-                                      )
-                                    ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom:4.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children:[
+                                            TextSpan(
+                                              text:"Email: ",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:otherUser.email,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            )
+                                          ]
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom:4.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children:[
+                                            TextSpan(
+                                              text:"Address: ",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:otherUser.address,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            )
+                                          ]
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom:4.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children:[
+                                            TextSpan(
+                                              text:"Description: \n",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:otherUser.description,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            )
+                                          ]
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ):Container(),
+                              Container(
+                                height: 30,
+                                width: _width,
+                                padding: EdgeInsets.symmetric(horizontal:10),
+                                child: Text(
+                                  "Posts",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    color: AppData.secondaryColor,
                                   ),
                                 ),
                               ),
-                            ),
-
-                            _viewContactDetails?Container(
-                              width: _width,
-                              // transform: ,
-                              padding: EdgeInsets.symmetric(horizontal:10,vertical:5 ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom:4.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children:[
-                                          TextSpan(
-                                            text:"Tel: ",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:otherUser.telNumber,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          )
-                                        ]
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom:4.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children:[
-                                          TextSpan(
-                                            text:"Email: ",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:otherUser.email,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          )
-                                        ]
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom:4.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children:[
-                                          TextSpan(
-                                            text:"Address: ",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:otherUser.address,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          )
-                                        ]
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom:4.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children:[
-                                          TextSpan(
-                                            text:"Description: \n",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:otherUser.description,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppData.secondaryColor,
-                                            ),
-                                          )
-                                        ]
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              Column(
+                                children: _widgetList,
                               ),
-                            ):Container(),
-                            Container(
-                              height: 30,
-                              width: _width,
-                              padding: EdgeInsets.symmetric(horizontal:10),
-                              child: Text(
-                                "Posts",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppData.secondaryColor,
-                                ),
-                              ),
-                            ),
-                            Column(
-                              children: _widgetList,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

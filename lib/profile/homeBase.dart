@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:food_app/login/loginBase.dart';
+import 'package:food_app/login/splash.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/message/Message.dart';
@@ -119,7 +122,7 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                     ),
                     Expanded(
                       child: _profilePage == ProfilePage.Home ? HomePage(user: widget.user,):
-                      _profilePage == ProfilePage.Profile ? Profile(user: widget.user):
+                      _profilePage == ProfilePage.Profile ? Profile(user: widget.user, listener: this,):
                       _profilePage == ProfilePage.Add ? AddPost(user: widget.user,post: Post(),listener: this,):
                       _profilePage == ProfilePage.Message ? MessageView(user: widget.user):
                       _profilePage == ProfilePage.Category ? UserCategorySelect(user: widget.user):
@@ -212,8 +215,14 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
 
   @override
   logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+    final storage = new FlutterSecureStorage();
+    storage.deleteAll();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginBase()
+      )
+    );
   }
 
   @override

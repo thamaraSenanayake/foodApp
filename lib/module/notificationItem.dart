@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/post.dart';
-import 'package:food_app/model/user.dart';
 
 class NotificationItem extends StatefulWidget {
   final Post post;
@@ -19,8 +18,9 @@ class _NotificationItemState extends State<NotificationItem> {
   void initState() {
     _clappedUserList += widget.post.clapUser.last.name;
     if(widget.post.clapUser.length > 1 ){
-      _clappedUserList += " and "+(widget.post.clapUser.length -1).toString()+" others clapped to your post";
+      _clappedUserList += " and "+(widget.post.clapUser.length -1).toString()+" others";
     }
+    _clappedUserList += " clapped to your post";
     super.initState();
   }
 

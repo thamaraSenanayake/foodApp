@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       }else{
         final storage = new FlutterSecureStorage();
         storage.write(key: KeyContainer.USERNAME,value:user.telNumber);
-        storage.write(key: KeyContainer.PASSWORD,value: user.password);
+        storage.write(key: KeyContainer.PASSWORD,value: _password);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

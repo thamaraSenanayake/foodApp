@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
 import 'package:food_app/profile/userProfilePage.dart';
+
+import '../const.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -17,6 +20,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   double _width = 0.0;
   List<Post> _post = [];
   List<Widget> _postViewList = [];
+  bool _loading = true;
 
   @override
   void initState() { 
@@ -26,7 +30,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
 
   _loadData() async {
     List<Widget> postViewList = [];
-    _post = await Database().getPostList(); 
+    _post = await Database().getPostList(widget.user); 
     for (var item in _post) {
       postViewList.add(
         ViewPost(post: item, user: widget.user, listener: this)
@@ -34,6 +38,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
     }
     setState(() {
       _postViewList = postViewList;
+       _loading = false;
     });
   }
   
@@ -42,10 +47,16 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
     setState(() {
       _width = MediaQuery.of(context).size.width;
     });
-    return Padding(
+    return _loading? Container(
+        color: Color.fromRGBO(128, 128, 128, 0.3),
+        child: SpinKitSquareCircle(
+          color: AppData.secondaryColor,
+          size: 50.0,
+        ),
+      ):Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: SingleChildScrollView(
-        child: Container(
+        child:Container(
           width: _width,
           child: Column(
             children: _postViewList,

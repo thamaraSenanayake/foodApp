@@ -8,9 +8,12 @@ import 'package:food_app/profile/profile/personalInformation.dart';
 import 'package:food_app/profile/profile/settings.dart';
 import 'package:food_app/profile/profile/viewReview.dart';
 
+import '../homeBase.dart';
+
 class Profile extends StatefulWidget {
   final User user;
-  Profile({Key key,@required this.user}) : super(key: key);
+  final HomeBaseListener listener;
+  Profile({Key key,@required this.user,@required this.listener}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -341,7 +344,7 @@ class _ProfileState extends State<Profile> {
                               pageBuilder: (context, _, __) => SettingsScreen(
                                 user: widget.user,
                                 logout: (){
-
+                                  widget.listener.logout();
                                 },
                               ),
                               opaque: false

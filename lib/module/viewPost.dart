@@ -14,7 +14,8 @@ class ViewPost extends StatefulWidget {
   final bool myPost;
   final ViewPostListener listener;
   final bool canEdit;
-  ViewPost({Key key,@required this.post,@required this.user, this.myPost = false,@required this.listener, this.canEdit = false}) : super(key: key);
+  final Function updateUser;
+  ViewPost({Key key,@required this.post,@required this.user, this.myPost = false,@required this.listener, this.canEdit = false, this.updateUser}) : super(key: key);
 
   @override
   _ViewPostState createState() => _ViewPostState();
@@ -23,6 +24,7 @@ class ViewPost extends StatefulWidget {
 class _ViewPostState extends State<ViewPost> {
   double _width = 0;
   double _reviewPercentage = 0.0;
+  bool _isFavorite = false;
 
   _call(String phone) async{
     
@@ -36,7 +38,12 @@ class _ViewPostState extends State<ViewPost> {
   
   }
 
-  _setReviewCount(){
+  _setData(){
+    if(widget.user.favoritePost.contains(widget.post.id)){
+      _isFavorite= true;
+    }else{
+      _isFavorite = false;
+    }
     for (var item in widget.user.reviewList) {
       _reviewPercentage+= item.starCount;
     }if(widget.user.reviewList.length != 0){
@@ -47,7 +54,7 @@ class _ViewPostState extends State<ViewPost> {
   @override
   void initState() { 
     super.initState();
-    _setReviewCount();
+    _setData();
   }
 
   @override
@@ -95,19 +102,23 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   !widget.canEdit? GestureDetector(
                     onTap: (){
+                      // List<String> favoritePost = widget.user.favoritePost;
                       Database().addRemoveFavorite(widget.post.id, widget.user);
                       if(widget.user.favoritePost.contains(widget.post.id)){
                         setState(() {
-                          widget.user.favoritePost.remove(widget.post.id);
+                          // widget.user.favoritePost = favoritePost;
+                          _isFavorite = true;
                         });
                       }else{
                         setState(() {
-                          widget.user.favoritePost.add(widget.post.id);
+                          // widget.user.favoritePost = favoritePost;
+                          _isFavorite = false;
                         });
                       }
+                      print("_isFavorite"+_isFavorite.toString());
                     },
                     child: Icon(
-                      widget.user.favoritePost.contains(widget.post.id)?Icons.favorite:Icons.favorite_border,
+                      _isFavorite?Icons.favorite:Icons.favorite_border,
                       color: Colors.red,
                     ),
                   ):GestureDetector(
@@ -206,7 +217,7 @@ class _ViewPostState extends State<ViewPost> {
                     child: Container(
                       child: Row(
                         children: [
-                          Container(
+                          widget.post.user.profilePicUrl.isNotEmpty? Container(
                             height: 60,
                             width: 60,
                             decoration: BoxDecoration(
@@ -217,6 +228,23 @@ class _ViewPostState extends State<ViewPost> {
                                 fit: BoxFit.cover,
                               )
                             )
+                          ):Container(
+                            height: 60,
+                            width: 60,
+                            child: Center(
+                              child: Text(
+                                widget.user.name[0],
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppData.primaryColor
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppData.secondaryColor,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
                           ),
                           SizedBox(
                             width: 10,

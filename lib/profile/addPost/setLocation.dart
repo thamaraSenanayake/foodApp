@@ -45,16 +45,16 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
         );
         return;
       }
+      _location = LatLng(position.latitude, position.longitude);
     }else{
       _location = widget.location;
     }
-    _location = LatLng(position.latitude, position.longitude);
-    _addMark(LatLng(position.latitude, position.longitude));
+    _addMark(_location);
   }
 
   _addMark(LatLng position) async {
-    // final Uint8List markerIcon = await getBytesFromAsset('assets/icon/user.png', 100);
     _location = position;
+    // final Uint8List markerIcon = await getBytesFromAsset('assets/icon/user.png', 100);
     _markers.remove("YOUR_LOCATION");
     var marker = Marker(
       markerId: MarkerId("YOUR_LOCATION"),

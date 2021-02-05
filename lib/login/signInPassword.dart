@@ -55,6 +55,7 @@ class _SignInPasswordState extends State<SignInPassword> {
       });
       //todo user availability check  
       await Database().addUser(widget.user);
+      User _user =  await Database().getUser(widget.user.telNumber);
       final storage = new FlutterSecureStorage();
       storage.write(key: KeyContainer.USERNAME,value:widget.user.telNumber);
       storage.write(key: KeyContainer.PASSWORD,value: widget.user.password);
@@ -65,7 +66,7 @@ class _SignInPasswordState extends State<SignInPassword> {
         context,
         MaterialPageRoute(
           builder: (context) => HomeBase(
-            user: widget.user,
+            user: _user,
           )
         )
       );

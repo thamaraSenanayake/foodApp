@@ -108,13 +108,20 @@ class Database{
     });
   }
 
-  Future<List<Post>> getPostList() async{
+  Future<List<Post>> getPostList(User user) async{
     QuerySnapshot querySnapshot;
     querySnapshot = await postReference
     .orderBy('intendDate',descending:true)
     .getDocuments();
-
-    return await _setPostList(querySnapshot);
+    List<Post> _postList = await _setPostList(querySnapshot);
+    for (var i = 0; i < _postList.length; i++) {
+      if(_postList[i].userTelNumber == user.telNumber){
+        _postList.removeAt(i);
+      }
+      
+    }
+    
+    return _postList;
   }
 
   Future<void> addRemoveFavorite(String postId, User user) async{
@@ -131,9 +138,10 @@ class Database{
   }
 
   Future<List<Post>> getFavorite( User user) async{
+    print(user.favoritePost.toString());
     QuerySnapshot querySnapshot;
     querySnapshot = await postReference
-    .where('search',whereIn: [user.favoritePost])
+    .where('id',whereIn: user.favoritePost)
     .orderBy('intendDate',descending:true)
     .getDocuments();
 
@@ -141,15 +149,20 @@ class Database{
 
   }
 
-  Future<List<Post>> searchPostList(String searchKey,bool forSale) async{
+  Future<List<Post>> searchPostList(String searchKey,bool forSale, String userId) async{
     QuerySnapshot querySnapshot;
     querySnapshot = await postReference
     .where('searchText',arrayContainsAny: [searchKey.toLowerCase()])
     .where('forSale',isEqualTo: forSale)
     .orderBy('intendDate',descending:true)
     .getDocuments();
-
-    return await _setPostList(querySnapshot);
+    List<Post> _postList = await _setPostList(querySnapshot);
+    for (var i = 0; i < _postList.length; i++) {
+      if(_postList[i].userTelNumber == userId){
+        _postList.removeAt(i);
+      }
+    }
+    return _postList;
   }
 
   Future<List<Post>> getClappedPost(User user) async{
@@ -288,6 +301,7 @@ class Database{
         user.name = userItem['name'];
         if(userItem["reviewList"] != null){
           for (var itemReviewList in userItem["reviewList"]) {
+            Timestamp dateTime = itemReviewList['dateTime'];
             user.reviewList.add(
               Review()
               ..id = itemReviewList['id']
@@ -295,7 +309,7 @@ class Database{
               ..starCount = itemReviewList['starCount']
               ..userTelNumber = itemReviewList['userTelNumber']
               ..userName = itemReviewList['userName']
-              ..dateTime = itemReviewList['dateTime']
+              ..dateTime = DateTime.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch) 
             );
           }
         }
@@ -333,8 +347,6 @@ class Database{
         ..forSale = item["forSale"]
         ..user = user
       );
-
-
     }
     return postList;
   }
@@ -345,13 +357,15 @@ class Database{
       List<Review> review = [];
       if(item["reviewList"] != null){
         for (var reviewItem in item["reviewList"]) {
+          Timestamp dateTime = reviewItem['dateTime'];
+
           review.add(
             Review()
-            ..review = reviewItem.review
-            ..starCount = reviewItem.starCount
-            ..userTelNumber = reviewItem.userTelNumber
-            ..userName = reviewItem.userName
-            ..dateTime = reviewItem.dateTime
+            ..review = reviewItem['review']
+            ..starCount = reviewItem['starCount']
+            ..userTelNumber = reviewItem['userTelNumber']
+            ..userName = reviewItem['userName']
+            ..dateTime = DateTime.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch)
           );
         }
       }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
 import 'package:food_app/profile/profile/editPost.dart';
+
+import '../../const.dart';
 
 
 class MyUploads extends StatefulWidget {
@@ -19,6 +22,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
   double _height = 0.0;
   List<Widget> _postViewList = [];
   List<Post> _postList = [];
+  bool _loading = true;
   
   _loadPost() async {
     List<Widget> postViewList = [];
@@ -31,6 +35,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
     }
     setState(() {
       _postViewList =postViewList;
+      _loading = false;
     });
   }
 
@@ -96,13 +101,28 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
                 ],
               ),
 
-              Container(
-                height: _height - 128,
-                width: _width,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: _postViewList,
-                  ),
+              Expanded(
+                child: Container(
+                  width: _width,
+                  child: _loading?SpinKitSquareCircle(
+                    color: AppData.secondaryColor,
+                    size: 50.0,
+                    ):_postViewList.length ==0?
+                    Center(
+                      child: Text(
+                        "Upload some post to see here..",
+                        style: TextStyle(
+                          color: AppData.secondaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800
+                        ),
+                      ),
+                    ):
+                    SingleChildScrollView(
+                      child: Column(
+                        children: _postViewList,
+                      ),
+                    ),
                 ),
               ),
 
@@ -133,8 +153,8 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
   }
 
   @override
-  canEdit(Post post) {
-    Navigator.of(context).push(
+  canEdit(Post post) async{
+    await Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, _, __) => EditPost(
           user: widget.user,
@@ -143,6 +163,10 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
         opaque: false
       ),
     );
+    setState(() {
+      _loading = true;
+    });
+    _loadPost();
   }
 
   @override

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/textbox.dart';
 import 'package:food_app/module/viewPost.dart';
+
+import '../const.dart';
 
 class SearchScreen extends StatefulWidget {
   final User user;
@@ -18,11 +21,15 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
   double _height = 0.0;
   int _radioValues = 1;
   List<Widget> _viewPost = [];
-  
+  bool _loading = false;
+
   _search(String searchKey) async {
     List<Widget> viewPost = [];
+    setState(() {
+      _loading = true;
+    });
     viewPost = [];
-    List<Post> _post = await Database().searchPostList(searchKey, _radioValues ==1?true:false);
+    List<Post> _post = await Database().searchPostList(searchKey, _radioValues ==1?true:false,widget.user.telNumber);
     for (var item in _post) {
       viewPost.add(
         ViewPost(post: item, user: widget.user, listener: this)
@@ -30,6 +37,7 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
     }
     setState(() {
       _viewPost = viewPost;
+      _loading = false;
     });
   }
 
@@ -43,107 +51,112 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
       child: Container(
         width: _width,
         // color: Colors.yellow,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            TextBox(
-              textBoxKey: null, 
-              onChange: null, 
-              errorText: "",
-              textBoxHint: "Search",
-              prefixIcon: Icons.search,
-              onSubmit: (val){
-                print("onSubmit");
-                _search(val);
-              },
-            ),
-            SizedBox(
-              height:20
-            ),
-            Container(
-              width: _width-40,
-              height: 50,
-              decoration: BoxDecoration(
-                // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                color: Colors.white,
-                border: Border.all(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              TextBox(
+                textBoxKey: null, 
+                onChange: null, 
+                errorText: "",
+                textBoxHint: "Search",
+                prefixIcon: Icons.search,
+                onSubmit: (val){
+                  print("onSubmit");
+                  _search(val);
+                },
+              ),
+              SizedBox(
+                height:20
+              ),
+              Container(
+                width: _width-40,
+                height: 50,
+                decoration: BoxDecoration(
+                  // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
                   color: Colors.white,
-                  width: 3
-                ),
-                borderRadius: BorderRadius.circular(3),
-                boxShadow: [
-                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
-                  BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.25),
-                    blurRadius: 12.0,
-                    spreadRadius: 3.0,
-                    offset: Offset(
-                      1.0,
-                      1.0,
-                    ),
-                  )
-                ],
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: (_width-46)/2,
+                  border: Border.all(
                     color: Colors.white,
-                    child: RadioListTile(
-                      title:  Text(
-                        'Sell',
-                        style: TextStyle(
-                          color: Colors.grey
-                        ),
-                      ),
-                      value: 1,
-                      groupValue: _radioValues,
-                      onChanged: ( value) {
-                        setState(() {
-                          _radioValues = value;
-                        });
-                      },
-                    ),
+                    width: 3
                   ),
-                  Container(
-                    width: (_width-46)/2,
-                    // height: 50,
-                    child: RadioListTile(
-                      title:  Text(
-                        'Buy',
-                        style: TextStyle(
-                          color: Colors.grey
-                        ),
+                  borderRadius: BorderRadius.circular(3),
+                  boxShadow: [
+                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.25),
+                      blurRadius: 12.0,
+                      spreadRadius: 3.0,
+                      offset: Offset(
+                        1.0,
+                        1.0,
                       ),
-                      value: 2,
-                      groupValue: _radioValues,
-                      onChanged: ( value) {
-                        setState(() {
-                          _radioValues = value;
-                        });
-                      },
+                    )
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: (_width-46)/2,
+                      color: Colors.white,
+                      child: RadioListTile(
+                        title:  Text(
+                          'Sell',
+                          style: TextStyle(
+                            color: Colors.grey
+                          ),
+                        ),
+                        value: 1,
+                        groupValue: _radioValues,
+                        onChanged: ( value) {
+                          setState(() {
+                            _radioValues = value;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      width: (_width-46)/2,
+                      // height: 50,
+                      child: RadioListTile(
+                        title:  Text(
+                          'Buy',
+                          style: TextStyle(
+                            color: Colors.grey
+                          ),
+                        ),
+                        value: 2,
+                        groupValue: _radioValues,
+                        onChanged: ( value) {
+                          setState(() {
+                            _radioValues = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            SizedBox(
-              height:20
-            ),
+              SizedBox(
+                height:20
+              ),
 
-            Container(
-              height: _height - 337,
-              width: _width,
-              child: SingleChildScrollView(
+              _loading?Container(
+                height: _height-128,
+                child: SpinKitSquareCircle(
+                  color: AppData.secondaryColor,
+                  size: 50.0,
+                ),
+              ): Container(
+                width: _width,
                 child: Column(
                   children: _viewPost,
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       )
     );

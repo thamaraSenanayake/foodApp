@@ -41,6 +41,8 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
   String _descriptionError = '';
   String _imgUrlError = '';
   String _locationError = "";
+
+  bool _addPost = true;
   
   File _image;
 
@@ -114,15 +116,17 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
         _post.imgUrl = await _uploadPic();
       }
 
-      Random rnd = new Random(new DateTime.now().millisecondsSinceEpoch);
+      if(_addPost){
+        Random rnd = new Random(new DateTime.now().millisecondsSinceEpoch);
 
-      String postId = new DateTime.now().millisecondsSinceEpoch.toString();
-    
-      for (var i = 0; i < 10; i++) {
-        postId += chars[rnd.nextInt(chars.length)];
+        String postId = new DateTime.now().millisecondsSinceEpoch.toString();
+
+        for (var i = 0; i < 10; i++) {
+          postId += chars[rnd.nextInt(chars.length)];
+        }
+
+        _post.id = postId;
       }
-
-      _post.id = postId;
 
       await Database().addPost(_post);
 
@@ -180,6 +184,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       _post.description ="";
       _post.forSale =true;
       _post.location = null;
+      _addPost = true;
     }else{
       widget.post.imgUrl =_post.imgUrl;
       widget.post.userTelNumber =_post.userTelNumber;
@@ -192,6 +197,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       widget.post.description =_post.description;
       widget.post.forSale =_post.forSale;
       widget.post.location =_post.location;
+      _addPost = false;
     } 
     print(_post.intendDate);
   }
@@ -567,7 +573,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                           PageRouteBuilder(
                             pageBuilder: (context, _, __) => SetLocation(
                               user: widget.user, 
-                              location: widget.post.location, 
+                              location: _post.location, 
                               setLocation: (location){
                                 _post.location = location;
                               }
@@ -635,13 +641,13 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                       height: 20,
                     ),
                     CustomButton(
-                      text: "Save", 
+                      text: _addPost? "Save":"Done", 
                       buttonClick: (){
                         _save();
                       }
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 350,
                     ),
                     
                   ],

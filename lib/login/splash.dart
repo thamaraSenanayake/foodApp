@@ -26,7 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
     final storage = new FlutterSecureStorage();
     String username = await storage.read(key: KeyContainer.USERNAME);
     String password = await storage.read(key: KeyContainer.PASSWORD);
-
+    print(username);
+print(password);
     if(username != null && password != null){
       User user =await Database().login(username, password);
 

@@ -123,7 +123,16 @@ class _ViewReviewState extends State<ViewReview> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical:6.0),
-                        child: SingleChildScrollView(
+                        child:_reviewListWidget.length == 0? Center(
+                          child: Text(
+                            "Upload some post to see here..",
+                            style: TextStyle(
+                              color: AppData.secondaryColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800
+                            ),
+                          ),
+                        ): SingleChildScrollView(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             // children: _reviewListWidget,
