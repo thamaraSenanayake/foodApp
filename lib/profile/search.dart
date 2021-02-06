@@ -22,11 +22,15 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
   int _radioValues = 1;
   List<Widget> _viewPost = [];
   bool _loading = false;
-
+  bool _noResult = false;
   _search(String searchKey) async {
+    if(searchKey.isEmpty){
+      return;
+    }
     List<Widget> viewPost = [];
     setState(() {
       _loading = true;
+      _noResult = false;
     });
     viewPost = [];
     List<Post> _post = await Database().searchPostList(searchKey, _radioValues ==1?true:false,widget.user.telNumber);
@@ -35,6 +39,13 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
         ViewPost(post: item, user: widget.user, listener: this)
       );
     }
+
+    if(viewPost.length == 0){
+      setState(() {
+        _noResult = true;
+      });
+    }
+
     setState(() {
       _viewPost = viewPost;
       _loading = false;
@@ -149,7 +160,17 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
                   color: AppData.secondaryColor,
                   size: 50.0,
                 ),
-              ): Container(
+              ):_noResult?
+                Center(
+                  child: Text(
+                    "No post on your search",
+                    style: TextStyle(
+                      color: AppData.secondaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800
+                    ),
+                  ),
+                ): Container(
                 width: _width,
                 child: Column(
                   children: _viewPost,
@@ -165,48 +186,40 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
   @override
   addToFavorite(String postId) {
       // TODO: implement addToFavorite
-      throw UnimplementedError();
     }
   
     @override
     canEdit(Post postId) {
       // TODO: implement canEdit
-      throw UnimplementedError();
     }
   
     @override
     clap(String postId) {
       // TODO: implement clap
-      throw UnimplementedError();
     }
   
     @override
     goToLocation(location) {
       // TODO: implement goToLocation
-      throw UnimplementedError();
     }
   
     @override
     moreClick(String postId) {
       // TODO: implement moreClick
-      throw UnimplementedError();
     }
   
     @override
     moveToProfile(String userTelNumber) {
       // TODO: implement moveToProfile
-      throw UnimplementedError();
     }
   
     @override
     sendMessage(String userTelNumber) {
       // TODO: implement sendMessage
-      throw UnimplementedError();
     }
   
     @override
     takeCall(String userTelNumber) {
     // TODO: implement takeCall
-    throw UnimplementedError();
   }
 }

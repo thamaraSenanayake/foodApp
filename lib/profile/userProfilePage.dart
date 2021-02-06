@@ -546,48 +546,40 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
   @override
   clap(String postId) {
     // TODO: implement clap
-    throw UnimplementedError();
   }
 
   @override
   goToLocation(location) {
     // TODO: implement goToLocation
-    throw UnimplementedError();
   }
 
   @override
   moreClick(String postId) {
     // TODO: implement moreClick
-    throw UnimplementedError();
   }
 
   @override
   moveToProfile(String userTelNumber) {
     // TODO: implement moveToProfile
-    throw UnimplementedError();
   }
 
   @override
   sendMessage(String userTelNumber) {
     // TODO: implement sendMessage
-    throw UnimplementedError();
   }
 
   @override
   takeCall(String userTelNumber) {
     // TODO: implement takeCall
-    throw UnimplementedError();
   }
 
   @override
   canEdit(Post postId) {
     // TODO: implement moreClick
-    throw UnimplementedError();
   }
 
   @override
   addToFavorite(String postId) {
     // TODO: implement moreClick
-    throw UnimplementedError();
   }
 }

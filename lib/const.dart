@@ -9,7 +9,6 @@ enum LoginPageList{
 }
 
 class AppData{
-  static const String APPNAME = 'Food App';
   static const String LOGOPATH = 'assets/images/logo.png';
   static const String BACKGROUNDPATH = 'assets/images/background.jpg';
   static Color secondaryColor= Color(0xff393939);

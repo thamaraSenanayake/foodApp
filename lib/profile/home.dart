@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   @override
   goToLocation(location) {
     // TODO: implement goToLocation
-    throw UnimplementedError();
+    
   }
 
   @override
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   @override
   addToFavorite(String postId) {
     // TODO: implement moreClick
-    throw UnimplementedError();
+    
   }
 
   @override
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   @override
   canEdit(Post postId) {
     // TODO: implement moreClick
-    throw UnimplementedError();
+    
   }
 
   @override

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/notificationItem.dart';
+
+import '../../const.dart';
 
 
 class NotificationScreen extends StatefulWidget {
@@ -18,6 +21,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
   double _height = 0.0;
   List<Widget> _clapList = [];
   List<Post> _postList = [];
+  bool _loading = true;
 
   _getClapPosts() async {
     List<Widget> clapList = [];
@@ -30,6 +34,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
 
     setState(() {
       _clapList = clapList;
+      _loading = false;
     });
 
 
@@ -99,11 +104,25 @@ class _NotificationScreenState extends State<NotificationScreen>  {
                 ],
               ),
 
-              Container(
-                height: _height - 128,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: _clapList,
+              Expanded(
+                child: Container(
+                  child:_loading?SpinKitSquareCircle(
+                    color: AppData.secondaryColor,
+                    size: 50.0,
+                    ): SingleChildScrollView(
+                    child:_clapList.length ==0?
+                    Center(
+                      child: Text(
+                        "No notification show here..",
+                        style: TextStyle(
+                          color: AppData.secondaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800
+                        ),
+                      ),
+                    ): Column(
+                      children: _clapList,
+                    ),
                   ),
                 ),
               ),

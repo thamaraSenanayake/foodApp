@@ -67,11 +67,27 @@ print(password);
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              AppData.APPNAME,
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold
+            RichText(
+              textAlign: TextAlign.center,
+              text:TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'my',
+                    style:TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue
+                    )
+                  ),
+                  TextSpan(
+                    text: ' POCKET',
+                    style:TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.yellow
+                    )
+                  ),
+                ],
               ),
             ),
             
@@ -86,11 +102,34 @@ print(password);
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "Welcome to "+AppData.APPNAME,
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500
+                RichText(
+                  textAlign: TextAlign.center,
+                  text:TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "Welcome to ",
+                        style:TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500
+                        )
+                      ),
+                      TextSpan(
+                        text: 'my',
+                        style:TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue
+                        )
+                      ),
+                      TextSpan(
+                        text: ' POCKET',
+                        style:TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.yellow
+                        )
+                      ),
+                    ],
                   ),
                 ),
               ],

@@ -184,6 +184,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       _post.description ="";
       _post.forSale =true;
       _post.location = null;
+      _post.clapUser = [];
       _addPost = true;
     }else{
       widget.post.imgUrl =_post.imgUrl;
@@ -197,6 +198,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       widget.post.description =_post.description;
       widget.post.forSale =_post.forSale;
       widget.post.location =_post.location;
+      widget.post.clapUser = _post.clapUser;
       _addPost = false;
     } 
     print(_post.intendDate);

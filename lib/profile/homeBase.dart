@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food_app/login/loginBase.dart';
 import 'package:food_app/login/splash.dart';
@@ -25,6 +26,19 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
   double _height;
   double _width;
   ProfilePage _profilePage = ProfilePage.Home;
+  bool _bottomBarVisibility = true;
+  
+  @override
+  void initState() {
+    super.initState();
+    KeyboardVisibility.onChange.listen((bool visible) {
+      if(mounted) {
+        setState(() {
+          _bottomBarVisibility =! visible;
+        });
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -56,14 +70,14 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
               ),
             ),
 
-            Align(
+           _bottomBarVisibility? Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: _width,
                 height: 40,
                 color: AppData.secondaryColor,
               ),
-            ),
+            ):Container(),
 
             Container(
               height:_height,
@@ -94,7 +108,7 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                               child: Center(
                                 child: Icon(
                                   Icons.search,
-                                  color: AppData.primaryColor,
+                                  color:_profilePage == ProfilePage.Search? Colors.yellow[800]: AppData.primaryColor,
                                 ),
                               ),
                             ),
@@ -112,7 +126,7 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                               child: Center(
                                 child: Icon(
                                   Icons.person,
-                                  color: AppData.primaryColor,
+                                  color:_profilePage == ProfilePage.Profile? Colors.yellow[800]: AppData.primaryColor,
                                 ),
                               ),
                             ),
@@ -129,7 +143,7 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                       _profilePage == ProfilePage.Search ? SearchScreen(user: widget.user):
                       Container()
                     ),
-                    Container(
+                    _bottomBarVisibility?Container(
                       height: 50,
                       color: AppData.secondaryColor,
                       child: Row(
@@ -148,7 +162,7 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                               color: AppData.secondaryColor,
                               child: Icon(
                                 Icons.home,
-                                color: AppData.primaryColor,
+                                color:_profilePage == ProfilePage.Home? Colors.yellow[800]: AppData.primaryColor,
                               ),
                             ),
                           ),
@@ -164,7 +178,7 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                               color: AppData.secondaryColor,
                               child: Icon(
                                 Icons.menu,
-                                color: AppData.primaryColor,
+                                color:_profilePage == ProfilePage.Category? Colors.yellow[800]: AppData.primaryColor,
                               ),
                             ),
                           ),
@@ -180,7 +194,7 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                               color: AppData.secondaryColor,
                               child: Icon(
                                 Icons.message,
-                                color: AppData.primaryColor,
+                                color:_profilePage == ProfilePage.Message? Colors.yellow[800]: AppData.primaryColor,
                               ),
                             ),
                           ),
@@ -196,13 +210,13 @@ class _HomeBaseState extends State<HomeBase> implements HomeBaseListener {
                               color: AppData.secondaryColor,
                               child: Icon(
                                 Icons.add,
-                                color: AppData.primaryColor,
+                                color:_profilePage == ProfilePage.Add? Colors.yellow[800]: AppData.primaryColor,
                               ),
                             ),
                           )
                         ],
                       ),
-                    )
+                    ):Container()
                   ],
                 ),
               ) ,

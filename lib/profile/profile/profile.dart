@@ -108,8 +108,8 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).push(
+                            onTap: () async{
+                              await Navigator.of(context).push(
                                 PageRouteBuilder(
                                   pageBuilder: (context, _, __) => PersonalInformation(
                                     user: widget.user,
@@ -117,6 +117,9 @@ class _ProfileState extends State<Profile> {
                                   opaque: false
                                 ),
                               );
+                              setState(() {
+                                
+                              });
                             },
                             child: Icon(
                               Icons.arrow_forward,

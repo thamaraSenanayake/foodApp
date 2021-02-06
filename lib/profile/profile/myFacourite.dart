@@ -109,6 +109,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
                   color: AppData.secondaryColor,
                   size: 50.0,
                 ),
+              ):_favoriteList.length == 0? Center(
+                child: Text(
+                  "Not added any favorite post yet",
+                  style: TextStyle(
+                    color: AppData.secondaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800
+                  ),
+                ),
               ): Container(
                 height: _height - 128,
                 child: SingleChildScrollView(
@@ -128,50 +137,49 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
 
   @override
   addToFavorite(String postId) {
-    // TODO: implement addToFavorite
-    throw UnimplementedError();
+    List<Widget> favoriteList = [];
+    Post _post = _postList.firstWhere((val)=>val.id==postId, orElse: () => null);
+    
+    _postList.remove(_post);
+
+    setState(() {
+      _favoriteList = favoriteList;
+    });
   }
 
   @override
   canEdit(Post postId) {
     // TODO: implement canEdit
-    throw UnimplementedError();
   }
 
   @override
   clap(String postId) {
     // TODO: implement clap
-    throw UnimplementedError();
   }
 
   @override
   goToLocation(location) {
     // TODO: implement goToLocation
-    throw UnimplementedError();
   }
 
   @override
   moreClick(String postId) {
     // TODO: implement moreClick
-    throw UnimplementedError();
   }
 
   @override
   moveToProfile(String userTelNumber) {
     // TODO: implement moveToProfile
-    throw UnimplementedError();
   }
 
   @override
   sendMessage(String userTelNumber) {
     // TODO: implement sendMessage
-    throw UnimplementedError();
   }
 
   @override
   takeCall(String userTelNumber) {
   // TODO: implement takeCall
-  throw UnimplementedError();
   }
 
 }

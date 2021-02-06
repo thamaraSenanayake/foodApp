@@ -125,7 +125,7 @@ class _ViewReviewState extends State<ViewReview> {
                         padding: const EdgeInsets.symmetric(vertical:6.0),
                         child:_reviewListWidget.length == 0? Center(
                           child: Text(
-                            "Upload some post to see here..",
+                            "No Reviews from your uses..",
                             style: TextStyle(
                               color: AppData.secondaryColor,
                               fontSize: 18,

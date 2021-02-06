@@ -102,7 +102,38 @@ class Database{
       "insertTime" :DateTime.now(),
       "description" :post.description,
       "imgUrl" :post.imgUrl,
-      "clapUser" :[],
+      "clapUser" :post.clapUser,
+      "forSale" :post.forSale,
+      "searchText" : searchText
+    });
+  }
+
+
+  Future updatePost(Post post) async{
+
+    String key;
+    List<String> searchText = [];
+    String searchTextValue ="";
+
+    key=post.title.toLowerCase();
+
+    for (var i = 0; i < key.length; i++) {
+      searchTextValue += key[i];
+      searchText.add(searchTextValue);
+    }
+    
+    await postReference.document(post.id).setData({
+      "id" :post.id,
+      "userTelNumber" :post.userTelNumber,
+      "title" :post.title,
+      "city" :post.city,
+      "location" :post.location.latitude.toString()+","+post.location.longitude.toString(),
+      "price" :post.price,
+      "amount" :post.amount,
+      "intendDate" :post.intendDate,
+      "insertTime" :DateTime.now(),
+      "description" :post.description,
+      "imgUrl" :post.imgUrl,
       "forSale" :post.forSale,
       "searchText" : searchText
     });
@@ -138,7 +169,9 @@ class Database{
   }
 
   Future<List<Post>> getFavorite( User user) async{
-    print(user.favoritePost.toString());
+    if(user.favoritePost.length == 0){
+      return [];
+    }
     QuerySnapshot querySnapshot;
     querySnapshot = await postReference
     .where('id',whereIn: user.favoritePost)
@@ -274,10 +307,6 @@ class Database{
       "address":user.address,
       "description":user.description,
       "userCategory":categoryToString(user.category),
-      "flowers":user.flowers,
-      "flowing":user.flowing,
-      "reviewList":user.reviewList,
-      "favoritePost":user.favoritePost,
     });
   }
 

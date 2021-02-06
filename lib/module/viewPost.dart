@@ -115,6 +115,7 @@ class _ViewPostState extends State<ViewPost> {
                           _isFavorite = false;
                         });
                       }
+                      widget.listener.addToFavorite(widget.post.id);
                       print("_isFavorite"+_isFavorite.toString());
                     },
                     child: Icon(
