@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/review.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/reviewView.dart';
-import 'package:intl/intl.dart';
 
 import '../../const.dart';
 
@@ -19,6 +19,7 @@ class _ViewReviewState extends State<ViewReview> {
   List<Widget> _reviewListWidget = [];
   double _height =0.0;
   double _width =0.0;
+  bool _loading =false;
   @override
   void initState() {
     super.initState();
@@ -28,10 +29,30 @@ class _ViewReviewState extends State<ViewReview> {
   _loadReview()  {
     List<Widget> reviewListWidget = [];
     for (var item in widget.user.reviewList) {
-     reviewListWidget.add(ReviewView(review: item));
+     reviewListWidget.add(
+      ReviewView(
+        review: item,
+        submitReview: (Review newReview  ,Review  oldReview) async {  
+          setState(() {
+            _loading = true;
+          });
+          int index = widget.user.reviewList.indexOf(oldReview);
+          widget.user.reviewList.remove(oldReview);
+          widget.user.reviewList.insert(index,newReview);
+          await Database().updateReview(widget.user.reviewList, widget.user);
+          _loadReview(); 
+        },
+        replyView :true,
+      )
+    );
     }
     setState(() {
       _reviewListWidget = reviewListWidget;
+      _loading = false;
+    });
+    Database().updateReview(widget.user.reviewList, widget.user,readAll: true);
+    setState(() {
+      AppData.reviewCount = 0;
     });
   }
 
@@ -92,8 +113,9 @@ class _ViewReviewState extends State<ViewReview> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Icon(
-                                    Icons.arrow_back_ios,
+                                    Icons.arrow_back,
                                     color: AppData.primaryColor,
+                                    size: 35,
                                   ),
                                 ),
                               ),
@@ -121,7 +143,14 @@ class _ViewReviewState extends State<ViewReview> {
                       ),  
                     ),
                     Expanded(
-                      child: Padding(
+                      child:_loading ?Container(
+                        width: _width,
+                        color:AppData.secondaryColor.withOpacity(0.8) ,
+                        child: SpinKitSquareCircle(
+                          color: AppData.secondaryColor,
+                          size: 50.0,
+                        ),
+                      ): Padding(
                         padding: const EdgeInsets.symmetric(vertical:6.0),
                         child:_reviewListWidget.length == 0? Center(
                           child: Text(

@@ -84,7 +84,7 @@ print(password);
                     style:TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.yellow
+                      color: Colors.yellow[800]
                     )
                   ),
                 ],
@@ -110,7 +110,8 @@ print(password);
                         text: "Welcome to ",
                         style:TextStyle(
                           fontSize: 30,
-                          fontWeight: FontWeight.w500
+                          fontWeight: FontWeight.w500,
+                          color: AppData.secondaryColor
                         )
                       ),
                       TextSpan(
@@ -126,7 +127,7 @@ print(password);
                         style:TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
-                          color: Colors.yellow
+                          color: Colors.yellow[800]
                         )
                       ),
                     ],
@@ -139,7 +140,7 @@ print(password);
               height: 50,
               width: _width-120,
               child:SpinKitSquareCircle(
-                color: AppData.secondaryColor,
+                color: AppData.thirdColor,
                 size: 50.0,
               ),
             ): CustomButton(

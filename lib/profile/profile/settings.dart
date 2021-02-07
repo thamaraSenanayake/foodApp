@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
 
+import '../../const.dart';
+
 
 class SettingsScreen extends StatefulWidget {
   final User user;

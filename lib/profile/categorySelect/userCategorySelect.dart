@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/profile/categorySelect/postsToCategory.dart';
 
-import '../const.dart';
+import '../../const.dart';
+import '../homeBase.dart';
 
 class UserCategorySelect extends StatefulWidget {
   final User user;
-  UserCategorySelect({Key key,@required this.user}) : super(key: key);
+  final HomeBaseListener listener;
+  UserCategorySelect({Key key,@required this.user,@required this.listener}) : super(key: key);
 
   @override
   _UserCategorySelectState createState() => _UserCategorySelectState();
@@ -22,6 +25,9 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
   void initState() { 
     super.initState();
     _category = widget.user.category;
+    WidgetsBinding.instance.addPostFrameCallback((_) { 
+      widget.listener.setPage(ProfilePage.Category);
+    });
   }
   
   @override
@@ -53,8 +59,15 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     setState(() {
                       _category = UserCategory.FoodIndustry;
                     });
-                    widget.user.category = _category;
-                    Database().updateUser(widget.user);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) => PostsToCategory(
+                          user: widget.user,
+                          category: _category,
+                        ),
+                        opaque: false
+                      ),
+                    );
                   },
                   title: Text(
                     "Food industry",
@@ -65,7 +78,8 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   ),
                   trailing: Icon(
                     Icons.check,
-                    color:_category == UserCategory.FoodIndustry? Colors.black:Colors.transparent,
+                    color:_category == UserCategory.FoodIndustry? AppData.secondaryColor:Colors.transparent,
+                    size: 35,
                   ),
                 ),
                 ListTile(
@@ -73,8 +87,15 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     setState(() {
                       _category = UserCategory.Agriculture;
                     });
-                    widget.user.category = _category;
-                    Database().updateUser(widget.user);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) => PostsToCategory(
+                          user: widget.user,
+                          category: _category,
+                        ),
+                        opaque: false
+                      ),
+                    );
                   },
                   title: Text(
                     "Agriculture",
@@ -85,7 +106,8 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   ),
                   trailing: Icon(
                     Icons.check,
-                    color:_category == UserCategory.Agriculture? Colors.black:Colors.transparent,
+                    color:_category == UserCategory.Agriculture? AppData.secondaryColor:Colors.transparent,
+                    size: 35,
                   ),
                 ),
                 ListTile(
@@ -93,8 +115,15 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     setState(() {
                       _category = UserCategory.Animal;
                     });
-                    widget.user.category = _category;
-                    Database().updateUser(widget.user);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) => PostsToCategory(
+                          user: widget.user,
+                          category: _category,
+                        ),
+                        opaque: false
+                      ),
+                    );
                   },
                   title: Text(
                     "Animal",
@@ -105,7 +134,8 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   ),
                   trailing: Icon(
                     Icons.check,
-                    color:_category == UserCategory.Animal? Colors.black:Colors.transparent,
+                    color:_category == UserCategory.Animal? AppData.secondaryColor:Colors.transparent,
+                    size: 35,
                   ),
                 ),
                 ListTile(
@@ -113,8 +143,15 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     setState(() {
                       _category = UserCategory.Business;
                     });
-                    widget.user.category = _category;
-                    Database().updateUser(widget.user);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) => PostsToCategory(
+                          user: widget.user,
+                          category: _category,
+                        ),
+                        opaque: false
+                      ),
+                    );
                   },
                   title: Text(
                     "Business",
@@ -125,7 +162,8 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   ),
                   trailing: Icon(
                     Icons.check,
-                    color:_category == UserCategory.Business? Colors.black:Colors.transparent,
+                    color:_category == UserCategory.Business? AppData.secondaryColor:Colors.transparent,
+                    size: 35,
                   ),
                 ),
                 ListTile(
@@ -133,8 +171,15 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     setState(() {
                       _category = UserCategory.Service;
                     });
-                    widget.user.category = _category;
-                    Database().updateUser(widget.user);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) => PostsToCategory(
+                          user: widget.user,
+                          category: _category,
+                        ),
+                        opaque: false
+                      ),
+                    );
                   },
                   title: Text(
                     "Service",
@@ -145,7 +190,8 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   ),
                   trailing: Icon(
                     Icons.check,
-                    color:_category == UserCategory.Service? Colors.black:Colors.transparent,
+                    color:_category == UserCategory.Service? AppData.secondaryColor:Colors.transparent,
+                    size: 35,
                   ),
                 ),
                 ListTile(
@@ -153,8 +199,15 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     setState(() {
                       _category = UserCategory.Education;
                     });
-                    widget.user.category = _category;
-                    Database().updateUser(widget.user);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) => PostsToCategory(
+                          user: widget.user,
+                          category: _category,
+                        ),
+                        opaque: false
+                      ),
+                    );
                   },
                   title: Text(
                     "Education",
@@ -165,7 +218,8 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   ),
                   trailing: Icon(
                     Icons.check,
-                    color:_category == UserCategory.Education? Colors.black:Colors.transparent,
+                    color:_category == UserCategory.Education? AppData.secondaryColor:Colors.transparent,
+                    size: 35,
                   ),
                 ),
                 ListTile(
@@ -173,8 +227,15 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     setState(() {
                       _category = UserCategory.Others;
                     });
-                    widget.user.category = _category;
-                    Database().updateUser(widget.user);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, _, __) => PostsToCategory(
+                          user: widget.user,
+                          category: _category,
+                        ),
+                        opaque: false
+                      ),
+                    );
                   },
                   title: Text(
                     "Others",
@@ -185,7 +246,8 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   ),
                   trailing: Icon(
                     Icons.check,
-                    color:_category == UserCategory.Others? Colors.black:Colors.transparent,
+                    color:_category == UserCategory.Others? AppData.secondaryColor:Colors.transparent,
+                    size: 35,
                   ),
                 ),
               ],

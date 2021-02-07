@@ -13,6 +13,9 @@ class AppData{
   static const String BACKGROUNDPATH = 'assets/images/background.jpg';
   static Color secondaryColor= Color(0xff393939);
   static Color primaryColor= Color(0xFFFFFBFB);
+  static Color thirdColor = Color(0xFFFF7D05);
+  static int reviewCount = 0;
+
 }
 
 enum UserCategory{

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
 import 'package:food_app/model/user.dart';
 
+import '../homeBase.dart';
 import 'messageView.dart';
 
 class MessageView extends StatefulWidget {
   final User user;
-  MessageView({Key key,@required this.user}) : super(key: key);
+  final HomeBaseListener listener;
+  MessageView({Key key,@required this.user, this.listener}) : super(key: key);
 
   @override
   _MessageViewState createState() => _MessageViewState();
@@ -15,6 +17,14 @@ class MessageView extends StatefulWidget {
 class _MessageViewState extends State<MessageView> {
   double _width = 0.0;
   double _height = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) { 
+      widget.listener.setPage(ProfilePage.Message);
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -89,7 +99,7 @@ class _MessageViewState extends State<MessageView> {
                           100
                         ),
                         border: Border.all(
-                          width: 2
+                          width: 2,
                         ),
                         image: DecorationImage(
                           image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeabWkXTrS3TpRsbQ3ugejErdv4lfff8FgPw&usqp=CAU'),

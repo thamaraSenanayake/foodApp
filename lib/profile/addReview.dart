@@ -29,10 +29,18 @@ class _AddReviewState extends State<AddReview> {
     _loadReview();
   }
 
+
   _loadReview()  {
     List<Widget> reviewListWidget = [];
     for (var item in widget.otherUser.reviewList) {
-     reviewListWidget.add(ReviewView(review: item));
+      reviewListWidget.add(
+        ReviewView(
+          review: item, 
+          submitReview: (Review newReview ,Review oldReview ) {  
+          
+          },
+        )
+      );
     }
     setState(() {
       _reviewListWidget = reviewListWidget;
@@ -52,7 +60,7 @@ class _AddReviewState extends State<AddReview> {
         ..dateTime = DateTime.now()
       );
     }
-    Database().addReview(widget.otherUser.reviewList, widget.otherUser);
+    Database().updateReview(widget.otherUser.reviewList, widget.otherUser);
     _loadReview(); 
 
   }
@@ -184,7 +192,7 @@ class _AddReviewState extends State<AddReview> {
                                       },
                                       child: Icon(
                                         Icons.star,
-                                        color:_starCount>0? Colors.yellow[800]:Colors.grey[800],
+                                        color:_starCount>0? AppData.thirdColor:Colors.grey[800],
                                       ),
                                     ),
 
@@ -196,7 +204,7 @@ class _AddReviewState extends State<AddReview> {
                                       },
                                       child: Icon(
                                         Icons.star,
-                                        color:_starCount>1? Colors.yellow[800]:Colors.grey[800],
+                                        color:_starCount>1? AppData.thirdColor:Colors.grey[800],
                                       ),
                                     ),
                                     GestureDetector(
@@ -207,7 +215,7 @@ class _AddReviewState extends State<AddReview> {
                                       },
                                       child: Icon(
                                         Icons.star,
-                                        color:_starCount>2? Colors.yellow[800]:Colors.grey[800],
+                                        color:_starCount>2? AppData.thirdColor:Colors.grey[800],
                                       ),
                                     ),
                                     GestureDetector(
@@ -218,7 +226,7 @@ class _AddReviewState extends State<AddReview> {
                                       },
                                       child: Icon(
                                         Icons.star,
-                                        color:_starCount>3? Colors.yellow[800]:Colors.grey[800],
+                                        color:_starCount>3? AppData.thirdColor:Colors.grey[800],
                                       ),
                                     ),
                                     GestureDetector(
@@ -229,7 +237,7 @@ class _AddReviewState extends State<AddReview> {
                                       },
                                       child: Icon(
                                         Icons.star,
-                                        color:_starCount>4? Colors.yellow[800]:Colors.grey[800],
+                                        color:_starCount>4? AppData.thirdColor:Colors.grey[800],
                                       ),
                                     ),
 

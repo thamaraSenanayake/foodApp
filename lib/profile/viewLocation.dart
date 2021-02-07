@@ -119,7 +119,7 @@ class _ViewLocationState extends State<ViewLocation>  {
                     _addMark(latLng);
                   },
                 ):SpinKitSquareCircle(
-                  color: AppData.secondaryColor,
+                  color: AppData.thirdColor,
                   size: 50.0,
                 ),
               ),

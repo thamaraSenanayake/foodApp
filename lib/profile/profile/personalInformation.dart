@@ -148,7 +148,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                                       ],
                                     ),
                                     child: Icon(
-                                      Icons.add_a_photo
+                                      Icons.add_a_photo,
                                     ),
                                   ),
                                 )
@@ -188,7 +188,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                               ),
                             ),
                             trailing: Icon(
-                              Icons.arrow_forward
+                              Icons.arrow_forward,
                             ),
                           ),
                         ),
@@ -214,7 +214,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                               ),
                             ),
                             trailing: Icon(
-                              Icons.arrow_forward
+                              Icons.arrow_forward,
                             ),
                           ),
                         ),
@@ -240,7 +240,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                               ),
                             ),
                             trailing: Icon(
-                              Icons.arrow_forward
+                              Icons.arrow_forward,
                             ),
                           ),
                         ),
@@ -266,7 +266,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                               ),
                             ),
                             trailing: Icon(
-                              Icons.arrow_forward
+                              Icons.arrow_forward,
                             ),
                           ),
                         ),
@@ -281,7 +281,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                               ),
                             ),
                             trailing: Icon(
-                              Icons.arrow_forward
+                              Icons.arrow_forward,
                             ),
                           ),
                         ),
@@ -298,7 +298,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
             _loading?Container(
               color: Color.fromRGBO(128, 128, 128, 0.3),
               child: SpinKitSquareCircle(
-                color: AppData.secondaryColor,
+                color: AppData.thirdColor,
                 size: 50.0,
               ),
             ):Container()

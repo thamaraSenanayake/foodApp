@@ -44,10 +44,12 @@ class _ViewPostState extends State<ViewPost> {
     }else{
       _isFavorite = false;
     }
-    for (var item in widget.user.reviewList) {
+    for (var item in widget.post.user.reviewList) {
       _reviewPercentage+= item.starCount;
-    }if(widget.user.reviewList.length != 0){
-      _reviewPercentage/=widget.user.reviewList.length;
+    }if(widget.post.user.reviewList.length != 0){
+      _reviewPercentage/=widget.post.user.reviewList.length;
+    }else{
+      _reviewPercentage = 0;
     }
   }
 
@@ -120,7 +122,7 @@ class _ViewPostState extends State<ViewPost> {
                     },
                     child: Icon(
                       _isFavorite?Icons.favorite:Icons.favorite_border,
-                      color: Colors.red,
+                      color: AppData.thirdColor,
                     ),
                   ):GestureDetector(
                     onTap: (){
@@ -270,14 +272,14 @@ class _ViewPostState extends State<ViewPost> {
                                       fontWeight: FontWeight.w800
                                     ),
                                   ),
-                                  widget.user.reviewList.length != 0? Row(
+                                  widget.post.user.reviewList.length != 0? Row(
                                     children: [
                                       Icon(
                                         Icons.star,
-                                        color: Colors.yellow[800],
+                                        color: AppData.thirdColor,
                                       ),
                                       Text(
-                                        "$_reviewPercentage(${widget.user.reviewList.length})",
+                                        "$_reviewPercentage(${widget.post.user.reviewList.length})",
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(

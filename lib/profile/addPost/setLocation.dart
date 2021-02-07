@@ -146,7 +146,7 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
                     _addMark(latLng);
                   },
                 ):SpinKitSquareCircle(
-                  color: AppData.secondaryColor,
+                  color: AppData.thirdColor,
                   size: 50.0,
                 ),
               ),

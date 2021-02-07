@@ -107,7 +107,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
               Expanded(
                 child: Container(
                   child:_loading?SpinKitSquareCircle(
-                    color: AppData.secondaryColor,
+                    color: AppData.thirdColor,
                     size: 50.0,
                     ): SingleChildScrollView(
                     child:_clapList.length ==0?

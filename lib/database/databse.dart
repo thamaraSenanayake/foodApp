@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:food_app/const.dart';
+import 'package:food_app/model/message.dart';
+import 'package:food_app/model/messageHead.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/review.dart';
 import 'package:food_app/model/user.dart';
@@ -12,6 +15,7 @@ class Database{
   //collection reference 
   
   final CollectionReference users = Firestore.instance.collection('user');
+  final CollectionReference msgReference = Firestore.instance.collection('msg');
   final CollectionReference postReference = Firestore.instance.collection('food');
   final CollectionReference systemData = Firestore.instance.collection('systemData');
 
@@ -104,7 +108,8 @@ class Database{
       "imgUrl" :post.imgUrl,
       "clapUser" :post.clapUser,
       "forSale" :post.forSale,
-      "searchText" : searchText
+      "searchText" : searchText,
+      "postCategory":categoryToString(post.postCategory)
     });
   }
 
@@ -135,8 +140,26 @@ class Database{
       "description" :post.description,
       "imgUrl" :post.imgUrl,
       "forSale" :post.forSale,
+      "postCategory":categoryToString(post.postCategory),
       "searchText" : searchText
     });
+  }
+
+  Future<List<Post>> getPostToCategory(User user,UserCategory category ) async{
+    QuerySnapshot querySnapshot;
+    querySnapshot = await postReference
+    .where("postCategory",isEqualTo: categoryToString(category))
+    .orderBy('intendDate',descending:true)
+    .getDocuments();
+    List<Post> _postList = await _setPostList(querySnapshot);
+    for (var i = 0; i < _postList.length; i++) {
+      if(_postList[i].userTelNumber == user.telNumber){
+        _postList.removeAt(i);
+      }
+      
+    }
+    
+    return _postList;
   }
 
   Future<List<Post>> getPostList(User user) async{
@@ -148,6 +171,7 @@ class Database{
     for (var i = 0; i < _postList.length; i++) {
       if(_postList[i].userTelNumber == user.telNumber){
         _postList.removeAt(i);
+      }else{
       }
       
     }
@@ -195,6 +219,9 @@ class Database{
         _postList.removeAt(i);
       }
     }
+    _postList.sort((a,b) {
+        return b.reviewCount.compareTo(a.reviewCount);
+    });
     return _postList;
   }
 
@@ -204,6 +231,7 @@ class Database{
     .where('userTelNumber',isEqualTo: user.telNumber)
     .orderBy('intendDate',descending:true)
     .getDocuments();
+    
     List<Post> postList = await _setPostList(querySnapshot);
 
     for (var i = 0; i < postList.length; i++) {
@@ -251,7 +279,9 @@ class Database{
     return true;
   }
 
-  Future<bool> addReview(List<Review> review, User reviewedUser) async{
+
+
+  Future<bool> updateReview(List<Review> review, User reviewedUser,{bool readAll = false}) async{
     List<Map<String,dynamic>> reviewListMap =[];
    
     for (var item in review) {
@@ -262,6 +292,9 @@ class Database{
           "userTelNumber": item.userTelNumber,
           "userName": item.userName,
           "dateTime": item.dateTime,
+          "reply":item.reply,
+          "replyTime":item.replyTime,
+          "read":readAll? true: item.read,
         }
       );
     }
@@ -318,19 +351,23 @@ class Database{
     for (var item in querySnapshot.documents) {
       String userTelNumber = item["userTelNumber"];
       
-      User user = User();
 
       QuerySnapshot  userDetails = await users
       .where('telNumber',isEqualTo: userTelNumber).
       getDocuments();
+      int starCount = 0;
 
+      User user;
       for (var userItem in userDetails.documents) {
+        user = User();
         user.reviewList = [];
         user.profilePicUrl  =userItem['profilePicUrl'];
         user.name = userItem['name'];
         if(userItem["reviewList"] != null){
           for (var itemReviewList in userItem["reviewList"]) {
+            starCount += itemReviewList['starCount'];
             Timestamp dateTime = itemReviewList['dateTime'];
+            Timestamp replyTime = itemReviewList['replyTime'];
             user.reviewList.add(
               Review()
               ..id = itemReviewList['id']
@@ -339,6 +376,9 @@ class Database{
               ..userTelNumber = itemReviewList['userTelNumber']
               ..userName = itemReviewList['userName']
               ..dateTime = DateTime.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch) 
+              ..reply = itemReviewList['reply']
+              ..read = itemReviewList['read']
+              ..replyTime = replyTime == null? null: DateTime.fromMillisecondsSinceEpoch(replyTime.millisecondsSinceEpoch) 
             );
           }
         }
@@ -375,6 +415,8 @@ class Database{
         ..clapUser = clapUser
         ..forSale = item["forSale"]
         ..user = user
+        ..postCategory = stringToUserCategory(item["postCategory"])
+        ..reviewCount = starCount
       );
     }
     return postList;
@@ -387,6 +429,7 @@ class Database{
       if(item["reviewList"] != null){
         for (var reviewItem in item["reviewList"]) {
           Timestamp dateTime = reviewItem['dateTime'];
+          Timestamp replyTime = reviewItem['replyTime'];
 
           review.add(
             Review()
@@ -395,6 +438,9 @@ class Database{
             ..userTelNumber = reviewItem['userTelNumber']
             ..userName = reviewItem['userName']
             ..dateTime = DateTime.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch)
+            ..reply = reviewItem['reply']
+            ..read = reviewItem['read']
+            ..replyTime = replyTime == null? null: DateTime.fromMillisecondsSinceEpoch(replyTime.millisecondsSinceEpoch) 
           );
         }
       }
@@ -413,6 +459,130 @@ class Database{
 
     return user;
   }
+
+  Future<MessageHeader> getMessageHeadData(User user,User otherUser) async {
+    QuerySnapshot querySnapshot;
+    String id;
+
+    if(int.parse(user.telNumber)>int.parse(otherUser.telNumber)){
+      id = user.telNumber+otherUser.telNumber;
+    }else{
+      id = otherUser.telNumber+user.telNumber;
+    }
+
+    querySnapshot = await msgReference
+    .where('headName',isEqualTo: id )
+    .getDocuments();
+
+    if(querySnapshot.documents.length == 0){
+      await msgReference.document(id).setData({
+        "headName":id,
+        "user1":user.telNumber,
+        "user2":otherUser.telNumber,
+        "user1name":user.name,
+        "user2name":otherUser.name,
+        "user1ImgUrl":user.profilePicUrl,
+        "user2ImgUrl":otherUser.profilePicUrl,
+        "user1LastRead":DateTime.now(),
+        "user2LastRead":DateTime.now(),
+        "msgCount":0,
+        "msgList":[]
+      });
+    }
+
+    QuerySnapshot chatHeadSnapshot = await msgReference
+    .where('headName',isEqualTo: id).
+    getDocuments();
+
+    List<MessageHeader> messageHead  = setMessageHeader(chatHeadSnapshot);
+    return messageHead[0];
+
+  }
+
+  Future<void> sendMsg(List<SingleMessage> msg, String headName) async{
+    List<Map<String,dynamic>> msgListMap =[];
+   
+    for (var item in msg) {
+      msgListMap.add(
+        {
+          "userTelNumber":item.userTelNumber,
+          "msg":item.msg,
+          "dateTime":item.dateTime,
+        }
+      );
+    }
+    await msgReference.document(headName).updateData({
+      "msgList":msgListMap
+    });
+  }
+
+  Future<void> setLastRead(MessageHeader messageHeader, User user) async{
+    
+    if(messageHeader.user1 == user.telNumber){
+      await msgReference.document(messageHeader.headName).updateData({
+        "user1LastRead":DateTime.now()
+      });
+    }else{
+      await msgReference.document(messageHeader.headName).updateData({
+        "user2LastRead":DateTime.now()
+      });
+    }
+  }
+
+  Future<List<MessageHeader>> getChatHeadList(User user) async{
+    QuerySnapshot querySnapshot = await msgReference
+    .where('user1',isEqualTo: user.telNumber)
+    .where('user2',isEqualTo: user.telNumber).
+    getDocuments();
+
+    return setMessageHeader(querySnapshot); 
+  }
+
+
+
+
+  List<MessageHeader> setMessageHeader(QuerySnapshot querySnapshot) {
+    List<MessageHeader> messageHeader;
+
+    for (var item in querySnapshot.documents) {
+      List<SingleMessage> msgList = [];
+      if(item["msgList"] != null){
+        for (var msg in item["msgList"]) {
+          Timestamp dateTime = msg['dateTime'];
+
+          msgList.add(
+            SingleMessage()
+            ..msg = msg['userTelNumber']
+            ..userTelNumber = msg['msg']
+            ..dateTime = DateTime.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch)
+          );
+        }
+      }
+
+      Timestamp user1LastRead = item['user1LastRead'];
+      Timestamp user2LastRead = item['user2LastRead'];
+
+      messageHeader.add(
+        MessageHeader()
+        ..headName = item["headName"]
+        ..user1 = item["user1"]
+        ..user2 = item["user2"]
+        ..user1name = item["user1name"]
+        ..user2name = item["user2name"]
+        ..user1ImgUrl = item["user1ImgUrl"]
+        ..user2ImgUrl = item["user2ImgUrl"]
+        ..user1LastRead = DateTime.fromMillisecondsSinceEpoch(user1LastRead.millisecondsSinceEpoch)
+        ..user2LastRead = DateTime.fromMillisecondsSinceEpoch(user2LastRead.millisecondsSinceEpoch)
+        ..msgCount = item["msgCount"]
+        ..msgList = msgList
+      );
+        
+    }
+
+    return messageHeader;
+  }
+
+
 
   
 

@@ -49,6 +49,18 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
   bool _loading = false;
   var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
+  List<String> _userCategory =[
+    "Agriculture",
+    "FoodIndustry",
+    "Animal",
+    "Business",
+    "Service",
+    "Others",
+    "Education",
+  ];
+
+  String _selectedUserCategory;
+
   
 
 
@@ -128,6 +140,8 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
         _post.id = postId;
       }
 
+      _post.postCategory = stringToUserCategory(_selectedUserCategory);
+
       await Database().addPost(_post);
 
       setState(() {
@@ -185,8 +199,10 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       _post.forSale =true;
       _post.location = null;
       _post.clapUser = [];
+      _post.postCategory = UserCategory.Agriculture;
       _addPost = true;
     }else{
+      _post.postCategory = _post.postCategory;
       widget.post.imgUrl =_post.imgUrl;
       widget.post.userTelNumber =_post.userTelNumber;
       widget.post.title =_post.title;
@@ -201,12 +217,16 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       widget.post.clapUser = _post.clapUser;
       _addPost = false;
     } 
+    _selectedUserCategory = categoryToString(_post.postCategory);
     print(_post.intendDate);
   }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) { 
+      widget.listener.setPage(ProfilePage.Add);
+    });
     _initData();
   }
   
@@ -472,10 +492,80 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                       initText: _post.amount != 0? _post.amount.toString():"",
                     ),
 
+
                     SizedBox(
                       height: 20,
                     ),
 
+                    Container(
+                      width: _width - 40,
+                      constraints: BoxConstraints(
+                        minHeight: 50
+                      ),
+                      padding:EdgeInsets.only(
+                        left:20,
+                        right:20,
+                      ),
+                      decoration: BoxDecoration(
+                        // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 3
+                        ),
+                        borderRadius: BorderRadius.circular(3),
+                        boxShadow: [
+                          BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                            blurRadius: 12.0,
+                            spreadRadius: 3.0,
+                            offset: Offset(
+                              1.0,
+                              1.0,
+                            ),
+                          )
+                        ],
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                            canvasColor: Colors.white,
+                          ),
+                          child: DropdownButton<String>(
+                            value: _selectedUserCategory,
+                            onChanged: (String newValue) {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              setState(() {
+                                _selectedUserCategory = newValue;
+                              });
+                            },
+                            items: _userCategory
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Container(
+                                  width: (_width - 20)-90-32,
+                                  child: Text(
+                                    value,
+                                    overflow:TextOverflow.fade,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                
+
+                    SizedBox(
+                      height: 20,
+                    ),
                     GestureDetector(
                       onTap: (){
                         FocusScope.of(context).unfocus();

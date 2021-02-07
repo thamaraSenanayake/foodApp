@@ -17,7 +17,7 @@ String categoryToString (UserCategory category){
     case UserCategory.Others:
       return "Others"; 
     default:
-      return "";
+      return "Others";
   }
 }
 

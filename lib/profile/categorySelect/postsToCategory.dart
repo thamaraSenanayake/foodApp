@@ -5,34 +5,38 @@ import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
 import 'package:food_app/profile/profile/editPost.dart';
+import 'package:food_app/res/convert.dart';
 
 import '../../const.dart';
 
 
-class MyUploads extends StatefulWidget {
+class PostsToCategory extends StatefulWidget {
   final User user;
-  MyUploads({Key key,@required this.user}) : super(key: key);
+  final UserCategory category;
+  PostsToCategory({Key key,@required this.user,@required this.category}) : super(key: key);
 
   @override
-  _MyUploadsState createState() => _MyUploadsState();
+  _PostsToCategoryState createState() => _PostsToCategoryState();
 }
 
-class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
+class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostListener {
   double _width = 0.0;
   double _height = 0.0;
   List<Widget> _postViewList = [];
   List<Post> _postList = [];
   bool _loading = true;
+  String _title = "";
   
   _loadPost() async {
     List<Widget> postViewList = [];
-    _postList = await Database().getMyPost(widget.user);
+    _postList = await Database().getPostToCategory(widget.user,widget.category);
 
     for (var item in _postList) {
       postViewList.add(
         ViewPost(post: item, user: widget.user, listener: this,myPost: true,canEdit: true,),
       );
     }
+    
     setState(() {
       _postViewList =postViewList;
       _loading = false;
@@ -42,6 +46,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
   @override
   void initState() {
     super.initState();
+    _title = categoryToString(widget.category);
     _loadPost();
   }
 
@@ -88,7 +93,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "My Uploads",
+                            _title,
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w800

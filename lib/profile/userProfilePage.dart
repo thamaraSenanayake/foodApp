@@ -91,7 +91,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                       height: 150,
                       color: AppData.secondaryColor,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
                           children: [
                             Container(
@@ -121,6 +121,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                         otherUser.name[0],
                                         style: TextStyle(
                                           fontSize: 40,
+                                          color: AppData.secondaryColor,
                                           fontWeight: FontWeight.w800
                                         ),
                                       ),
@@ -154,7 +155,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                               children: [
                                                 Icon(
                                                   Icons.star,
-                                                  color: Colors.yellow[800],
+                                                  color: AppData.thirdColor,
                                                 ),
                                                 otherUser.reviewList.length != 0 ?Padding(
                                                   padding: const EdgeInsets.symmetric( horizontal: 8),
@@ -244,8 +245,17 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   GestureDetector(
-                                    onTap: (){
-                                      Database().follow(otherUser, widget.user);
+                                    onTap: () {
+                                      if (widget.user.flowing.contains(otherUser.telNumber)) {
+                                        widget.user.flowing.remove(otherUser.telNumber);
+                                        Database().unFollow(otherUser, widget.user);
+                                      } else {
+                                        Database().follow(otherUser, widget.user);
+                                        widget.user.flowing.add(otherUser.telNumber);
+                                      }
+                                      setState(() {
+                                        
+                                      });
                                     },
                                     child: Container(
                                       height: 30,
@@ -268,7 +278,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                       ),
                                       child:Center(
                                         child: Text(
-                                          "Follow",
+                                          widget.user.flowing.contains(otherUser.telNumber)?"Unfollow":"Follow",
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w800
@@ -526,8 +536,9 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Icon(
-                            Icons.arrow_back_ios,
+                            Icons.arrow_back,
                             color: AppData.primaryColor,
+                            size: 35,
                           ),
                         ),
                       ),

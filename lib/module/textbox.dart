@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../const.dart';
+
 class TextBox extends StatefulWidget {
   final String textBoxHint;
   final String initText;
@@ -61,7 +63,7 @@ class _TextBoxState extends State<TextBox> {
     return Container(
       width: _width - 40,
       constraints: BoxConstraints(
-        minHeight: widget.textInputType == TextInputType.multiline? 150:50
+        minHeight: widget.textInputType == TextInputType.multiline? 100:50
       ),
       padding:EdgeInsets.only(
         left:widget.prefixIcon == null ? 20 : 0,
@@ -71,7 +73,7 @@ class _TextBoxState extends State<TextBox> {
         // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
         color: Colors.white,
         border: Border.all(
-          color: widget.errorText.length ==0?Colors.white:Colors.redAccent,
+          color: widget.errorText.length ==0 ? !widget.shadowDisplay?AppData.secondaryColor:Colors.white:Colors.redAccent,
           width: 3
         ),
         borderRadius: BorderRadius.circular(3),

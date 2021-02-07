@@ -1,3 +1,4 @@
+import 'package:food_app/const.dart';
 import 'package:food_app/model/user.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -17,5 +18,7 @@ class Post{
   List<User> clapUser;
   bool forSale;
   User user;
+  UserCategory postCategory;
+  int reviewCount;
 
 }

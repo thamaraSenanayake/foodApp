@@ -132,8 +132,9 @@ class _MessageScreenState extends State<MessageScreen> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Icon(
-                                    Icons.arrow_back_ios,
+                                    Icons.arrow_back,
                                     color: AppData.primaryColor,
+                                    size: 35,
                                   ),
                                 ),
                               ),

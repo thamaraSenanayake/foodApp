@@ -106,7 +106,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
                 height: _height - 128,
                 color: Color.fromRGBO(128, 128, 128, 0.3),
                 child: SpinKitSquareCircle(
-                  color: AppData.secondaryColor,
+                  color: AppData.thirdColor,
                   size: 50.0,
                 ),
               ):_favoriteList.length == 0? Center(

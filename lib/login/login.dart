@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
             ? Container(
               color: Color.fromRGBO(128, 128, 128, 0.3),
               child: SpinKitSquareCircle(
-                color: AppData.secondaryColor,
+                color: AppData.thirdColor,
                 size: 50.0,
               ),
             )

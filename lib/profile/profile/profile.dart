@@ -68,19 +68,22 @@ class _ProfileState extends State<Profile> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                         widget.user.profilePicUrl.isNotEmpty? Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                100
+                         widget.user.profilePicUrl.isNotEmpty? Padding(
+                           padding: const EdgeInsets.only(left:10.0),
+                           child: Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  100
+                                ),
+                                image: DecorationImage(
+                                  image:widget.user.profilePicUrl.isNotEmpty? NetworkImage(widget.user.profilePicUrl):null,
+                                  fit: BoxFit.cover,
+                                )
                               ),
-                              image: DecorationImage(
-                                image:widget.user.profilePicUrl.isNotEmpty? NetworkImage(widget.user.profilePicUrl):null,
-                                fit: BoxFit.cover,
-                              )
                             ),
-                          ):Container(
+                         ):Container(
                             height: 80,
                             width: 80,
                             decoration: BoxDecoration(
@@ -144,28 +147,28 @@ class _ProfileState extends State<Profile> {
                         width: _width-40,
                         height: 80,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
-                              height: 50,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                border: Border.all(
-                                  color: Colors.blue,
-                                  width: 3
-                                )
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "My Upload",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w800
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   height: 50,
+                            //   width: 120,
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(10.0),
+                            //     border: Border.all(
+                            //       color: Colors.blue,
+                            //       width: 3
+                            //     )
+                            //   ),
+                            //   child: Center(
+                            //     child: Text(
+                            //       "My Upload",
+                            //       style: TextStyle(
+                            //         fontSize: 15,
+                            //         fontWeight: FontWeight.w800
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
 
                             Container(
                               decoration: BoxDecoration(
@@ -234,7 +237,7 @@ class _ProfileState extends State<Profile> {
                           );
                         },
                         leading: Icon(
-                          Icons.file_upload
+                          Icons.file_upload,
                         ),
                         title: Text(
                           "My Uploads",
@@ -244,7 +247,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         trailing: Icon(
-                          Icons.arrow_forward
+                          Icons.arrow_forward,
                         ),
                       ),
                     ),
@@ -272,8 +275,33 @@ class _ProfileState extends State<Profile> {
                             fontSize: 20
                           ),
                         ),
-                        trailing: Icon(
-                          Icons.arrow_forward
+                        trailing: Container(
+                          width: 65,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppData.reviewCount != 0? Container(
+                                decoration: BoxDecoration(
+                                  color: AppData.thirdColor,
+                                  shape: BoxShape.circle
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    AppData.reviewCount.toString(),
+                                    style: TextStyle(
+                                      color: AppData.secondaryColor,
+                                      fontWeight: FontWeight.w500
+                                    ),
+
+                                  ),
+                                ),
+                              ):Container(),
+                              Icon(
+                                Icons.arrow_forward,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -302,7 +330,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         trailing: Icon(
-                          Icons.arrow_forward
+                          Icons.arrow_forward,
                         ),
                       ),
                     ),
@@ -331,7 +359,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         trailing: Icon(
-                          Icons.arrow_forward
+                          Icons.arrow_forward,
                         ),
                       ),
                     ),
@@ -366,7 +394,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         trailing: Icon(
-                          Icons.arrow_forward
+                          Icons.arrow_forward,
                         ),
                       ),
                     ),
@@ -388,7 +416,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         trailing: Icon(
-                          Icons.arrow_forward
+                          Icons.arrow_forward,
                         ),
                       ),
                     ),

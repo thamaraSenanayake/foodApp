@@ -5,4 +5,7 @@ class Review{
   String userTelNumber;
   String userName;
   DateTime dateTime;
+  String reply;
+  DateTime replyTime;
+  bool read;
 }

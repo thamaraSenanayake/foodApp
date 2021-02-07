@@ -7,10 +7,12 @@ import 'package:food_app/module/viewPost.dart';
 import 'package:food_app/profile/userProfilePage.dart';
 
 import '../const.dart';
+import 'homeBase.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
-  HomePage({Key key, @required this.user}) : super(key: key);
+  final HomeBaseListener listener;
+  HomePage({Key key, @required this.user,@required this.listener}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -26,6 +28,9 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   void initState() { 
     super.initState();
     _loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) { 
+      widget.listener.setPage(ProfilePage.Home);
+    });
   }
 
   _loadData() async {
@@ -36,10 +41,13 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
         ViewPost(post: item, user: widget.user, listener: this)
       );
     }
-    setState(() {
-      _postViewList = postViewList;
-       _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _postViewList = postViewList;
+        _loading = false;
+      });
+    }
+
   }
   
   @override
@@ -50,7 +58,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
     return _loading? Container(
         color: Color.fromRGBO(128, 128, 128, 0.3),
         child: SpinKitSquareCircle(
-          color: AppData.secondaryColor,
+          color: AppData.thirdColor,
           size: 50.0,
         ),
       ):Padding(
