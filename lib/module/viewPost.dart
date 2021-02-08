@@ -320,7 +320,8 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      widget.listener.sendMessage(widget.post.userTelNumber);
+                      widget.post.user.telNumber= widget.post.userTelNumber;
+                      widget.listener.sendMessage(widget.post.user);
                     },
                     child: Container(
                       height: 40,
@@ -403,7 +404,7 @@ class _ViewPostState extends State<ViewPost> {
 abstract class ViewPostListener{
   moveToProfile(String userTelNumber);
   clap(String postId);
-  sendMessage(String userTelNumber);
+  sendMessage(User otherUser);
   takeCall(String userTelNumber);
   goToLocation(location);
   moreClick(String postId);

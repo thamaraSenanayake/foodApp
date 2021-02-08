@@ -214,7 +214,7 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
     }
   
     @override
-    sendMessage(String userTelNumber) {
+    sendMessage(User otherUser) {
       // TODO: implement sendMessage
     }
   

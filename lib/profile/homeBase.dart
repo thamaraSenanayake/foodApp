@@ -18,6 +18,7 @@ import 'package:food_app/profile/categorySelect/userCategorySelect.dart';
 
 import '../const.dart';
 import 'home.dart';
+import 'message/messageView.dart';
 
 class HomeBase extends StatefulWidget {
   final User user;
@@ -109,9 +110,11 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
     .where('user2',isEqualTo: widget.user.telNumber)
     .snapshots().listen((querySnapshot) {
       messageHeader = Database().setMessageHeader(querySnapshot);
-      for (var item in messageHeader) {
-        for (SingleMessage msgList in item.msgList) {
-          
+      if(messageHeader != null){
+        for (var item in messageHeader) {
+          for (SingleMessage msgList in item.msgList) {
+
+          }
         }
       }
     });
@@ -252,13 +255,6 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                             AddPost(user: widget.user,post: Post(),listener: this,)
                           ],
                         )
-                        // child: _profilePage == ProfilePage.Home ? HomePage(user: widget.user,):
-                        // _profilePage == ProfilePage.Profile ? Profile(user: widget.user, listener: this,):
-                        // _profilePage == ProfilePage.Add ? AddPost(user: widget.user,post: Post(),listener: this,):
-                        // _profilePage == ProfilePage.Message ? MessageView(user: widget.user):
-                        // _profilePage == ProfilePage.Category ? UserCategorySelect(user: widget.user):
-                        // _profilePage == ProfilePage.Search ? SearchScreen(user: widget.user):
-                        // Container()
                       ),
                       _bottomBarVisibility?Container(
                         height: 50,
@@ -393,6 +389,19 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
   }
 
   @override
+  moveToMsg(User user,User otherUser) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => MessageScreen(
+          user: widget.user,
+          otherUser:otherUser
+        ),
+        opaque: false
+      ),
+    );
+  }
+
+  @override
   setPage(ProfilePage page) {
     setState(() {
       _profilePage = page;
@@ -404,4 +413,5 @@ abstract class HomeBaseListener{
   moveToPage(ProfilePage page);
   setPage(ProfilePage page);
   logout();
+  moveToMsg(User user,User otherUser);
 }

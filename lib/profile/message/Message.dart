@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/const.dart';
+import 'package:food_app/database/databse.dart';
+import 'package:food_app/model/messageHead.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/module/messageHeader.dart';
 
 import '../homeBase.dart';
 import 'messageView.dart';
@@ -17,6 +21,8 @@ class MessageView extends StatefulWidget {
 class _MessageViewState extends State<MessageView> {
   double _width = 0.0;
   double _height = 0.0;
+  bool _loading = true;
+  List<Widget> _headList = [];
 
   @override
   void initState() {
@@ -24,6 +30,36 @@ class _MessageViewState extends State<MessageView> {
     WidgetsBinding.instance.addPostFrameCallback((_) { 
       widget.listener.setPage(ProfilePage.Message);
     });
+    _loadMsgHeader();
+  }
+
+  _loadMsgHeader() async {
+    List<Widget> _headListTemp = [];
+    List<MessageHeader> messageHeaders= [];
+
+    messageHeaders = await Database().getChatHeadList(widget.user);
+
+    for (var item in messageHeaders) {
+      User otherUser;
+      if(item.user1 == widget.user.telNumber){
+        otherUser = User()..telNumber = item.user2
+        ..name = item.user2name
+        ..profilePicUrl = item.user2ImgUrl;
+      }else{
+        otherUser = User()..telNumber = item.user1
+        ..name = item.user1name
+        ..profilePicUrl = item.user1ImgUrl;
+      }
+      _headListTemp.add(
+        MessageHeaderView(user:widget.user,otherUser: otherUser,)
+      );
+    }
+
+    setState(() {
+      _headList = _headListTemp;
+      _loading = false;
+    });
+
   }
   
   @override
@@ -35,106 +71,38 @@ class _MessageViewState extends State<MessageView> {
     return SafeArea(
       child: Container(
         width: _width,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Message",
-              style: TextStyle(
-                color: AppData.secondaryColor,
-                fontSize: 25,
-                fontWeight: FontWeight.w700
+        child: _loading? Container(
+          color: Color.fromRGBO(128, 128, 128, 0.3),
+          child: SpinKitSquareCircle(
+            color: AppData.thirdColor,
+            size: 50.0,
+          ),
+        ):SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
               ),
-            ),
-
-            SizedBox(
-              height: 40,
-            ),
-
-            GestureDetector(
-              onTap: (){
-                Navigator.of(context).push(
-                  PageRouteBuilder(
-                    pageBuilder: (context, _, __) => MessageScreen(
-                      user: widget.user,
-                    ),
-                    opaque: false
-                  ),
-                );
-              },
-              child: Container(
-                width: _width - 40,
-                height: 100,
-                padding:EdgeInsets.only(
-                  left:20,
-                  right:20
-                ),
-                decoration: BoxDecoration(
-                  // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(3),
-                  boxShadow: [
-                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.25),
-                      blurRadius: 12.0,
-                      spreadRadius: 3.0,
-                      offset: Offset(
-                        1.0,
-                        1.0,
-                      ),
-                    )
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          100
-                        ),
-                        border: Border.all(
-                          width: 2,
-                        ),
-                        image: DecorationImage(
-                          image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeabWkXTrS3TpRsbQ3ugejErdv4lfff8FgPw&usqp=CAU'),
-                          fit: BoxFit.cover,
-                        )
-                      ),
-                    ),
-                    Text(
-                      "Hasith Dulanjana",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppData.secondaryColor,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                      child:Text(
-                        "3",
-                        style: TextStyle(
-                          color: AppData.primaryColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700
-                        ),
-                      ),
-
-                    )
-                  ],
+              Text(
+                "Message",
+                style: TextStyle(
+                  color: AppData.secondaryColor,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700
                 ),
               ),
-            )
-          ],
+
+              SizedBox(
+                height: 40,
+              ),
+
+              Column(
+                children: _headList,
+              )
+
+              
+            ],
+          ),
         ),          
       )
     );

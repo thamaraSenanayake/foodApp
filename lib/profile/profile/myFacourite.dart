@@ -173,7 +173,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
   }
 
   @override
-  sendMessage(String userTelNumber) {
+  sendMessage(User otherUser) {
     // TODO: implement sendMessage
   }
 

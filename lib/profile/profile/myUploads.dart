@@ -177,7 +177,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
   }
 
   @override
-  sendMessage(String userTelNumber) {
+  sendMessage(User otherUser) {
     // TODO: implement sendMessage
   }
 

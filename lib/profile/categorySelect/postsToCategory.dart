@@ -182,7 +182,7 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
   }
 
   @override
-  sendMessage(String userTelNumber) {
+  sendMessage(User otherUser) {
     // TODO: implement sendMessage
   }
 

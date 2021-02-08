@@ -575,7 +575,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
   }
 
   @override
-  sendMessage(String userTelNumber) {
+  sendMessage(User otherUser) {
     // TODO: implement sendMessage
   }
 

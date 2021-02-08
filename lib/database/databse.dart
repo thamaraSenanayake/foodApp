@@ -163,20 +163,22 @@ class Database{
   }
 
   Future<List<Post>> getPostList(User user) async{
+    List<Post> _sortPostList = [];
+    List<Post> _postList = [];
     QuerySnapshot querySnapshot;
     querySnapshot = await postReference
     .orderBy('intendDate',descending:true)
     .getDocuments();
-    List<Post> _postList = await _setPostList(querySnapshot);
-    for (var i = 0; i < _postList.length; i++) {
-      if(_postList[i].userTelNumber == user.telNumber){
-        _postList.removeAt(i);
-      }else{
+    
+    _postList = await _setPostList(querySnapshot);
+    
+    for (var item in _postList) {
+      if(item.userTelNumber != user.telNumber){
+        _sortPostList.add(item);
       }
-      
     }
     
-    return _postList;
+    return _sortPostList;
   }
 
   Future<void> addRemoveFavorite(String postId, User user) async{
@@ -208,21 +210,27 @@ class Database{
 
   Future<List<Post>> searchPostList(String searchKey,bool forSale, String userId) async{
     QuerySnapshot querySnapshot;
+    List<Post> _postList = [];
+    List<Post> _sortPostList = [];
+
     querySnapshot = await postReference
     .where('searchText',arrayContainsAny: [searchKey.toLowerCase()])
     .where('forSale',isEqualTo: forSale)
     .orderBy('intendDate',descending:true)
     .getDocuments();
-    List<Post> _postList = await _setPostList(querySnapshot);
-    for (var i = 0; i < _postList.length; i++) {
-      if(_postList[i].userTelNumber == userId){
-        _postList.removeAt(i);
+    
+    _postList = await _setPostList(querySnapshot);
+    
+    for (var item in _postList) {
+      if(item.userTelNumber != userId){
+        _sortPostList.add(item);
       }
     }
-    _postList.sort((a,b) {
+
+    _sortPostList.sort((a,b) {
         return b.reviewCount.compareTo(a.reviewCount);
     });
-    return _postList;
+    return _sortPostList;
   }
 
   Future<List<Post>> getClappedPost(User user) async{
@@ -363,6 +371,7 @@ class Database{
         user.reviewList = [];
         user.profilePicUrl  =userItem['profilePicUrl'];
         user.name = userItem['name'];
+        user.telNumber = item["userTelNumber"];
         if(userItem["reviewList"] != null){
           for (var itemReviewList in userItem["reviewList"]) {
             starCount += itemReviewList['starCount'];
@@ -530,19 +539,29 @@ class Database{
   }
 
   Future<List<MessageHeader>> getChatHeadList(User user) async{
+    List<MessageHeader> messageHeader = [];
     QuerySnapshot querySnapshot = await msgReference
     .where('user1',isEqualTo: user.telNumber)
-    .where('user2',isEqualTo: user.telNumber).
-    getDocuments();
+    .getDocuments();
 
-    return setMessageHeader(querySnapshot); 
+    messageHeader = setMessageHeader(querySnapshot); 
+
+   querySnapshot = await msgReference
+    .where('user2',isEqualTo: user.telNumber)
+    .getDocuments();
+
+    messageHeader.addAll(
+      setMessageHeader(querySnapshot)
+    );
+
+    return messageHeader; 
   }
 
 
 
 
   List<MessageHeader> setMessageHeader(QuerySnapshot querySnapshot) {
-    List<MessageHeader> messageHeader;
+    List<MessageHeader> messageHeader = [];
 
     for (var item in querySnapshot.documents) {
       List<SingleMessage> msgList = [];
@@ -552,8 +571,8 @@ class Database{
 
           msgList.add(
             SingleMessage()
-            ..msg = msg['userTelNumber']
-            ..userTelNumber = msg['msg']
+            ..msg = msg['msg']
+            ..userTelNumber = msg['userTelNumber']
             ..dateTime = DateTime.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch)
           );
         }

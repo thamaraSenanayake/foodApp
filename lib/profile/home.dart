@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
 
   @override
   clap(String postId) {
-    // TODO: implement clap
+    
   }
 
   @override
@@ -115,8 +115,8 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   }
 
   @override
-  sendMessage(String userTelNumber) {
-    // TODO: implement sendMessage
+  sendMessage(User otherUser) {
+    widget.listener.moveToMsg(widget.user, otherUser);
   }
 
   @override

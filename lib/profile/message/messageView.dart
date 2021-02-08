@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/message.dart';
 import 'package:food_app/model/messageHead.dart';
 import 'package:food_app/model/user.dart';
@@ -8,7 +10,8 @@ import '../../const.dart';
 
 class MessageScreen extends StatefulWidget {
   final User user;
-  MessageScreen({Key key,@required this.user}) : super(key: key);
+  final User otherUser;
+  MessageScreen({Key key,@required this.user,@required this.otherUser}) : super(key: key);
 
   @override
   _MessageScreenState createState() => _MessageScreenState();
@@ -21,6 +24,8 @@ class _MessageScreenState extends State<MessageScreen> {
   double _width =0.0;
   TextEditingController _messageController = TextEditingController();
   MessageHeader _messageHeader = MessageHeader();
+  bool _loading = true; 
+
   @override
   void initState() {
     super.initState();
@@ -28,13 +33,26 @@ class _MessageScreenState extends State<MessageScreen> {
       initialScrollOffset: 0.0,
       keepScrollOffset: true,
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) { 
+      _loadMsg();
+    });
   }
 
   _loadMsg() async {
-    
-    
+    List<Widget> _msgListWidgetTemp = [];
+    _messageHeader = await Database().getMessageHeadData(widget.user, widget.otherUser);
 
-    
+    for (var item in _messageHeader.msgList) {
+      _msgListWidgetTemp.add(
+        SingleMessageView(singleMessage: item, user: widget.user,)
+      );
+    }
+
+    setState(() {
+      _msgListWidget = _msgListWidgetTemp;
+      _loading = false;
+    });
+
     _controller.animateTo(
       0.0,
       curve: Curves.easeOut,
@@ -64,6 +82,8 @@ class _MessageScreenState extends State<MessageScreen> {
       );
     }
 
+    Database().sendMsg(_messageHeader.msgList, _messageHeader.headName);
+
     for (var item in _messageHeader.msgList) {
       _msgListWidgetTemp.add(
         SingleMessageView(singleMessage: item, user: widget.user,)
@@ -88,7 +108,15 @@ class _MessageScreenState extends State<MessageScreen> {
         width:_width,
         child: Stack(
           children: [
-
+            _loading? Container(
+              height:_height,
+              width:_width,
+              color: Color.fromRGBO(128, 128, 128, 0.3),
+              child: SpinKitSquareCircle(
+                color: AppData.thirdColor,
+                size: 50.0,
+              ),
+            ):Container(),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -147,7 +175,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               child: Padding(
                                 padding: EdgeInsets.only(top:8.0),
                                 child: Text(
-                                  "Hasith Dulanjana",
+                                  widget.otherUser.name,
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
