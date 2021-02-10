@@ -28,7 +28,12 @@ class _MessageViewState extends State<MessageView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) { 
-      widget.listener.setPage(ProfilePage.Message);
+      // widget.listener.setPage(ProfilePage.Message);
+      if(mounted){
+        setState(() {
+          AppData.msgCount = 0;
+        });
+      }
     });
     _loadMsgHeader();
   }
@@ -51,14 +56,16 @@ class _MessageViewState extends State<MessageView> {
         ..profilePicUrl = item.user1ImgUrl;
       }
       _headListTemp.add(
-        MessageHeaderView(user:widget.user,otherUser: otherUser,)
+        MessageHeaderView(user:widget.user,otherUser: otherUser,unReadCount: item.unreadMsgCount,)
       );
     }
 
-    setState(() {
-      _headList = _headListTemp;
-      _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _headList = _headListTemp;
+        _loading = false;
+      });
+    }
 
   }
   

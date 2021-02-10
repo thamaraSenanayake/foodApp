@@ -588,6 +588,9 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
   canEdit(Post postId) {
     // TODO: implement moreClick
   }
+  @override
+  delete(Post post) async{
+  }
 
   @override
   addToFavorite(String postId) {

@@ -10,6 +10,6 @@ class MessageHeader{
   String user2ImgUrl;
   DateTime user1LastRead;
   DateTime user2LastRead;
-  int msgCount;
+  int unreadMsgCount;
   List<SingleMessage> msgList;
 }

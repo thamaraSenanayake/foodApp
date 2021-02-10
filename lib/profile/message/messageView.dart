@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
@@ -25,6 +26,7 @@ class _MessageScreenState extends State<MessageScreen> {
   TextEditingController _messageController = TextEditingController();
   MessageHeader _messageHeader = MessageHeader();
   bool _loading = true; 
+  bool _firstLoad = true;
 
   @override
   void initState() {
@@ -58,7 +60,9 @@ class _MessageScreenState extends State<MessageScreen> {
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 300),
     );
-    
+
+    await Database().setLastRead(_messageHeader, widget.user);
+    _msgListener();
     // _c
     // _controller = ScrollController(
     //   initialScrollOffset: 0.0,
@@ -66,10 +70,49 @@ class _MessageScreenState extends State<MessageScreen> {
     // );
   }
 
+  _msgListener(){
+    List<Widget> _msgListWidgetTemp = [];
+
+    List<MessageHeader> messageHeader;
+    CollectionReference msgList = Database().msgReference;
+    msgList
+    .where('headName',isEqualTo: _messageHeader.headName)
+    .snapshots().listen((querySnapshot) {
+      messageHeader = Database().setMessageHeader(querySnapshot,widget.user);
+      if(messageHeader != null && !_firstLoad){
+        List<SingleMessage> msgList = [];
+
+        for (var item in messageHeader) {
+          msgList = item.msgList;
+        }
+
+        
+        for (var item in msgList) {
+          if(item.userTelNumber != widget.user.telNumber){
+            _messageHeader.msgList.add(item);
+            _msgListWidgetTemp.add(
+              SingleMessageView(singleMessage: item, user: widget.user,)
+            );
+          }
+        }
+
+        setState(() {
+          _msgListWidget = _msgListWidgetTemp;
+        });
+      }else{
+        if (!_firstLoad) {
+          _firstLoad = true;
+        }
+      }
+    });
+
+  }
+
   _sendMsg(){
     String text = _messageController.text;
-    _messageController.text = '';
     List<Widget> _msgListWidgetTemp = [];
+
+    _messageController.text = '';
     if(text.isNotEmpty){
       if(_messageHeader.msgList == null ){
         _messageHeader.msgList = [];  
@@ -151,6 +194,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         children: [
                           GestureDetector(
                             onTap: (){
+                              Database().setLastRead(_messageHeader, widget.user);
                               Navigator.pop(context);
                             },
                             child: Container(

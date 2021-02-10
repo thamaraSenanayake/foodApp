@@ -107,15 +107,31 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
     CollectionReference msgList = Database().msgReference;
     msgList
     .where('user1',isEqualTo: widget.user.telNumber)
+    .snapshots().listen((querySnapshot) {
+      messageHeader = Database().setMessageHeader(querySnapshot,widget.user);
+      if(messageHeader != null && _profilePage != ProfilePage.Message){
+        int msgCount = 0;
+        for (var item in messageHeader) {
+          msgCount += item.unreadMsgCount;
+        }
+        setState(() {
+          AppData.msgCount += msgCount;
+        });
+      }
+    });
+
+    msgList
     .where('user2',isEqualTo: widget.user.telNumber)
     .snapshots().listen((querySnapshot) {
-      messageHeader = Database().setMessageHeader(querySnapshot);
-      if(messageHeader != null){
+      messageHeader = Database().setMessageHeader(querySnapshot,widget.user);
+      if(messageHeader != null && _profilePage != ProfilePage.Message){
+        int msgCount = 0;
         for (var item in messageHeader) {
-          for (SingleMessage msgList in item.msgList) {
-
-          }
+          msgCount += item.unreadMsgCount;
         }
+        setState(() {
+          AppData.msgCount += msgCount;
+        });
       }
     });
 
@@ -246,7 +262,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                         _profilePage == ProfilePage.Profile ?
                          Profile(user: widget.user, listener: this,)
                         :TabBarView(
-                          // physics:ScrollPhysics(parent: ) ,
+                          physics: NeverScrollableScrollPhysics(),
                           controller:_tabController,
                           children: [
                             HomePage(user: widget.user,listener: this),
@@ -277,6 +293,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                             else if (val == 2) {
                               _tabController.animateTo(2);
                               setState(() {
+                                AppData.msgCount = 0;
                                 _profilePage = ProfilePage.Message;
                               });
                             }
@@ -332,9 +349,39 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                                 height: 80,
                                 width: 80,
                                 color: AppData.secondaryColor,
-                                child: Icon(
-                                  Icons.message,
-                                  color:_profilePage == ProfilePage.Message? AppData.thirdColor: AppData.primaryColor,
+                                // color: Colors.blue,
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Icon(
+                                        Icons.message,
+                                        color:_profilePage == ProfilePage.Message? AppData.thirdColor: AppData.primaryColor,
+                                      ),
+                                    ),
+
+                                    AppData.msgCount != 0? Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: AppData.thirdColor,
+                                          shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            AppData.msgCount.toString(),
+                                            style: TextStyle(
+                                              color: AppData.secondaryColor,
+                                              fontWeight: FontWeight.w500
+                                            ),
+
+                                          ),
+                                        ),
+                                      ),
+                                    ):Container()
+
+                                  ],
                                 ),
                               ),
                             ),
@@ -403,6 +450,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
 
   @override
   setPage(ProfilePage page) {
+    print(page);
     setState(() {
       _profilePage = page;
     });

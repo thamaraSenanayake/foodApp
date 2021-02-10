@@ -41,10 +41,11 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
   String _descriptionError = '';
   String _imgUrlError = '';
   String _locationError = "";
+  List<Widget> _photoList = [];
 
   bool _addPost = true;
   
-  File _image;
+  List<File> _image =[];
 
   bool _loading = false;
   var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -125,7 +126,9 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       });
 
       if(_image != null){
-        _post.imgUrl = await _uploadPic();
+        for (var item in _image) {
+          _post.imgUrl.add( await _uploadPic(item));
+        }
       }
 
       if(_addPost){
@@ -158,7 +161,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
 
   }
 
-  Future<String> _uploadPic() async { 
+  Future<String> _uploadPic(File image) async { 
     
     Random rnd = new Random(new DateTime.now().millisecondsSinceEpoch);
     FirebaseStorage _storage = FirebaseStorage.instance;
@@ -174,7 +177,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
     StorageReference reference = _storage.ref().child(imageName);
 
     //Upload the file to firebase 
-    StorageUploadTask uploadTask = reference.putFile(_image);
+    StorageUploadTask uploadTask = reference.putFile(image);
     var url = await (await uploadTask.onComplete).ref.getDownloadURL();
 
     print(url);
@@ -187,7 +190,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
   _initData(){
     _post = widget.post;
     if(_post.id == null){
-      _post.imgUrl = "";
+      _post.imgUrl = [];
       _post.userTelNumber =widget.user.telNumber;
       _post.title ="";
       _post.place ="";
@@ -219,13 +222,145 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
     } 
     _selectedUserCategory = categoryToString(_post.postCategory);
     print(_post.intendDate);
+    WidgetsBinding.instance.addPostFrameCallback((_) { 
+      _createPhotoList();
+    });
+  }
+
+  _createPhotoList(){
+    List<Widget> photoList = [];
+    for (var item in _post.imgUrl) {
+      photoList.add(
+        Container(
+          height: 200,
+          width: _width-20,
+          child: Stack(
+            children: [
+              Container(
+                height: 200,
+                width: _width-20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image:NetworkImage(item),
+                    fit: BoxFit.cover,
+                  )
+                ),
+              ),
+              (_post.imgUrl.length + _image.length ) >1? Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${_post.imgUrl.indexOf(item)+1}/${_post.imgUrl.length + _image.length}',
+                    style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ):Container(),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: (){
+                      _post.imgUrl.remove(item);
+                      _createPhotoList();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Icon(
+                          Icons.close,
+                          color: AppData.thirdColor,
+                          size: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      );
+    }
+
+    for (var item in _image) {
+      photoList.add(
+        Container(
+          height: 200,
+          width: _width-20,
+          child: Stack(
+            children: [
+              Container(
+                height: 200,
+                width: _width-20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image:
+                    FileImage(item),
+                    fit: BoxFit.cover,
+                  )
+                ),
+              ),
+              (_post.imgUrl.length + _image.length ) >1? Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${_image.indexOf(item)+1+_post.imgUrl.length}/${_post.imgUrl.length + _image.length}',
+                    style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ):Container(),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: (){
+                      _image.remove(item);
+                      _createPhotoList();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Icon(
+                          Icons.close,
+                          color: AppData.thirdColor,
+                          size: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      );
+    }
+
+    setState(() {
+      _photoList = photoList;
+    });
+    
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) { 
-      widget.listener.setPage(ProfilePage.Add);
+      // widget.listener.setPage(ProfilePage.Add);
     });
     _initData();
   }
@@ -254,7 +389,8 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                         ),
                       ),
                     ),
-                    _image == null && _post.imgUrl.isEmpty? GestureDetector(
+                    _image.length == 0 && _post.imgUrl.length == 0? 
+                    GestureDetector(
                       onTap: (){
                         Navigator.of(context).push(SaveImage(listener:this));
                       },
@@ -305,23 +441,38 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                           ],
                         ),
                       ),
-                    ):GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(SaveImage(listener:this));
-                      },
-                      child: Container(
+                    ):Column(
+                      children: [
+                        Container(
                           height: 200,
                           width: _width-20,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            image: DecorationImage(
-                              image:_image == null? 
-                              NetworkImage(widget.post.imgUrl):
-                              FileImage(_image),
-                              fit: BoxFit.cover,
-                            )
+                          child: MediaQuery.removePadding(
+                            removeTop: true,
+                            context:context ,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: _photoList,
+                            ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top:8.0,right: 6),
+                          child: Container(
+                            width: _width-20,
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.of(context).push(SaveImage(listener:this));
+                              },
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: AppData.secondaryColor,
+                                size: 25,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
 
                     SizedBox(
@@ -749,10 +900,11 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
 
             _loading?
             Container(
+              height: _height,
               width: _width,
               color:AppData.secondaryColor.withOpacity(0.8) ,
               child: SpinKitSquareCircle(
-                color: AppData.secondaryColor,
+                color: AppData.thirdColor,
                 size: 50.0,
               ),
             ):Container(),
@@ -773,10 +925,12 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       image = await picker.getImage(source: ImageSource.gallery);
     }
     if(image != null){
+      _image.add(File(image.path));
       setState(() {
         _imgUrlError = "";
-        _image = File(image.path);
       });
+      _createPhotoList();
     }
+
   }
 }

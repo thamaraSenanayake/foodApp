@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
     super.initState();
     _loadData();
     WidgetsBinding.instance.addPostFrameCallback((_) { 
-      widget.listener.setPage(ProfilePage.Home);
+      // widget.listener.setPage(ProfilePage.Home);
     });
   }
 
@@ -122,5 +122,9 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
   @override
   takeCall(String userTelNumber) {
   // TODO: implement takeCall
+  }
+
+  @override
+  delete(Post post) async{
   }
 }

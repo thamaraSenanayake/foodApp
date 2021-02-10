@@ -5,6 +5,7 @@ import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
 import 'package:food_app/profile/profile/editPost.dart';
+import 'package:food_app/res/WarningDialog.dart';
 
 import '../../const.dart';
 
@@ -17,12 +18,13 @@ class MyUploads extends StatefulWidget {
   _MyUploadsState createState() => _MyUploadsState();
 }
 
-class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
+class _MyUploadsState extends State<MyUploads> implements ViewPostListener,WarningDialogClickListener {
   double _width = 0.0;
   double _height = 0.0;
   List<Widget> _postViewList = [];
   List<Post> _postList = [];
   bool _loading = true;
+  String _deletePostId ="";
   
   _loadPost() async {
     List<Widget> postViewList = [];
@@ -184,6 +186,29 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener {
   @override
   takeCall(String userTelNumber) {
     // TODO: implement takeCall
+  }
+
+  @override
+  delete(Post post) async{
+    _deletePostId = post.id;
+    await Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => WarningDialog(
+          msg:"Are you sure you want to delete this post ?",
+          listener: this,
+        ),
+        opaque: false
+      ),
+    );
+  }
+
+  @override
+  clickYes() async {
+    setState(() {
+      _loading = true;
+    });
+    await Database().deletePost(_deletePostId);
+    _loadPost();
   }
 
 }

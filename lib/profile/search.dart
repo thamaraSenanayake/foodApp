@@ -222,4 +222,7 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
     takeCall(String userTelNumber) {
     // TODO: implement takeCall
   }
+  @override
+  delete(Post post) async{
+  }
 }

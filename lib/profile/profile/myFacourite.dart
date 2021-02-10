@@ -182,4 +182,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
   // TODO: implement takeCall
   }
 
+  @override
+  delete(Post post) async{
+  }
+
 }

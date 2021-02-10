@@ -156,19 +156,10 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
 
   @override
   canEdit(Post post) async{
-    await Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, _, __) => EditPost(
-          user: widget.user,
-          post: post,
-        ),
-        opaque: false
-      ),
-    );
-    setState(() {
-      _loading = true;
-    });
-    _loadPost();
+  }
+
+  @override
+  delete(Post post) async{
   }
 
   @override

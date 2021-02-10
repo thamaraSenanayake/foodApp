@@ -26,7 +26,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
     super.initState();
     _category = widget.user.category;
     WidgetsBinding.instance.addPostFrameCallback((_) { 
-      widget.listener.setPage(ProfilePage.Category);
+      // widget.listener.setPage(ProfilePage.Category);
     });
   }
   

@@ -25,6 +25,7 @@ class _ViewPostState extends State<ViewPost> {
   double _width = 0;
   double _reviewPercentage = 0.0;
   bool _isFavorite = false;
+  List<Widget> _imageList = [];
 
   _call(String phone) async{
     
@@ -56,7 +57,50 @@ class _ViewPostState extends State<ViewPost> {
   @override
   void initState() { 
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) { 
+      _imageListCreate();
+    });
     _setData();
+  }
+
+  _imageListCreate(){
+    List<Widget> imageList = [];
+    for (var item in widget.post.imgUrl) {
+      imageList.add(
+        Container(
+          height: 200,
+          width: _width-40,
+          child: Stack(
+            children: [
+              Container(
+                height: 200,
+                width: _width-40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                    image: NetworkImage(item),
+                    fit: BoxFit.cover,
+                  )
+                ),
+              ),
+              widget.post.imgUrl.length >1? Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${widget.post.imgUrl.indexOf(item)+1}/${widget.post.imgUrl.length}',
+                    style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ):Container()
+            ],
+          ),
+        )
+      );
+    }
+    setState(() {
+      _imageList = imageList;
+    });
   }
 
   @override
@@ -124,14 +168,31 @@ class _ViewPostState extends State<ViewPost> {
                       _isFavorite?Icons.favorite:Icons.favorite_border,
                       color: AppData.thirdColor,
                     ),
-                  ):GestureDetector(
-                    onTap: (){
-                      widget.listener.canEdit(widget.post);
-                    },
-                    child: Icon(
-                      Icons.edit,
-                      color: AppData.secondaryColor,
-                    ),
+                  ):Row(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          widget.listener.canEdit(widget.post);
+                        },
+                        child: Icon(
+                          Icons.edit,
+                          color: AppData.secondaryColor,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          widget.listener.delete(widget.post);
+                        },
+                        child: Icon(
+                          Icons.delete_forever,
+                          color: AppData.thirdColor,
+                          size: 25,
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
@@ -193,12 +254,13 @@ class _ViewPostState extends State<ViewPost> {
             Container(
               height: 200,
               width: _width-20,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                  image: NetworkImage(widget.post.imgUrl),
-                  fit: BoxFit.cover,
-                )
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: _imageList,
+                ),
               ),
             ),
 
@@ -409,6 +471,7 @@ abstract class ViewPostListener{
   goToLocation(location);
   moreClick(String postId);
   canEdit(Post postId);
+  delete(Post postId);
   addToFavorite(String postId);
 }
 

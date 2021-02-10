@@ -57,7 +57,7 @@ class _NotificationItemState extends State<NotificationItem> {
               width: 80,
               decoration: BoxDecoration(
                 image:DecorationImage(
-                  image: NetworkImage(widget.post.imgUrl),
+                  image: NetworkImage(widget.post.imgUrl[0]),
                   fit: BoxFit.cover,
                 ) 
               ),

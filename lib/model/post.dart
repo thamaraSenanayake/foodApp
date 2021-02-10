@@ -14,7 +14,7 @@ class Post{
   DateTime intendDate;
   DateTime insertTime;
   String description;
-  String imgUrl;
+  List<String> imgUrl;
   List<User> clapUser;
   bool forSale;
   User user;

@@ -79,6 +79,10 @@ class Database{
       "favoritePost":[]
     });
   }
+  
+  Future deletePost(String postId) async{
+    await postReference.document(postId).delete();
+  }
 
   Future addPost(Post post) async{
 
@@ -420,7 +424,7 @@ class Database{
         ..intendDate = DateTime.fromMillisecondsSinceEpoch(intendDate.millisecondsSinceEpoch) 
         ..insertTime =  DateTime.fromMillisecondsSinceEpoch(insertTime.millisecondsSinceEpoch) 
         ..description = item["description"]
-        ..imgUrl = item["imgUrl"]
+        ..imgUrl = item["imgUrl"].cast<String>()
         ..clapUser = clapUser
         ..forSale = item["forSale"]
         ..user = user
@@ -494,7 +498,7 @@ class Database{
         "user2ImgUrl":otherUser.profilePicUrl,
         "user1LastRead":DateTime.now(),
         "user2LastRead":DateTime.now(),
-        "msgCount":0,
+        // "msgCount":0,
         "msgList":[]
       });
     }
@@ -503,7 +507,7 @@ class Database{
     .where('headName',isEqualTo: id).
     getDocuments();
 
-    List<MessageHeader> messageHead  = setMessageHeader(chatHeadSnapshot);
+    List<MessageHeader> messageHead  = setMessageHeader(chatHeadSnapshot,user);
     return messageHead[0];
 
   }
@@ -544,14 +548,14 @@ class Database{
     .where('user1',isEqualTo: user.telNumber)
     .getDocuments();
 
-    messageHeader = setMessageHeader(querySnapshot); 
+    messageHeader = setMessageHeader(querySnapshot,user); 
 
    querySnapshot = await msgReference
     .where('user2',isEqualTo: user.telNumber)
     .getDocuments();
 
     messageHeader.addAll(
-      setMessageHeader(querySnapshot)
+      setMessageHeader(querySnapshot,user)
     );
 
     return messageHeader; 
@@ -560,26 +564,43 @@ class Database{
 
 
 
-  List<MessageHeader> setMessageHeader(QuerySnapshot querySnapshot) {
+  List<MessageHeader> setMessageHeader(QuerySnapshot querySnapshot, User currentUser) {
     List<MessageHeader> messageHeader = [];
-
+    int msgCount = 0;
     for (var item in querySnapshot.documents) {
       List<SingleMessage> msgList = [];
+
+      Timestamp user1LastRead = item['user1LastRead'];
+      Timestamp user2LastRead = item['user2LastRead'];
+
       if(item["msgList"] != null){
+        
+        DateTime lastRead;
+        if(item["user1"] == currentUser.telNumber){
+          lastRead = DateTime.fromMillisecondsSinceEpoch(user1LastRead.millisecondsSinceEpoch);
+        }
+        else if(item["user2"] == currentUser.telNumber){
+          lastRead = DateTime.fromMillisecondsSinceEpoch(user2LastRead.millisecondsSinceEpoch);
+        }
+        
         for (var msg in item["msgList"]) {
-          Timestamp dateTime = msg['dateTime'];
+          Timestamp timestamp = msg['dateTime'];
+          DateTime dateTime =DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+          
+          if(dateTime.difference(lastRead).inMilliseconds > 1){
+            ++msgCount;
+          }
 
           msgList.add(
             SingleMessage()
             ..msg = msg['msg']
             ..userTelNumber = msg['userTelNumber']
-            ..dateTime = DateTime.fromMillisecondsSinceEpoch(dateTime.millisecondsSinceEpoch)
+            ..dateTime = dateTime
           );
         }
       }
 
-      Timestamp user1LastRead = item['user1LastRead'];
-      Timestamp user2LastRead = item['user2LastRead'];
+      
 
       messageHeader.add(
         MessageHeader()
@@ -592,7 +613,7 @@ class Database{
         ..user2ImgUrl = item["user2ImgUrl"]
         ..user1LastRead = DateTime.fromMillisecondsSinceEpoch(user1LastRead.millisecondsSinceEpoch)
         ..user2LastRead = DateTime.fromMillisecondsSinceEpoch(user2LastRead.millisecondsSinceEpoch)
-        ..msgCount = item["msgCount"]
+        ..unreadMsgCount = msgCount
         ..msgList = msgList
       );
         

@@ -7,17 +7,29 @@ import '../const.dart';
 class MessageHeaderView extends StatefulWidget {
   final User user;
   final User otherUser;
-  MessageHeaderView({Key key,@required this.user,@required this.otherUser}) : super(key: key);
+  final int unReadCount;
+  MessageHeaderView({Key key,@required this.user,@required this.otherUser,@required this.unReadCount}) : super(key: key);
 
   @override
   _MessageHeaderViewState createState() => _MessageHeaderViewState();
 }
 
 class _MessageHeaderViewState extends State<MessageHeaderView> {
+  int unReadCount =0;
+
+  @override
+  void initState() {
+    super.initState();
+    unReadCount = widget.unReadCount;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
+        // setState(() {
+        // });
+        unReadCount = 0;
         Navigator.of(context).push(
           PageRouteBuilder(
             pageBuilder: (context, _, __) => MessageScreen(
@@ -78,22 +90,21 @@ class _MessageHeaderViewState extends State<MessageHeaderView> {
                 fontSize: 20
               ),
             ),
-            Container(
+            unReadCount != 0?Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: AppData.secondaryColor,
                 borderRadius: BorderRadius.circular(3),
               ),
               child:Text(
-                "3",
+                unReadCount.toString(),
                 style: TextStyle(
                   color: AppData.primaryColor,
                   fontSize: 20,
                   fontWeight: FontWeight.w700
                 ),
               ),
-
-            )
+            ):Container()
           ],
         ),
       ),
