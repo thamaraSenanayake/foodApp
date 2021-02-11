@@ -80,6 +80,7 @@ class _MessageScreenState extends State<MessageScreen> {
     .snapshots().listen((querySnapshot) {
       messageHeader = Database().setMessageHeader(querySnapshot,widget.user);
       if(messageHeader != null && !_firstLoad){
+        print("listner");
         List<SingleMessage> msgList = [];
 
         for (var item in messageHeader) {
@@ -87,21 +88,24 @@ class _MessageScreenState extends State<MessageScreen> {
         }
 
         
-        for (var item in msgList) {
-          if(item.userTelNumber != widget.user.telNumber){
-            _messageHeader.msgList.add(item);
+        
+        if(msgList.last.userTelNumber != widget.user.telNumber){
+          _messageHeader.msgList.add(msgList.last);
+          for (var item in _messageHeader.msgList) {
             _msgListWidgetTemp.add(
               SingleMessageView(singleMessage: item, user: widget.user,)
             );
           }
         }
-
-        setState(() {
-          _msgListWidget = _msgListWidgetTemp;
-        });
+        
+        if(mounted){
+          setState(() {
+            _msgListWidget = _msgListWidgetTemp;
+          });
+        }
       }else{
-        if (!_firstLoad) {
-          _firstLoad = true;
+        if (_firstLoad) {
+          _firstLoad = false;
         }
       }
     });

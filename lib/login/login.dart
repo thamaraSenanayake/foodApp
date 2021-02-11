@@ -121,6 +121,7 @@ class _LoginPageState extends State<LoginPage> {
 
                           TextBox(
                             textBoxKey: "null", 
+                            textInputType: TextInputType.phone,
                             onChange: (val){
                               setState(() {
                                 _phoneNumber = val;

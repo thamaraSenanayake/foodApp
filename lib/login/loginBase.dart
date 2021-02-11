@@ -63,8 +63,42 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
             SignInPhone(listener: this, user: _user,):
             _page == LoginPageList.SignInPassword?
             SignInPassword(listener: this, user: _user,):
-            Container()
+            Container(),
 
+            _page != LoginPageList.SplashScreen && _page != LoginPageList.Login?
+            SafeArea(
+              child:  Padding(
+                padding: const EdgeInsets.only(left:10.0),
+                child: GestureDetector(
+                  onTap: (){
+                    if(_page == LoginPageList.SignInName){
+                      setState(() {
+                        _page = LoginPageList.Login;
+                      });
+                    }
+                    if(_page == LoginPageList.SignInPhone){
+                      setState(() {
+                        _page = LoginPageList.SignInName;
+                      });
+                    }
+                    if(_page == LoginPageList.SignInPassword){
+                      setState(() {
+                        _page = LoginPageList.SignInPhone;
+                      });
+                    }
+                  },
+                  child: Center(
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: 35,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ):Container(),
           ],
         ),
       ),

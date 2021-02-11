@@ -65,7 +65,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
       int _newCount = 0;
       print("live update");
       print(querySnapshot["reviewList"]);
-      
+      int clapCount = querySnapshot["clapCount"];
       for (var itemReviewList in querySnapshot["reviewList"]) {
         Timestamp dateTime = itemReviewList['dateTime'];
         Timestamp replyTime = itemReviewList['replyTime'];
@@ -90,14 +90,22 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
       }
 
       if(_newCount > 0){
-        setState(() {
-          widget.user.reviewList = _reviewList;
-          AppData.reviewCount = _newCount;
-        });
+        if(mounted){
+          setState(() {
+            widget.user.reviewList = _reviewList;
+            AppData.reviewCount = _newCount;
+          });
+        }
       }else{
-        setState(() {
-          AppData.reviewCount = 0;
-        });
+        if(mounted){
+          setState(() {
+            AppData.reviewCount = 0;
+          });
+        }
+      }
+
+      if(clapCount != null){
+        AppData.clapCount = clapCount;
       }
 
 
@@ -114,9 +122,11 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
         for (var item in messageHeader) {
           msgCount += item.unreadMsgCount;
         }
-        setState(() {
-          AppData.msgCount += msgCount;
-        });
+        if(mounted){
+          setState(() {
+            AppData.msgCount += msgCount;
+          });
+        }
       }
     });
 
@@ -129,9 +139,11 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
         for (var item in messageHeader) {
           msgCount += item.unreadMsgCount;
         }
-        setState(() {
-          AppData.msgCount += msgCount;
-        });
+        if(mounted){
+          setState(() {
+            AppData.msgCount += msgCount;
+          });
+        }
       }
     });
 
@@ -232,7 +244,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                                         color:_profilePage == ProfilePage.Profile? AppData.thirdColor: AppData.primaryColor,
                                       ),
                                     ),
-                                    AppData.reviewCount != 0? Container(
+                                    AppData.reviewCount + AppData.clapCount != 0? Container(
                                       decoration: BoxDecoration(
                                         color: AppData.thirdColor,
                                         shape: BoxShape.circle
@@ -240,7 +252,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          AppData.reviewCount.toString(),
+                                          (AppData.clapCount + AppData.reviewCount).toString(),
                                           style: TextStyle(
                                             color: AppData.secondaryColor,
                                             fontWeight: FontWeight.w500

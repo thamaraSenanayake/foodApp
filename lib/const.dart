@@ -15,6 +15,7 @@ class AppData{
   static Color primaryColor= Color(0xFFFFFBFB);
   static Color thirdColor = Color(0xFFFF7D05);
   static int reviewCount = 0;
+  static int clapCount = 0;
   static int msgCount = 0;
 
 }

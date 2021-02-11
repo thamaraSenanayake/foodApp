@@ -32,7 +32,11 @@ class _SignInPhoneState extends State<SignInPhone> {
       widget.listener.moveToPage(LoginPageList.SignInPassword);
     }
   }
-
+  @override
+  void initState() { 
+    super.initState();
+    _phone = widget.user.telNumber != null?widget.user.telNumber:'';
+  }
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -74,6 +78,7 @@ class _SignInPhoneState extends State<SignInPhone> {
                 ),
 
                 TextBox(
+                  initText: _phone,
                   textInputType:TextInputType.phone,
                   textBoxKey: "null", 
                   onChange: (val){

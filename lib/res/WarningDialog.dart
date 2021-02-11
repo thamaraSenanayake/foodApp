@@ -33,18 +33,30 @@ class _WarningDialogState extends State<WarningDialog> {
           children: <Widget>[
             
             // dialog centre
-            Column(
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    widget.msg,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18.0,
-                    ),
+            Row(
+              children: [
+                Text(
+                  "Warning",
+                  style: TextStyle(
+                    color: AppData.thirdColor,
+                    fontSize: 18.0,
                   ),
                 ),
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  Icons.warning,
+                  color: AppData.thirdColor,
+                )
               ],
+            ),
+            Text(
+              widget.msg,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+              ),
             ),
 
             Row(

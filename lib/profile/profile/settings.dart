@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
-
-import '../../const.dart';
-
+import 'package:food_app/res/WarningDialog.dart';
 
 class SettingsScreen extends StatefulWidget {
   final User user;
@@ -13,7 +11,7 @@ class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>  {
+class _SettingsScreenState extends State<SettingsScreen> implements WarningDialogClickListener  {
   double _width = 0.0;
   double _height = 0.0;
 
@@ -158,8 +156,16 @@ class _SettingsScreenState extends State<SettingsScreen>  {
                     color: Colors.white,
                     child: ListTile(
                       onTap: (){
-                        Navigator.pop(context);
-                        widget.logout();
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => WarningDialog(
+                              listener: this,
+                              msg: "Are you sure you want to logout from app?",
+                            ),
+                            opaque: false
+                          ),
+                        );
+                        
                       },
                       title: Text(
                         "Logout",
@@ -183,6 +189,12 @@ class _SettingsScreenState extends State<SettingsScreen>  {
         ),
       ),
     );
+  }
+
+  @override
+  clickYes() {
+    Navigator.pop(context);
+    widget.logout();
   }
 
 }

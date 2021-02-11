@@ -58,6 +58,7 @@ class _AddReviewState extends State<AddReview> {
         ..starCount = _starCount
         ..userName = widget.user.name
         ..dateTime = DateTime.now()
+        ..read = false
       );
     }
     Database().updateReview(widget.otherUser.reviewList, widget.otherUser);

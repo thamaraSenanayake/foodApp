@@ -25,6 +25,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
 
   _getClapPosts() async {
     List<Widget> clapList = [];
+
     _postList =await Database().getClappedPost(widget.user);
     for (var item in _postList) {
       clapList.add(
@@ -36,7 +37,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
       _clapList = clapList;
       _loading = false;
     });
-
+    Database().resetClapCount(widget.user.telNumber);
 
   }
 

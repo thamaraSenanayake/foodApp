@@ -329,8 +329,33 @@ class _ProfileState extends State<Profile> {
                             fontSize: 20
                           ),
                         ),
-                        trailing: Icon(
-                          Icons.arrow_forward,
+                        trailing:Container(
+                          width: 65,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppData.clapCount != 0? Container(
+                                decoration: BoxDecoration(
+                                  color: AppData.thirdColor,
+                                  shape: BoxShape.circle
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    AppData.clapCount.toString(),
+                                    style: TextStyle(
+                                      color: AppData.secondaryColor,
+                                      fontWeight: FontWeight.w500
+                                    ),
+
+                                  ),
+                                ),
+                              ):Container(),
+                              Icon(
+                                Icons.arrow_forward,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -263,8 +263,26 @@ class Database{
     return await _setPostList(querySnapshot);
   }
 
+  Future<void> resetClapCount(String userTelNumber)async{
+    await users.document(userTelNumber).updateData({
+      'clapCount':0
+    });
+  }
+
   Future<bool> addClap(List<User> clappedUsers, User newUser,Post post) async{
     List<Map<String,dynamic>> clapListMap =[];
+
+    int clapCount = 0;
+
+    await users.document(post.userTelNumber).get().then((document){
+      clapCount = document['clapCount'];
+    });
+
+    await users.document('news').updateData({
+      'clapCount':clapCount == null?0:++clapCount
+    });
+
+
    
     for (var item in clappedUsers) {
       if(item.telNumber == newUser.telNumber){

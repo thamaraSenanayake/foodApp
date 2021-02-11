@@ -33,7 +33,7 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
 
     for (var item in _postList) {
       postViewList.add(
-        ViewPost(post: item, user: widget.user, listener: this,myPost: true,canEdit: true,),
+        ViewPost(post: item, user: widget.user, listener: this,myPost: false,canEdit: false,),
       );
     }
     
@@ -115,7 +115,7 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
                     ):_postViewList.length ==0?
                     Center(
                       child: Text(
-                        "Upload some post to see here..",
+                        "No posts yet..",
                         style: TextStyle(
                           color: AppData.secondaryColor,
                           fontSize: 18,

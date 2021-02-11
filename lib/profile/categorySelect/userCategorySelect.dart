@@ -18,13 +18,11 @@ class UserCategorySelect extends StatefulWidget {
 class _UserCategorySelectState extends State<UserCategorySelect> {
   double _width = 0.0;
   double _height = 0.0;
-  UserCategory _category;
 
 
   @override
   void initState() { 
     super.initState();
-    _category = widget.user.category;
     WidgetsBinding.instance.addPostFrameCallback((_) { 
       // widget.listener.setPage(ProfilePage.Category);
     });
@@ -34,7 +32,6 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
   Widget build(BuildContext context) {
     setState(() {
       _width = MediaQuery.of(context).size.width;
-      _height= MediaQuery.of(context).size.height;
     });
     return SafeArea(
       child: Container(
@@ -56,14 +53,11 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
               children: [
                 ListTile(
                   onTap:(){
-                    setState(() {
-                      _category = UserCategory.FoodIndustry;
-                    });
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, _, __) => PostsToCategory(
                           user: widget.user,
-                          category: _category,
+                          category: UserCategory.FoodIndustry,
                         ),
                         opaque: false
                       ),
@@ -77,21 +71,18 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     ),
                   ),
                   trailing: Icon(
-                    Icons.check,
-                    color:_category == UserCategory.FoodIndustry? AppData.secondaryColor:Colors.transparent,
-                    size: 35,
+                    Icons.arrow_forward,
+                    color:AppData.secondaryColor,
+                    size: 25,
                   ),
                 ),
                 ListTile(
                   onTap:(){
-                    setState(() {
-                      _category = UserCategory.Agriculture;
-                    });
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, _, __) => PostsToCategory(
                           user: widget.user,
-                          category: _category,
+                          category: UserCategory.Agriculture,
                         ),
                         opaque: false
                       ),
@@ -105,21 +96,18 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     ),
                   ),
                   trailing: Icon(
-                    Icons.check,
-                    color:_category == UserCategory.Agriculture? AppData.secondaryColor:Colors.transparent,
-                    size: 35,
+                    Icons.arrow_forward,
+                    color:AppData.secondaryColor,
+                    size: 25,
                   ),
                 ),
                 ListTile(
                   onTap:(){
-                    setState(() {
-                      _category = UserCategory.Animal;
-                    });
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, _, __) => PostsToCategory(
                           user: widget.user,
-                          category: _category,
+                          category: UserCategory.Animal,
                         ),
                         opaque: false
                       ),
@@ -133,21 +121,18 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     ),
                   ),
                   trailing: Icon(
-                    Icons.check,
-                    color:_category == UserCategory.Animal? AppData.secondaryColor:Colors.transparent,
-                    size: 35,
+                    Icons.arrow_forward,
+                    color:AppData.secondaryColor,
+                    size: 25,
                   ),
                 ),
                 ListTile(
                   onTap:(){
-                    setState(() {
-                      _category = UserCategory.Business;
-                    });
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, _, __) => PostsToCategory(
                           user: widget.user,
-                          category: _category,
+                          category: UserCategory.Business,
                         ),
                         opaque: false
                       ),
@@ -161,21 +146,18 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     ),
                   ),
                   trailing: Icon(
-                    Icons.check,
-                    color:_category == UserCategory.Business? AppData.secondaryColor:Colors.transparent,
-                    size: 35,
+                    Icons.arrow_forward,
+                    color:AppData.secondaryColor,
+                    size: 25,
                   ),
                 ),
                 ListTile(
                   onTap:(){
-                    setState(() {
-                      _category = UserCategory.Service;
-                    });
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, _, __) => PostsToCategory(
                           user: widget.user,
-                          category: _category,
+                          category: UserCategory.Service,
                         ),
                         opaque: false
                       ),
@@ -189,21 +171,18 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     ),
                   ),
                   trailing: Icon(
-                    Icons.check,
-                    color:_category == UserCategory.Service? AppData.secondaryColor:Colors.transparent,
-                    size: 35,
+                    Icons.arrow_forward,
+                    color:AppData.secondaryColor,
+                    size: 25,
                   ),
                 ),
                 ListTile(
                   onTap:(){
-                    setState(() {
-                      _category = UserCategory.Education;
-                    });
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, _, __) => PostsToCategory(
                           user: widget.user,
-                          category: _category,
+                          category: UserCategory.Education,
                         ),
                         opaque: false
                       ),
@@ -217,21 +196,18 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     ),
                   ),
                   trailing: Icon(
-                    Icons.check,
-                    color:_category == UserCategory.Education? AppData.secondaryColor:Colors.transparent,
-                    size: 35,
+                    Icons.arrow_forward,
+                    color:AppData.secondaryColor,
+                    size: 25,
                   ),
                 ),
                 ListTile(
                   onTap:(){
-                    setState(() {
-                      _category = UserCategory.Others;
-                    });
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, _, __) => PostsToCategory(
                           user: widget.user,
-                          category: _category,
+                          category: UserCategory.Others,
                         ),
                         opaque: false
                       ),
@@ -245,9 +221,9 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                     ),
                   ),
                   trailing: Icon(
-                    Icons.check,
-                    color:_category == UserCategory.Others? AppData.secondaryColor:Colors.transparent,
-                    size: 35,
+                    Icons.arrow_forward,
+                    color:AppData.secondaryColor,
+                    size: 25,
                   ),
                 ),
               ],

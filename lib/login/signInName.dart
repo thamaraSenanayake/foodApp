@@ -31,6 +31,11 @@ class _SignInNameState extends State<SignInName> {
       widget.listener.moveToPage(LoginPageList.SignInPhone);
     }
   }
+  @override
+  void initState() { 
+    super.initState();
+    _name = widget.user.name != null?widget.user.name:'';
+  }
 
 
   @override
@@ -74,6 +79,7 @@ class _SignInNameState extends State<SignInName> {
                 ),
 
                 TextBox(
+                  initText: _name,
                   textBoxKey: "null", 
                   onChange: (val){
                     _name = val;
