@@ -115,7 +115,7 @@ class _MultiLineDialogState extends State<MultiLineDialog> {
                     TextBox(
                       textBoxKey: null, 
                       onChange: (val){
-                        _error = val;
+                        _initText = val;
                         setState(() {
                           _error = '';
                         });
@@ -136,7 +136,7 @@ class _MultiLineDialogState extends State<MultiLineDialog> {
                       padding: const EdgeInsets.only(bottom:8.0),
                       child: GestureDetector(
                         onTap: () {
-                          // widget.needToSingInClickListener.needToSingInClick(1);
+                          _saveData();
                           Navigator.pop(context);
                         },
                         child: Container(

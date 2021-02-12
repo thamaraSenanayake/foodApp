@@ -1,4 +1,3 @@
-import 'package:food_app/model/post.dart';
 import 'package:food_app/model/review.dart';
 
 import '../const.dart';
@@ -13,6 +12,7 @@ class User {
   String password;
   String address;
   List<String> favoritePost;
+  List<String> productList;
   List<Review> reviewList;
   String description;
   UserCategory category;

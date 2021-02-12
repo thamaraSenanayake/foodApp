@@ -26,6 +26,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
   bool _loading = true;
   List<Post> _post = [];
   List<Widget> _widgetList = [];
+  String productList ="";
 
   @override
   void initState() { 
@@ -42,6 +43,10 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
         ViewPost(post: item, user: widget.user, listener: this,myPost: false,)
       );
     }
+    for (var item in otherUser.productList) {
+      productList += item+", ";
+    }
+    productList.substring(0,productList.length-2);
     setState(() {
       _widgetList = widgetList;
        _loading = false;
@@ -459,7 +464,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                         ),
                                       ),
                                     ),
-                                    Padding(
+                                    otherUser.description != null? Padding(
                                       padding: const EdgeInsets.only(bottom:4.0),
                                       child: RichText(
                                         text: TextSpan(
@@ -483,7 +488,33 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                           ]
                                         ),
                                       ),
-                                    ),
+                                    ):Container(),
+                                    productList.isNotEmpty? Padding(
+                                      padding: const EdgeInsets.only(bottom:4.0),
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children:[
+                                            TextSpan(
+                                              text:"ProductList: ",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:productList.toString(),
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppData.secondaryColor,
+                                              ),
+                                            )
+                                          ]
+                                        ),
+                                      ),
+                                    ):Container(),
+
                                   ],
                                 ),
                               ):Container(),

@@ -96,13 +96,13 @@ class _MessageScreenState extends State<MessageScreen> {
               SingleMessageView(singleMessage: item, user: widget.user,)
             );
           }
+          if(mounted){
+            setState(() {
+              _msgListWidget = _msgListWidgetTemp;
+            });
+          }
         }
         
-        if(mounted){
-          setState(() {
-            _msgListWidget = _msgListWidgetTemp;
-          });
-        }
       }else{
         if (_firstLoad) {
           _firstLoad = false;
@@ -238,17 +238,20 @@ class _MessageScreenState extends State<MessageScreen> {
                       ),  
                     ),
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical:6.0),
-                        child: SingleChildScrollView(
-                          reverse: true,
-                          controller: _controller,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: _msgListWidget,
-                            // children: [
-                              
-                            // ],
+                      child: Container(
+                        width: _width,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical:6.0),
+                          child: SingleChildScrollView(
+                            reverse: true,
+                            controller: _controller,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: _msgListWidget,
+                              // children: [
+                                
+                              // ],
+                            ),
                           ),
                         ),
                       ),
@@ -257,36 +260,57 @@ class _MessageScreenState extends State<MessageScreen> {
                       width: _width,
                       height: 50,
                       decoration: BoxDecoration(
-                        // color: Colors.red,
                         border:Border(
                           top: BorderSide(width: 2.0, color: Colors.grey[500]),
                         )
+                        // color: Colors.red,
                       ),
-                      child:Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 60),
-                        child: TextField(
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                          controller: _messageController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Type something...",
-                            // prefixIcon: Icon(Icons.person_outline),
-                            hintStyle: TextStyle(
-                              fontSize: 15,
-                              // fontWeight: FontWeight.w700,
-                              color: Color(0xffB3A9A9),
-                              height: 1.1
-                            ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: _width-50,
+                            height: 50,
+                            child:Padding(
+                              padding: const EdgeInsets.only(left: 30,right:30),
+                              child: TextField(
+                                style: TextStyle(color: Colors.black, fontSize: 15),
+                                controller: _messageController,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Type something...",
+                                  // prefixIcon: Icon(Icons.person_outline),
+                                  hintStyle: TextStyle(
+                                    fontSize: 15,
+                                    // fontWeight: FontWeight.w700,
+                                    color: Color(0xffB3A9A9),
+                                    height: 1.1
+                                  ),
+                                ),
+                                keyboardType: TextInputType.text,
+                                onChanged: (value){
+                                  // _removeTitleError();
+                                },
+                                onSubmitted: (val){
+                                  _sendMsg();
+                                },
+                              ),
+                            ) ,
                           ),
-                          keyboardType: TextInputType.text,
-                          onChanged: (value){
-                            // _removeTitleError();
-                          },
-                          onSubmitted: (val){
-                            _sendMsg();
-                          },
-                        ),
-                      ) ,
+                          GestureDetector(
+                            onTap: (){
+                              _sendMsg();
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              child: Icon(
+                                Icons.send,
+                                color: AppData.secondaryColor,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),

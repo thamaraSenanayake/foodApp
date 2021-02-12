@@ -9,6 +9,7 @@ import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/profile/editDialog.dart';
 import 'package:food_app/profile/profile/multLine.dart';
+import 'package:food_app/profile/profile/productListAdd.dart';
 import 'package:food_app/res/saveImage.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -273,6 +274,16 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                         Container(
                           color: Colors.white,
                           child: ListTile(
+                            onTap: (){
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder: (context, _, __) => ProductListAdd(
+                                    user: widget.user,
+                                  ),
+                                  opaque: false
+                                ),
+                              );
+                            },
                             title: Text(
                               "Your product or service list",
                               style: TextStyle(

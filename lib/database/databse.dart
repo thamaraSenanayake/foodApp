@@ -76,7 +76,8 @@ class Database{
       "userCategory":"",
       "reviewList":[],
       "description":"",
-      "favoritePost":[]
+      "favoritePost":[],
+      "productList":[]
     });
   }
   
@@ -278,7 +279,7 @@ class Database{
       clapCount = document['clapCount'];
     });
 
-    await users.document('news').updateData({
+    await users.document(post.userTelNumber).updateData({
       'clapCount':clapCount == null?0:++clapCount
     });
 
@@ -370,6 +371,7 @@ class Database{
       "address":user.address,
       "description":user.description,
       "userCategory":categoryToString(user.category),
+      "productList":user.productList
     });
   }
 
@@ -484,6 +486,7 @@ class Database{
         ..profilePicUrl= item['profilePicUrl']
         ..address= item['address']
         ..favoritePost=item['favoritePost'].cast<String>()
+        ..productList=item['productList'].cast<String>()
         ..category = stringToUserCategory(item['category'])
         ..reviewList = review;
     }

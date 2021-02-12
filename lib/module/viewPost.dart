@@ -26,6 +26,7 @@ class _ViewPostState extends State<ViewPost> {
   double _reviewPercentage = 0.0;
   bool _isFavorite = false;
   List<Widget> _imageList = [];
+  bool _clapped = false;
 
   _call(String phone) async{
     
@@ -51,6 +52,12 @@ class _ViewPostState extends State<ViewPost> {
       _reviewPercentage/=widget.post.user.reviewList.length;
     }else{
       _reviewPercentage = 0;
+    }
+    for (var item in widget.post.clapUser) {
+      if(item.telNumber == widget.user.telNumber){
+        _clapped = true;
+        return;
+      }
     }
   }
 
@@ -361,6 +368,9 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   GestureDetector(
                     onTap: () async {
+                      setState(() {
+                        _clapped = true;
+                      });
                       bool clap = await Database().addClap(widget.post.clapUser, widget.user, widget.post);
                       Scaffold.of(context).showSnackBar(
                         SnackBar(
@@ -373,9 +383,9 @@ class _ViewPostState extends State<ViewPost> {
                       height: 40,
                       width: 40,
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: Image.asset(
-                          'assets/icon/clapping.png',
+                          _clapped ? 'assets/icon/clapping.png':'assets/icon/unclapping.png',
                         ),
                       ),
                     ),

@@ -34,6 +34,7 @@ enum EditType{
   Address,
   Email,
   Description,
+  ProductList
 }
 
 enum ProfilePage{
