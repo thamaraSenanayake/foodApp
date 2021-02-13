@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/res/WarningDialog.dart';
 
+import '../../const.dart';
+
 class SettingsScreen extends StatefulWidget {
   final User user;
   final Function logout;
@@ -80,6 +82,14 @@ class _SettingsScreenState extends State<SettingsScreen> implements WarningDialo
                   Container(
                     color: Colors.white,
                     child: ListTile(
+                      onTap: (){
+                        setState(() {
+                          AppData.isDarkMode = !AppData.isDarkMode;
+                          Color primaryColor = AppData.primaryColor; 
+                          AppData.primaryColor = AppData.secondaryColor;
+                          AppData.secondaryColor = primaryColor;
+                        });
+                      },
                       title: Text(
                         "Dark Theme",
                         style: TextStyle(

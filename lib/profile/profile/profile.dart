@@ -44,7 +44,7 @@ class _ProfileState extends State<Profile> {
                 height: 200,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color:Colors.white,
+                  color:AppData.primaryColor,
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: <BoxShadow>[
                     BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
@@ -107,7 +107,8 @@ class _ProfileState extends State<Profile> {
                             widget.user.name,
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.w500
+                              fontWeight: FontWeight.w500,
+                              color: AppData.secondaryColor
                             ),
                           ),
                           GestureDetector(
@@ -127,6 +128,7 @@ class _ProfileState extends State<Profile> {
                             child: Icon(
                               Icons.arrow_forward,
                               size: 35,
+                              color: AppData.secondaryColor
                             ),
                           )
                         ],
@@ -173,7 +175,7 @@ class _ProfileState extends State<Profile> {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.black,
+                                  color: AppData.secondaryColor,
                                   width: 3
                                 )
                               ),
@@ -183,7 +185,8 @@ class _ProfileState extends State<Profile> {
                                   "Following "+widget.user.flowing.length.toString(),
                                   style: TextStyle(
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w800
+                                    fontWeight: FontWeight.w800,
+                                    color: AppData.secondaryColor
                                   ),
                                 ),
                               ),
@@ -192,7 +195,7 @@ class _ProfileState extends State<Profile> {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.black,
+                                  color: AppData.secondaryColor,
                                   width: 3
                                 )
                               ),
@@ -202,7 +205,8 @@ class _ProfileState extends State<Profile> {
                                   "Followers "+widget.user.flowers.length.toString(),
                                   style: TextStyle(
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w800
+                                    fontWeight: FontWeight.w800,
+                                    color: AppData.secondaryColor
                                   ),
                                 ),
                               ),
@@ -224,7 +228,7 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     Container(
-                      color: Colors.white,
+                      // color: Colors.white,
                       child: ListTile(
                         onTap: (){
                           Navigator.of(context).push(
@@ -238,21 +242,23 @@ class _ProfileState extends State<Profile> {
                         },
                         leading: Icon(
                           Icons.file_upload,
+                          color: AppData.secondaryColor,
                         ),
                         title: Text(
                           "My Uploads",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: AppData.secondaryColor,
                             fontSize: 20
                           ),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward,
+                          color: AppData.secondaryColor,
                         ),
                       ),
                     ),
                     Container(
-                      color: Colors.white,
+                      // color: Colors.white,
                       child: ListTile(
                         onTap: (){
                           Navigator.of(context).push(
@@ -267,11 +273,12 @@ class _ProfileState extends State<Profile> {
                         leading: Icon(
                           Icons.feedback,
 
+                          color: AppData.secondaryColor,
                         ),
                         title: Text(
                           "User Feedback",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: AppData.secondaryColor,
                             fontSize: 20
                           ),
                         ),
@@ -299,6 +306,7 @@ class _ProfileState extends State<Profile> {
                               ):Container(),
                               Icon(
                                 Icons.arrow_forward,
+                                color: AppData.secondaryColor,
                               ),
                             ],
                           ),
@@ -306,7 +314,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     Container(
-                      color: Colors.white,
+                      // color: Colors.white,
                       child: ListTile(
                         onTap: (){
                           Navigator.of(context).push(
@@ -321,12 +329,13 @@ class _ProfileState extends State<Profile> {
                         leading: Icon(
                           Icons.notifications,
 
+                          color: AppData.secondaryColor,
                         ),
                         title: Text(
                           "Notifications",
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20
+                            color: AppData.secondaryColor,
+                            fontSize: 20,
                           ),
                         ),
                         trailing:Container(
@@ -353,6 +362,7 @@ class _ProfileState extends State<Profile> {
                               ):Container(),
                               Icon(
                                 Icons.arrow_forward,
+                                color: AppData.secondaryColor,
                               ),
                             ],
                           ),
@@ -360,7 +370,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     Container(
-                      color: Colors.white,
+                      // color: Colors.white,
                       child: ListTile(
                         onTap: (){
                           Navigator.of(context).push(
@@ -375,16 +385,18 @@ class _ProfileState extends State<Profile> {
                         leading: Icon(
                           Icons.star,
 
+                          color: AppData.secondaryColor,
                         ),
                         title: Text(
                           "My favorite",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: AppData.secondaryColor,
                             fontSize: 20
                           ),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward,
+                          color: AppData.secondaryColor,
                         ),
                       ),
                     ),
@@ -392,7 +404,7 @@ class _ProfileState extends State<Profile> {
                     //   height: 5,
                     // ),
                     Container(
-                      color: Colors.white,
+                      // color: Colors.white,
                       child: ListTile(
                         onTap: (){
                           Navigator.of(context).push(
@@ -409,17 +421,19 @@ class _ProfileState extends State<Profile> {
                         },
                         leading: Icon(
                           Icons.settings,
+                          color: AppData.secondaryColor,
 
                         ),
                         title: Text(
                           "Settings",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: AppData.secondaryColor,
                             fontSize: 20
                           ),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward,
+                          color: AppData.secondaryColor,
                         ),
                       ),
                     ),
@@ -427,21 +441,22 @@ class _ProfileState extends State<Profile> {
                     //   height: 5,
                     // ),
                     Container(
-                      color: Colors.white,
+                      // color: Colors.white,
                       child: ListTile(
                         leading: Icon(
                           Icons.support,
-
+                          color: AppData.secondaryColor,
                         ),
                         title: Text(
                           "Support",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: AppData.secondaryColor,
                             fontSize: 20
                           ),
                         ),
                         trailing: Icon(
                           Icons.arrow_forward,
+                          color: AppData.secondaryColor,
                         ),
                       ),
                     ),

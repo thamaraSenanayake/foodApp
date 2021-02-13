@@ -71,6 +71,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
           size: 50.0,
         ),
       ): Container(
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: Stack(
           children: [
 
@@ -79,9 +80,18 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
               child: Container(
                 width: _width,
                 height: 50,
-                color: AppData.secondaryColor,
+                color: AppData.blackColor,
               ),
             ),
+
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: Container(
+            //     width: _width,
+            //     height: 50,
+            //     color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
+            //   ),
+            // ),
             
             Container(
               height: _height,
@@ -94,7 +104,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                     Container(
                       width: _width,
                       height: 150,
-                      color: AppData.secondaryColor,
+                      color: AppData.blackColor,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
@@ -118,7 +128,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                     height:100,
                                     width: 100,
                                     decoration: BoxDecoration(
-                                      color: AppData.primaryColor,
+                                      color: AppData.whiteColor,
                                       borderRadius: BorderRadius.circular(100),
                                     ),
                                     child: Center(
@@ -147,7 +157,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w500,
-                                              color: AppData.primaryColor
+                                              color: AppData.whiteColor
                                             ),
                                           ),
                                           SizedBox(
@@ -171,7 +181,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.w800,
-                                                      color: AppData.primaryColor
+                                                      color: AppData.whiteColor
                                                     ),
                                                   ),
                                                 ):Text(
@@ -179,7 +189,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                   style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w800,
-                                                    color: AppData.primaryColor
+                                                    color: AppData.whiteColor
                                                   ),
                                                 ),
                                                 Text(
@@ -187,7 +197,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                   style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w800,
-                                                    color: AppData.primaryColor
+                                                    color: AppData.whiteColor
                                                   ),
                                                 ),
                                               ],
@@ -344,7 +354,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                     
                     Expanded(
                       child: Container(
-                        // height: _height - 228,
+                        // color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
                         width: _width,
                         child: SingleChildScrollView(
                           child: Column(
@@ -374,7 +384,8 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                           ),
                                         ),
                                         Icon(
-                                          !_viewContactDetails? Icons.keyboard_arrow_down:Icons.keyboard_arrow_up
+                                          !_viewContactDetails? Icons.keyboard_arrow_down:Icons.keyboard_arrow_up,
+                                          color: AppData.secondaryColor,
                                         )
                                       ],
                                     ),
@@ -568,7 +579,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                           alignment: Alignment.centerLeft,
                           child: Icon(
                             Icons.arrow_back,
-                            color: AppData.primaryColor,
+                            color: AppData.whiteColor,
                             size: 35,
                           ),
                         ),

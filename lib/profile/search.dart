@@ -87,9 +87,9 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
                 height: 50,
                 decoration: BoxDecoration(
                   // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                  color: Colors.white,
+                  color: AppData.primaryColor,
                   border: Border.all(
-                    color: Colors.white,
+                    color: AppData.primaryColor,
                     width: 3
                   ),
                   borderRadius: BorderRadius.circular(3),
@@ -110,12 +110,12 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
                   children: [
                     Container(
                       width: (_width-46)/2,
-                      color: Colors.white,
                       child: RadioListTile(
+                        activeColor: AppData.thirdColor,
                         title:  Text(
                           'Sell',
                           style: TextStyle(
-                            color: Colors.grey
+                            color: AppData.secondaryColor
                           ),
                         ),
                         value: 1,
@@ -131,10 +131,11 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
                       width: (_width-46)/2,
                       // height: 50,
                       child: RadioListTile(
+                        activeColor: AppData.thirdColor,
                         title:  Text(
                           'Buy',
                           style: TextStyle(
-                            color: Colors.grey
+                            color: AppData.secondaryColor
                           ),
                         ),
                         value: 2,

@@ -71,9 +71,10 @@ class _TextBoxState extends State<TextBox> {
       ),
       decoration: BoxDecoration(
         // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-        color: Colors.white,
+        
+        color: AppData.primaryColor,
         border: Border.all(
-          color: widget.errorText.length ==0 ? !widget.shadowDisplay?AppData.secondaryColor:Colors.white:Colors.redAccent,
+          color: widget.errorText.length ==0 ? !widget.shadowDisplay?AppData.secondaryColor:AppData.primaryColor:Colors.redAccent,
           width: 3
         ),
         borderRadius: BorderRadius.circular(3),
@@ -100,7 +101,7 @@ class _TextBoxState extends State<TextBox> {
       ),
       child: TextField(
         style: TextStyle(
-          color: Colors.black, 
+          color: AppData.secondaryColor, 
           fontSize: widget.prefixIcon == Icons.attach_money?18:15
         ),
         controller:_controller,
@@ -112,7 +113,7 @@ class _TextBoxState extends State<TextBox> {
             size: widget.prefixIcon == Icons.attach_money?21:24,
             color: Colors.black,
           ) : null,
-          hintStyle:TextStyle(fontSize: 14, color: Color(0xffB3A9A9), height: 1.8),
+          hintStyle:TextStyle(fontSize: 14, color: AppData.secondaryColor, height: 1.8),
           suffixIcon: widget.suffixIcon != null ? Icon(widget.suffixIcon) : null,
         ),
         maxLines: widget.textInputType == TextInputType.multiline?null:1,

@@ -74,6 +74,7 @@ class _AddReviewState extends State<AddReview> {
     });
     return Scaffold(
       body: Container(
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         height:_height,
         width:_width,
         child: Stack(
@@ -84,7 +85,7 @@ class _AddReviewState extends State<AddReview> {
               child: Container(
                 width: _width,
                 height: 50,
-                color: AppData.secondaryColor,
+                color: AppData.primaryColor,
               ),
             ),
 
@@ -107,7 +108,7 @@ class _AddReviewState extends State<AddReview> {
                       height: 40,
                       width: _width,
                       decoration: BoxDecoration(
-                        color: AppData.secondaryColor,
+                        color: AppData.primaryColor,
                       ),
                       child: Stack(
                         children: [
@@ -117,13 +118,14 @@ class _AddReviewState extends State<AddReview> {
                             },
                             child: Container(
                               width: 50,
+                              color: AppData.primaryColor,
                               child: Padding(
                                 padding: const EdgeInsets.only(left:10.0),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Icon(
                                     Icons.arrow_back_ios,
-                                    color: AppData.primaryColor,
+                                    color: AppData.secondaryColor,
                                   ),
                                 ),
                               ),
@@ -140,7 +142,7 @@ class _AddReviewState extends State<AddReview> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
-                                    color: AppData.primaryColor
+                                    color: AppData.secondaryColor
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -260,7 +262,7 @@ class _AddReviewState extends State<AddReview> {
                           child:Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 60),
                             child: TextField(
-                              style: TextStyle(color: Colors.black, fontSize: 15),
+                              style: TextStyle(color: AppData.secondaryColor, fontSize: 15),
                               controller: _reviewController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -269,7 +271,7 @@ class _AddReviewState extends State<AddReview> {
                                 hintStyle: TextStyle(
                                   fontSize: 15,
                                   // fontWeight: FontWeight.w700,
-                                  color: Color(0xffB3A9A9),
+                                  color: AppData.secondaryColor,
                                   height: 1.1
                                 ),
                               ),

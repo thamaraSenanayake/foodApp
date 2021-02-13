@@ -51,7 +51,8 @@ class _MessageHeaderViewState extends State<MessageHeaderView> {
           ),
           decoration: BoxDecoration(
             // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-            color: Colors.white,
+            color: AppData.primaryColor,
+            // color: Colors.white,
             borderRadius: BorderRadius.circular(3),
             boxShadow: [
               BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
@@ -88,7 +89,7 @@ class _MessageHeaderViewState extends State<MessageHeaderView> {
               Text(
                 widget.otherUser.name,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: AppData.secondaryColor,
                   fontSize: 20
                 ),
               ),

@@ -405,9 +405,10 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                         ),
                         decoration: BoxDecoration(
                           // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                          color: Colors.white,
+                          // color: Colors.white,
+                          color: AppData.primaryColor,
                           border: Border.all(
-                            color: Colors.white,
+                            color: AppData.primaryColor,
                             width: 3
                           ),
                           borderRadius: BorderRadius.circular(3),
@@ -430,12 +431,12 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                             Text(
                               "Add Image",
                               style: TextStyle(
-                                color: Colors.grey
+                                color: AppData.secondaryColor
                               ),
                             ),
                             Icon(
                               Icons.add_a_photo,
-                              color: Colors.grey
+                              color: AppData.secondaryColor
                             )
                             
                           ],
@@ -483,10 +484,9 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                       width: _width-40,
                       height: 50,
                       decoration: BoxDecoration(
-                        // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                        color: Colors.white,
+                        color: AppData.primaryColor,
                         border: Border.all(
-                          color: Colors.white,
+                          color: AppData.primaryColor,
                           width: 3
                         ),
                         borderRadius: BorderRadius.circular(3),
@@ -509,10 +509,11 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                             width: (_width-46)/2,
                             // height: 50,
                             child: RadioListTile(
+                              activeColor: AppData.thirdColor,
                               title:  Text(
                                 'Sell',
                                 style: TextStyle(
-                                  color: Colors.grey
+                                  color: AppData.secondaryColor
                                 ),
                               ),
                               value: 1,
@@ -528,10 +529,11 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                             width: (_width-46)/2,
                             // height: 50,
                             child: RadioListTile(
+                              activeColor: AppData.thirdColor,
                               title:  Text(
                                 'Buy',
                                 style: TextStyle(
-                                  color: Colors.grey
+                                  color: AppData.secondaryColor
                                 ),
                               ),
                               value: 2,
@@ -659,9 +661,9 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                       ),
                       decoration: BoxDecoration(
                         // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                        color: Colors.white,
+                        color: AppData.primaryColor,
                         border: Border.all(
-                          color: Colors.white,
+                          color: AppData.primaryColor,
                           width: 3
                         ),
                         borderRadius: BorderRadius.circular(3),
@@ -681,9 +683,14 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                       child: DropdownButtonHideUnderline(
                         child: Theme(
                           data: Theme.of(context).copyWith(
-                            canvasColor: Colors.white,
+                            canvasColor: AppData.primaryColor,
+                            iconTheme: IconThemeData(color:AppData.secondaryColor)
                           ),
                           child: DropdownButton<String>(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color:AppData.secondaryColor
+                            ),
                             value: _selectedUserCategory,
                             onChanged: (String newValue) {
                               FocusScope.of(context).requestFocus(FocusNode());
@@ -701,7 +708,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                                     value,
                                     overflow:TextOverflow.fade,
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: AppData.secondaryColor,
                                       fontSize: 15,
                                     ),
                                   ),
@@ -733,9 +740,9 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                         ),
                         decoration: BoxDecoration(
                           // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                          color: Colors.white,
+                          color: AppData.primaryColor,
                           border: Border.all(
-                            color: Colors.white,
+                            color: AppData.primaryColor,
                             width: 3
                           ),
                           borderRadius: BorderRadius.circular(3),
@@ -758,18 +765,18 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                             Text(
                               "Intend Date",
                               style: TextStyle(
-                                color: Colors.grey
+                                color: AppData.secondaryColor
                               ),
                             ),
                             Text(
                               DateFormat.yMEd().format(_post.intendDate),
                               style: TextStyle(
-                                color: Colors.grey
+                                color: AppData.secondaryColor
                               ),
                             ),
                             Icon(
                               Icons.date_range,
-                              color: Colors.grey
+                              color: AppData.secondaryColor
                             )
                             
                           ],
@@ -836,9 +843,9 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                         ),
                         decoration: BoxDecoration(
                           // color: widget.errorText.length ==0 ?Colors.white:Colors.redAccent,
-                          color: Colors.white,
+                          color: AppData.primaryColor,
                           border: Border.all(
-                            color: Colors.white,
+                            color: AppData.primaryColor,
                             width: 3
                           ),
                           borderRadius: BorderRadius.circular(3),
@@ -861,18 +868,18 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                             Text(
                               "Set Location",
                               style: TextStyle(
-                                color: Colors.grey
+                                color: AppData.secondaryColor
                               ),
                             ),
                             Text(
                               _post.location != null? "Done":"",
                               style: TextStyle(
-                                color: Colors.grey
+                                color: AppData.secondaryColor
                               ),
                             ),
                             Icon(
                               Icons.location_on,
-                              color: Colors.grey
+                              color: AppData.secondaryColor
                             )
                             
                           ],

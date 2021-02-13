@@ -58,6 +58,7 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
     });
     return Scaffold(
       body: Container(
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         width : _width,
         height :_height,
         child: SafeArea(
@@ -85,6 +86,7 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -96,7 +98,8 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
                             _title,
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),

@@ -3,6 +3,8 @@ import 'package:food_app/model/message.dart';
 import 'package:food_app/model/user.dart';
 import 'package:intl/intl.dart';
 
+import '../const.dart';
+
 class SingleMessageView extends StatefulWidget {
   final User user;
   final SingleMessage singleMessage;
@@ -34,7 +36,8 @@ class _SingleMessageViewState extends State<SingleMessageView> {
                   widget.singleMessage.msg,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 15
+                    fontSize: 15,
+                    color: AppData.secondaryColor
                   ),
                 ),
                 Container(
@@ -42,7 +45,8 @@ class _SingleMessageViewState extends State<SingleMessageView> {
                     DateFormat.jm().format(widget.singleMessage.dateTime),
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
-                      fontSize: 10
+                      fontSize: 10,
+                      color: AppData.secondaryColor
                     ),
                   ),
                 ),
@@ -59,7 +63,8 @@ class _SingleMessageViewState extends State<SingleMessageView> {
               bottom: 10
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppData.primaryColor,
+              // color: Colors.white,
               borderRadius: BorderRadius.circular(3),
               boxShadow: [
                 BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),

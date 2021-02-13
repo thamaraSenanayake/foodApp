@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/const.dart';
 
 class CustomButton extends StatefulWidget {
   final String text;
@@ -24,7 +25,7 @@ class _CustomButtonState extends State<CustomButton> {
         height: 50,
         width: _width-120,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppData.primaryColor,
           borderRadius: BorderRadius.circular(3),
           boxShadow: [
             BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
@@ -43,6 +44,7 @@ class _CustomButtonState extends State<CustomButton> {
           child: Text(
             widget.text,
             style: TextStyle(
+              color: AppData.secondaryColor,
               fontSize: 20,
               fontWeight: FontWeight.w800
             ),

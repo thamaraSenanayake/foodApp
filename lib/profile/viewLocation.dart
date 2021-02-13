@@ -61,6 +61,7 @@ class _ViewLocationState extends State<ViewLocation>  {
       body: Container(
         width : _width,
         height :_height,
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: SafeArea(
           child: Column(
             children: [
@@ -85,6 +86,7 @@ class _ViewLocationState extends State<ViewLocation>  {
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -96,7 +98,8 @@ class _ViewLocationState extends State<ViewLocation>  {
                             "View Location",
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),

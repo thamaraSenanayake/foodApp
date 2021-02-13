@@ -151,6 +151,7 @@ class _MessageScreenState extends State<MessageScreen> {
     });
     return Scaffold(
       body: Container(
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         height:_height,
         width:_width,
         child: Stack(
@@ -169,7 +170,7 @@ class _MessageScreenState extends State<MessageScreen> {
               child: Container(
                 width: _width,
                 height: 50,
-                color: AppData.secondaryColor,
+                color: AppData.primaryColor,
               ),
             ),
 
@@ -192,7 +193,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       height: 40,
                       width: _width,
                       decoration: BoxDecoration(
-                        color: AppData.secondaryColor,
+                        color: AppData.primaryColor,
                       ),
                       child: Stack(
                         children: [
@@ -209,7 +210,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                   alignment: Alignment.centerLeft,
                                   child: Icon(
                                     Icons.arrow_back,
-                                    color: AppData.primaryColor,
+                                    color: AppData.secondaryColor,
                                     size: 35,
                                   ),
                                 ),
@@ -227,7 +228,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
-                                    color: AppData.primaryColor
+                                    color: AppData.secondaryColor
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -273,7 +274,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             child:Padding(
                               padding: const EdgeInsets.only(left: 30,right:30),
                               child: TextField(
-                                style: TextStyle(color: Colors.black, fontSize: 15),
+                                style: TextStyle(color: AppData.secondaryColor, fontSize: 15),
                                 controller: _messageController,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
@@ -282,7 +283,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                   hintStyle: TextStyle(
                                     fontSize: 15,
                                     // fontWeight: FontWeight.w700,
-                                    color: Color(0xffB3A9A9),
+                                    color: AppData.secondaryColor,
                                     height: 1.1
                                   ),
                                 ),

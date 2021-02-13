@@ -165,21 +165,23 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
           child: Stack(
             children: [
               
-              // Container(
-              //   height:_height,
-              //   width:_width,
-              //   child: Image.asset(
-              //     AppData.BACKGROUNDPATH,
-              //     fit:BoxFit.cover
-              //   ),
-              // ),
+              Container(
+                height:_height,
+                width:_width,
+                color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
+
+                // child: Image.asset(
+                //   AppData.BACKGROUNDPATH,
+                //   fit:BoxFit.cover
+                // ),
+              ),
 
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
                   width: _width,
                   height: 50,
-                  color: AppData.secondaryColor,
+                  color: Color(0xff393939),
                 ),
               ),
 
@@ -188,7 +190,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                 child: Container(
                   width: _width,
                   height: 40,
-                  color: AppData.secondaryColor,
+                  color: Color(0xff393939),
                 ),
               ):Container(),
 
@@ -203,7 +205,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                         height: 40,
                         width: _width,
                         decoration: BoxDecoration(
-                          color: AppData.secondaryColor,
+                          color: Color(0xff393939),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -221,7 +223,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                                 child: Center(
                                   child: Icon(
                                     Icons.search,
-                                    color:_profilePage == ProfilePage.Search? AppData.thirdColor: AppData.primaryColor,
+                                    color:_profilePage == ProfilePage.Search? AppData.thirdColor: Colors.white,
                                   ),
                                 ),
                               ),
@@ -241,7 +243,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                                     Center(
                                       child: Icon(
                                         Icons.person,
-                                        color:_profilePage == ProfilePage.Profile? AppData.thirdColor: AppData.primaryColor,
+                                        color:_profilePage == ProfilePage.Profile? AppData.thirdColor: Colors.white,
                                       ),
                                     ),
                                     AppData.reviewCount + AppData.clapCount != 0? Container(
@@ -286,7 +288,7 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                       ),
                       _bottomBarVisibility?Container(
                         height: 50,
-                        color: AppData.secondaryColor,
+                        color: Color(0xff393939),
                         child: TabBar(
                           indicatorColor:Colors.transparent,
                           onTap: (val){
@@ -328,10 +330,10 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                               child: Container(
                                 height: 80,
                                 width: 80,
-                                color: AppData.secondaryColor,
+                                color: Color(0xff393939),
                                 child: Icon(
                                   Icons.home,
-                                  color:_profilePage == ProfilePage.Home? AppData.thirdColor: AppData.primaryColor,
+                                  color:_profilePage == ProfilePage.Home? AppData.thirdColor: Colors.white,
                                 ),
                               ),
                             ),
@@ -344,10 +346,10 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                               child: Container(
                                 height: 80,
                                 width: 80,
-                                color: AppData.secondaryColor,
+                                color: Color(0xff393939),
                                 child: Icon(
                                   Icons.menu,
-                                  color:_profilePage == ProfilePage.Category? AppData.thirdColor: AppData.primaryColor,
+                                  color:_profilePage == ProfilePage.Category? AppData.thirdColor: Colors.white,
                                 ),
                               ),
                             ),
@@ -360,15 +362,15 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                               child: Container(
                                 height: 80,
                                 width: 80,
-                                color: AppData.secondaryColor,
+                                color: Color(0xff393939),
                                 // color: Colors.blue,
                                 child: Stack(
-                                  children: [
+                                  children:[
                                     Align(
                                       alignment: Alignment.center,
                                       child: Icon(
                                         Icons.message,
-                                        color:_profilePage == ProfilePage.Message? AppData.thirdColor: AppData.primaryColor,
+                                        color:_profilePage == ProfilePage.Message? AppData.thirdColor: Colors.white,
                                       ),
                                     ),
 
@@ -406,10 +408,10 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
                               child: Container(
                                 height: 80,
                                 width: 80,
-                                color: AppData.secondaryColor,
+                                color: Color(0xff393939),
                                 child: Icon(
                                   Icons.add,
-                                  color:_profilePage == ProfilePage.Add? AppData.thirdColor: AppData.primaryColor,
+                                  color:_profilePage == ProfilePage.Add? AppData.thirdColor: Colors.white,
                                 ),
                               ),
                             )

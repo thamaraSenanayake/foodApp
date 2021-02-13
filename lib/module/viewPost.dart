@@ -96,7 +96,8 @@ class _ViewPostState extends State<ViewPost> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     '${widget.post.imgUrl.indexOf(item)+1}/${widget.post.imgUrl.length}',
-                    style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                     color: AppData.secondaryColor,fontSize: 16,fontWeight: FontWeight.w500),
                   ),
                 ),
               ):Container()
@@ -122,7 +123,7 @@ class _ViewPostState extends State<ViewPost> {
         // height: 467,
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color:Colors.white,
+          color: AppData.primaryColor,
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: <BoxShadow>[
             BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
@@ -149,6 +150,7 @@ class _ViewPostState extends State<ViewPost> {
                   Text(
                     widget.post.title,
                     style: TextStyle(
+                     color: AppData.secondaryColor,
                       fontSize: 15,
                       fontWeight: FontWeight.w800
                     ),
@@ -209,6 +211,7 @@ class _ViewPostState extends State<ViewPost> {
               child: Text(
                 widget.post.city,
                 style: TextStyle(
+                 color: AppData.secondaryColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w500
                 ),
@@ -219,6 +222,7 @@ class _ViewPostState extends State<ViewPost> {
               child: Text(
                 "Rs: "+widget.post.price.toString(),
                 style: TextStyle(
+                 color: AppData.secondaryColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w500
                 ),
@@ -229,6 +233,7 @@ class _ViewPostState extends State<ViewPost> {
               child: Text(
                 "Amount: "+widget.post.amount.toString(),
                 style: TextStyle(
+                 color: AppData.secondaryColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w500
                 ),
@@ -239,6 +244,7 @@ class _ViewPostState extends State<ViewPost> {
               child: Text(
                 "Intend Date "+DateFormat.yMEd().format(widget.post.intendDate),
                 style: TextStyle(
+                 color: AppData.secondaryColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w500
                 ),
@@ -252,6 +258,7 @@ class _ViewPostState extends State<ViewPost> {
                 // maxLines: 2,
                 // overflow: TextOverflow.ellipsis,
                 style: TextStyle(
+                 color: AppData.secondaryColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w500
                 ),
@@ -307,9 +314,10 @@ class _ViewPostState extends State<ViewPost> {
                               child: Text(
                                 widget.user.name[0],
                                 style: TextStyle(
+                                 color: AppData.secondaryColor,
                                   fontSize: 35,
                                   fontWeight: FontWeight.w800,
-                                  color: AppData.primaryColor
+                                  // color: AppData.primaryColor
                                 ),
                               ),
                             ),
@@ -337,6 +345,7 @@ class _ViewPostState extends State<ViewPost> {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
+                                     color: AppData.secondaryColor,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w800
                                     ),
@@ -352,6 +361,7 @@ class _ViewPostState extends State<ViewPost> {
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
+                                         color: AppData.secondaryColor,
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800
                                         ),
@@ -416,7 +426,7 @@ class _ViewPostState extends State<ViewPost> {
                       child: Icon(
                         Icons.call,
                         size: 25,
-                        color: Colors.black,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),
@@ -458,7 +468,7 @@ class _ViewPostState extends State<ViewPost> {
                       child: Icon(
                         Icons.share,
                         size: 25,
-                        color: Colors.black,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),

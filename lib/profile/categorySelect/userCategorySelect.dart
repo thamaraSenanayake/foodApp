@@ -44,6 +44,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
               child: Text(
                 "Select Category",
                 style: TextStyle(
+                  color: AppData.secondaryColor,
                   fontSize: 25,
                   fontWeight: FontWeight.w700
                 ),
@@ -66,7 +67,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   title: Text(
                     "Food industry",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppData.secondaryColor,
                       fontSize: 20
                     ),
                   ),
@@ -91,7 +92,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   title: Text(
                     "Agriculture",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppData.secondaryColor,
                       fontSize: 20
                     ),
                   ),
@@ -116,7 +117,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   title: Text(
                     "Animal",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppData.secondaryColor,
                       fontSize: 20
                     ),
                   ),
@@ -141,7 +142,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   title: Text(
                     "Business",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppData.secondaryColor,
                       fontSize: 20
                     ),
                   ),
@@ -166,7 +167,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   title: Text(
                     "Service",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppData.secondaryColor,
                       fontSize: 20
                     ),
                   ),
@@ -191,7 +192,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   title: Text(
                     "Education",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppData.secondaryColor,
                       fontSize: 20
                     ),
                   ),
@@ -216,7 +217,7 @@ class _UserCategorySelectState extends State<UserCategorySelect> {
                   title: Text(
                     "Others",
                     style: TextStyle(
-                      color: Colors.black,
+                      color: AppData.secondaryColor,
                       fontSize: 20
                     ),
                   ),
