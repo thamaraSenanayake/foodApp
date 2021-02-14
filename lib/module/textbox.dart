@@ -111,7 +111,7 @@ class _TextBoxState extends State<TextBox> {
           prefixIcon:widget.prefixIcon != null ? Icon(
             widget.prefixIcon,
             size: widget.prefixIcon == Icons.attach_money?21:24,
-            color: Colors.black,
+            color: AppData.secondaryColor,
           ) : null,
           hintStyle:TextStyle(fontSize: 14, color: AppData.secondaryColor, height: 1.8),
           suffixIcon: widget.suffixIcon != null ? Icon(widget.suffixIcon) : null,

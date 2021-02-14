@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food_app/model/user.dart';
+import 'package:food_app/profile/profile/settings/aboutUs.dart';
+import 'package:food_app/profile/profile/settings/privacypolicy.dart';
 import 'package:food_app/res/WarningDialog.dart';
 
-import '../../const.dart';
+import '../../../const.dart';
 
 class SettingsScreen extends StatefulWidget {
   final User user;
   final Function logout;
-  SettingsScreen({Key key,@required this.user,@required this.logout}) : super(key: key);
+  final Function changeTheme;
+  SettingsScreen({Key key,@required this.user,@required this.logout, this.changeTheme}) : super(key: key);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -24,9 +28,11 @@ class _SettingsScreenState extends State<SettingsScreen> implements WarningDialo
       _height= MediaQuery.of(context).size.height;
     });
     return Scaffold(
-      body: Container(
+      body: AnimatedContainer(
+        duration: Duration(milliseconds: 500),
         width : _width,
         height :_height,
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: SafeArea(
           child: Column(
             children: [
@@ -52,6 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> implements WarningDialo
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -63,7 +70,8 @@ class _SettingsScreenState extends State<SettingsScreen> implements WarningDialo
                             "Settings",
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),
@@ -80,90 +88,110 @@ class _SettingsScreenState extends State<SettingsScreen> implements WarningDialo
               Column(
                 children: [
                   Container(
-                    color: Colors.white,
                     child: ListTile(
-                      onTap: (){
+                      onTap: ()  {
                         setState(() {
                           AppData.isDarkMode = !AppData.isDarkMode;
                           Color primaryColor = AppData.primaryColor; 
                           AppData.primaryColor = AppData.secondaryColor;
                           AppData.secondaryColor = primaryColor;
                         });
+                        widget.changeTheme();
+                        final storage = new FlutterSecureStorage();
+                        storage.write(key: KeyContainer.IS_DARK,value: AppData.isDarkMode.toString());
                       },
                       title: Text(
                         "Dark Theme",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppData.secondaryColor,
                           fontSize: 20
                         ),
                       ),
                       trailing: Icon(
-                        Icons.brightness_low
+                        AppData.isDarkMode? Icons.brightness_high :Icons.brightness_low,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: Colors.white,
                     child: ListTile(
                       title: Text(
                         "Choose the language",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppData.secondaryColor,
                           fontSize: 20
                         ),
                       ),
                       trailing: Icon(
-                        Icons.language_outlined
+                        Icons.language_outlined,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: Colors.white,
                     child: ListTile(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => PrivacyPolicy(
+                            ),
+                            opaque: false
+                          ),
+                        );
+                      },
                       title: Text(
                         "Privacy policy",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppData.secondaryColor,
                           fontSize: 20
                         ),
                       ),
                       trailing: Icon(
-                        Icons.privacy_tip
+                        Icons.privacy_tip,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: Colors.white,
                     child: ListTile(
                       title: Text(
                         "Rate us",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppData.secondaryColor,
                           fontSize: 20
                         ),
                       ),
                       trailing: Icon(
-                        Icons.rate_review_sharp
+                        Icons.rate_review_sharp,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: Colors.white,
                     child: ListTile(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => AboutUs(
+                            ),
+                            opaque: false
+                          ),
+                        );
+                      },
                       title: Text(
                         "About",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppData.secondaryColor,
                           fontSize: 20
                         ),
                       ),
                       trailing: Icon(
-                        Icons.info
+                        Icons.info,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: Colors.white,
                     child: ListTile(
                       onTap: (){
                         Navigator.of(context).push(
@@ -180,12 +208,13 @@ class _SettingsScreenState extends State<SettingsScreen> implements WarningDialo
                       title: Text(
                         "Logout",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppData.secondaryColor,
                           fontSize: 20
                         ),
                       ),
                       trailing: Icon(
-                        Icons.add_to_home_screen
+                        Icons.add_to_home_screen,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),

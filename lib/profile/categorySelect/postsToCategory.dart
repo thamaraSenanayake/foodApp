@@ -112,7 +112,7 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
               Expanded(
                 child: Container(
                   width: _width,
-                  child: _loading?SpinKitSquareCircle(
+                  child: _loading?SpinKitDoubleBounce(
                     color: AppData.thirdColor,
                     size: 50.0,
                     ):_postViewList.length ==0?

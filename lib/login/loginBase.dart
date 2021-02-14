@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food_app/const.dart';
 import 'package:food_app/login/signInName.dart';
 import 'package:food_app/login/signInPassword.dart';
@@ -25,10 +26,24 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
   void initState() {
     super.initState();
     _user = User();
-    _autoLoginCheck();
+    _themeSet();
   }
 
-  _autoLoginCheck(){
+  _themeSet() async {
+    final storage = new FlutterSecureStorage();
+    String isDark = await storage.read(key: KeyContainer.IS_DARK);
+    if(isDark == true.toString()){
+      setState(() {
+        AppData.isDarkMode = true;
+        Color primaryColor = AppData.primaryColor; 
+        AppData.primaryColor = AppData.secondaryColor;
+        AppData.secondaryColor = primaryColor;
+      });
+    }else{
+      setState(() {
+        AppData.isDarkMode = false;
+      });
+    }
 
   }
 
@@ -42,6 +57,7 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
       body: Container(
         height:_height,
         width:_width,
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: Stack(
           children: [
             // Container(
@@ -93,6 +109,7 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
                       child: Icon(
                         Icons.arrow_back,
                         size: 35,
+                        color: AppData.secondaryColor,
                       ),
                     ),
                   ),

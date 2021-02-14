@@ -3,6 +3,8 @@ import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/addPost/addPost.dart';
 
+import '../../const.dart';
+
 
 class EditPost extends StatefulWidget {
   final User user;
@@ -26,6 +28,7 @@ class _EditPostState extends State<EditPost>  {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         width : _width,
         height :_height,
         child: SafeArea(
@@ -53,6 +56,7 @@ class _EditPostState extends State<EditPost>  {
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -64,7 +68,8 @@ class _EditPostState extends State<EditPost>  {
                             "Edit Post",
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),

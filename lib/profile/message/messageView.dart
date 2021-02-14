@@ -160,7 +160,7 @@ class _MessageScreenState extends State<MessageScreen> {
               height:_height,
               width:_width,
               color: Color.fromRGBO(128, 128, 128, 0.3),
-              child: SpinKitSquareCircle(
+              child: SpinKitDoubleBounce(
                 color: AppData.thirdColor,
                 size: 50.0,
               ),
@@ -199,6 +199,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         children: [
                           GestureDetector(
                             onTap: (){
+                              _firstLoad = true;
                               Database().setLastRead(_messageHeader, widget.user);
                               Navigator.pop(context);
                             },

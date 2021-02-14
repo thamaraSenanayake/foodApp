@@ -59,6 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
       body: Container(
         width : _width,
         height :_height,
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: SafeArea(
           child: Column(
             children: [
@@ -84,6 +85,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -95,7 +97,8 @@ class _NotificationScreenState extends State<NotificationScreen>  {
                             "Notification",
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),
@@ -107,7 +110,7 @@ class _NotificationScreenState extends State<NotificationScreen>  {
 
               Expanded(
                 child: Container(
-                  child:_loading?SpinKitSquareCircle(
+                  child:_loading?SpinKitDoubleBounce(
                     color: AppData.thirdColor,
                     size: 50.0,
                     ): SingleChildScrollView(

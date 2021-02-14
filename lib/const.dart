@@ -52,4 +52,5 @@ enum ProfilePage{
 class KeyContainer {
   static const String USERNAME = 'username';
   static const String PASSWORD = 'password';
+  static const String IS_DARK = 'isDark';
 }

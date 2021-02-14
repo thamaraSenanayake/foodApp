@@ -56,6 +56,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
       body: Container(
         width : _width,
         height :_height,
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: SafeArea(
           child: Column(
             children: [
@@ -81,6 +82,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -92,7 +94,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
                             "Favorites",
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),
@@ -105,24 +108,28 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
               _loading?Container(
                 height: _height - 128,
                 color: Color.fromRGBO(128, 128, 128, 0.3),
-                child: SpinKitSquareCircle(
+                child: SpinKitDoubleBounce(
                   color: AppData.thirdColor,
                   size: 50.0,
                 ),
-              ):_favoriteList.length == 0? Center(
-                child: Text(
-                  "Not added any favorite post yet",
-                  style: TextStyle(
-                    color: AppData.secondaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800
+              ):_favoriteList.length == 0? Expanded(
+                child: Center(
+                  child: Text(
+                    "Not added any favorite post yet",
+                    style: TextStyle(
+                      color: AppData.secondaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800
+                    ),
                   ),
                 ),
-              ): Container(
-                height: _height - 128,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children:_favoriteList,
+              ): Expanded(
+                child: Container(
+                  // color: Colors.red,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children:_favoriteList,
+                    ),
                   ),
                 ),
               ),

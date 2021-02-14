@@ -910,7 +910,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
               height: _height,
               width: _width,
               color:AppData.secondaryColor.withOpacity(0.8) ,
-              child: SpinKitSquareCircle(
+              child: SpinKitDoubleBounce(
                 color: AppData.thirdColor,
                 size: 50.0,
               ),

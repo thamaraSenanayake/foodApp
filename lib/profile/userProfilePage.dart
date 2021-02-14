@@ -66,8 +66,8 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
       body:_loading
       ? Container(
         color: Color.fromRGBO(128, 128, 128, 0.3),
-        child: SpinKitSquareCircle(
-          color: AppData.secondaryColor,
+        child: SpinKitDoubleBounce(
+          color: AppData.thirdColor,
           size: 50.0,
         ),
       ): Container(

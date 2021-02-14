@@ -62,7 +62,8 @@ class _SignInNameState extends State<SignInName> {
                   "Enter your name or business name",
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w500,
+                    color: AppData.secondaryColor,
                   ),
                 ),
 

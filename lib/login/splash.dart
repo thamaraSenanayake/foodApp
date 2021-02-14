@@ -26,8 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final storage = new FlutterSecureStorage();
     String username = await storage.read(key: KeyContainer.USERNAME);
     String password = await storage.read(key: KeyContainer.PASSWORD);
-    print(username);
-print(password);
+    
     if(username != null && password != null){
       User user =await Database().login(username, password);
 
@@ -139,7 +138,7 @@ print(password);
             _checking?Container(
               height: 50,
               width: _width-120,
-              child:SpinKitSquareCircle(
+              child:SpinKitDoubleBounce(
                 color: AppData.thirdColor,
                 size: 50.0,
               ),

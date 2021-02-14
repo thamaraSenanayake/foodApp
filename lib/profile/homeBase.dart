@@ -469,6 +469,12 @@ class _HomeBaseState extends State<HomeBase> with TickerProviderStateMixin imple
       _profilePage = page;
     });
   }
+
+  @override
+  updateState() {
+    setState(() {
+    });
+  }
 }
 
 abstract class HomeBaseListener{
@@ -476,4 +482,5 @@ abstract class HomeBaseListener{
   setPage(ProfilePage page);
   logout();
   moveToMsg(User user,User otherUser);
+  updateState();
 }

@@ -157,7 +157,7 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
 
               _loading?Container(
                 height: _height-128,
-                child: SpinKitSquareCircle(
+                child: SpinKitDoubleBounce(
                   color: AppData.thirdColor,
                   size: 50.0,
                 ),

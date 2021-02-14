@@ -5,7 +5,7 @@ import 'package:food_app/profile/profile/myFacourite.dart';
 import 'package:food_app/profile/profile/myUploads.dart';
 import 'package:food_app/profile/profile/notification.dart';
 import 'package:food_app/profile/profile/personalInformation.dart';
-import 'package:food_app/profile/profile/settings.dart';
+import 'package:food_app/profile/profile/settings/settings.dart';
 import 'package:food_app/profile/profile/viewReview.dart';
 
 import '../homeBase.dart';
@@ -41,7 +41,7 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.only(top:20.0),
               child: Container(
                 width: _width-20,
-                height: 200,
+                height: 100,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color:AppData.primaryColor,
@@ -59,7 +59,7 @@ class _ProfileState extends State<Profile> {
                     )
                   ],
                 ),
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
@@ -103,119 +103,105 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                           ),
-                          Text(
-                            widget.user.name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: AppData.secondaryColor
+                          Container(
+                            height: 100,
+                            width: _width-130,
+                            // color: Colors.red,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                              children: [
+                                Container(
+                                  width: _width-130,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+
+                                      Text(
+                                        widget.user.name,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppData.secondaryColor
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async{
+                                          await Navigator.of(context).push(
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, _, __) => PersonalInformation(
+                                                user: widget.user,
+                                              ),
+                                              opaque: false
+                                            ),
+                                          );
+                                          setState(() {
+                                        
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.arrow_forward,
+                                          size: 35,
+                                          color: AppData.secondaryColor
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: _width-130,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: AppData.secondaryColor,
+                                            width: 3
+                                          )
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(5),
+                                          child: Text(
+                                            "Following "+widget.user.flowing.length.toString(),
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w800,
+                                              color: AppData.secondaryColor
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: AppData.secondaryColor,
+                                            width: 3
+                                          )
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(5),
+                                          child: Text(
+                                            "Followers "+widget.user.flowers.length.toString(),
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w800,
+                                              color: AppData.secondaryColor
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                                                  
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () async{
-                              await Navigator.of(context).push(
-                                PageRouteBuilder(
-                                  pageBuilder: (context, _, __) => PersonalInformation(
-                                    user: widget.user,
-                                  ),
-                                  opaque: false
-                                ),
-                              );
-                              setState(() {
-                                
-                              });
-                            },
-                            child: Icon(
-                              Icons.arrow_forward,
-                              size: 35,
-                              color: AppData.secondaryColor
-                            ),
-                          )
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder: (context, _, __) => MyUploads(
-                              user: widget.user,
-                            ),
-                            opaque: false
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: _width-40,
-                        height: 80,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // Container(
-                            //   height: 50,
-                            //   width: 120,
-                            //   decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.circular(10.0),
-                            //     border: Border.all(
-                            //       color: Colors.blue,
-                            //       width: 3
-                            //     )
-                            //   ),
-                            //   child: Center(
-                            //     child: Text(
-                            //       "My Upload",
-                            //       style: TextStyle(
-                            //         fontSize: 15,
-                            //         fontWeight: FontWeight.w800
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppData.secondaryColor,
-                                  width: 3
-                                )
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  "Following "+widget.user.flowing.length.toString(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w800,
-                                    color: AppData.secondaryColor
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppData.secondaryColor,
-                                  width: 3
-                                )
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  "Followers "+widget.user.flowers.length.toString(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w800,
-                                    color: AppData.secondaryColor
-                                  ),
-                                ),
-                              ),
-                            ),
-                            
-                          ],
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -406,18 +392,24 @@ class _ProfileState extends State<Profile> {
                     Container(
                       // color: Colors.white,
                       child: ListTile(
-                        onTap: (){
-                          Navigator.of(context).push(
+                        onTap: () async{
+                          await Navigator.of(context).push(
                             PageRouteBuilder(
                               pageBuilder: (context, _, __) => SettingsScreen(
                                 user: widget.user,
                                 logout: (){
                                   widget.listener.logout();
                                 },
+                                changeTheme: (){
+                                  widget.listener.updateState();
+                                },
                               ),
                               opaque: false
                             ),
                           );
+                          setState(() {
+                            
+                          });
                         },
                         leading: Icon(
                           Icons.settings,

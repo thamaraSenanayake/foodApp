@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> implements ViewPostListener{
     });
     return _loading? Container(
         color: Color.fromRGBO(128, 128, 128, 0.3),
-        child: SpinKitSquareCircle(
+        child: SpinKitDoubleBounce(
           color: AppData.thirdColor,
           size: 50.0,
         ),

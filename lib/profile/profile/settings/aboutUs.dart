@@ -1,54 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../const.dart';
+import '../../../const.dart';
 
 
-class ViewLocation extends StatefulWidget {
-  final LatLng location;
-  ViewLocation({Key key,@required this.location}) : super(key: key);
+class AboutUs extends StatefulWidget {
+  AboutUs({Key key,}) : super(key: key);
 
   @override
-  _ViewLocationState createState() => _ViewLocationState();
+  _AboutUsState createState() => _AboutUsState();
 }
 
-class _ViewLocationState extends State<ViewLocation>  {
+class _AboutUsState extends State<AboutUs> {
   double _width = 0.0;
   double _height = 0.0;
-  GoogleMapController _mapController;
-  Map<MarkerId, Marker> _markers = <MarkerId, Marker>{};
-  LatLng _location;
-  CameraPosition  _cameraPosition;
-
-
-  _initLocation() async {
-    _location = widget.location;
-    _addMark(LatLng(_location.latitude, _location.longitude));
-  }
-
-  _addMark(LatLng position) async {
-    _location = position;
-    _markers.remove("YOUR_LOCATION");
-    var marker = Marker(
-      markerId: MarkerId("YOUR_LOCATION"),
-      position: LatLng(position.latitude,position.longitude),
-      // icon: BitmapDescriptor.fromBytes(markerIcon),
-    );
-
-    setState(() {
-      _cameraPosition =  CameraPosition(
-        target: LatLng(position.latitude,position.longitude),
-        zoom: 15
-      );
-      _markers[MarkerId("YOUR_LOCATION")] = marker;
-    });
-  }
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    _initLocation();
   }
 
   @override
@@ -65,6 +33,7 @@ class _ViewLocationState extends State<ViewLocation>  {
         child: SafeArea(
           child: Column(
             children: [
+
               //header
               Column(
                 children: [
@@ -95,7 +64,7 @@ class _ViewLocationState extends State<ViewLocation>  {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "View Location",
+                            "About Us",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w800,
@@ -109,21 +78,28 @@ class _ViewLocationState extends State<ViewLocation>  {
                 ],
               ),
 
-              Container(
-                height: _height - 128,
-                width: _width,
-                child: _cameraPosition != null? GoogleMap(
-                  initialCameraPosition: _cameraPosition,
-                  onMapCreated: _onMapCreated,
-                  mapToolbarEnabled: true,
-                  // onCameraMoveStarted: cameraMove(),
-                  markers: Set<Marker>.of(_markers.values),
-                  onTap: (latLng){
-                    _addMark(latLng);
-                  },
-                ):SpinKitDoubleBounce(
-                  color: AppData.thirdColor,
-                  size: 50.0,
+              Expanded(
+                child: Container(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:20.0,left: 20,right: 20),
+                        child: Text(
+                          "This app is specially designed for the basic level manufacturer in the food and manufacturing sector.\n\n"
+                          +"The main objective is to bring good clean and quality products to the consumer. It also allows the customer to get a complete description of the products they are consuming, which gives them good faith in the products they are buying.\n\n"
+                          +"It also facilitates the manufacturer to deliver their products to the customers without the intervention of any intermediaries. \n\n"
+                          +"Allowing the consumer to be systematically informed of that information from the date of commencement to the end of production gives the manufacturer more time from the initial stage of production to find a good market to market their product. For that reason, there is no production surplus.\n\n"
+                          +"Providing a good marketing medium for the basic producer (farmer) to sell his product can build consumer confidence in his product by educating the customer about his product information from the date of commencement of production to the end, and also to gather a group of customers on his own Provided.\n",
+                          style: TextStyle(
+                            color: AppData.secondaryColor,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                            height: 1.5
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ),
                 ),
               ),
 
@@ -135,11 +111,5 @@ class _ViewLocationState extends State<ViewLocation>  {
     );
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      _mapController = controller;
-      // controller.setMapStyle(_mapStyle);
-    });
-  }
-
+  
 }

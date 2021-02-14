@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/model/post.dart';
 
+import '../const.dart';
+
 class NotificationItem extends StatefulWidget {
   final Post post;
   // final List<User> userList;
@@ -35,7 +37,7 @@ class _NotificationItemState extends State<NotificationItem> {
         width: _width - 40,
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppData.primaryColor,
           borderRadius: BorderRadius.circular(3),
           boxShadow: [
             BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
@@ -75,6 +77,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
+                      color: AppData.secondaryColor
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

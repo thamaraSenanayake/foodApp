@@ -145,7 +145,7 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
                   onTap: (latLng){
                     _addMark(latLng);
                   },
-                ):SpinKitSquareCircle(
+                ):SpinKitDoubleBounce(
                   color: AppData.thirdColor,
                   size: 50.0,
                 ),

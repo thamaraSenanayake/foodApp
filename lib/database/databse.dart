@@ -604,6 +604,7 @@ class Database{
           lastRead = DateTime.fromMillisecondsSinceEpoch(user2LastRead.millisecondsSinceEpoch);
         }
         
+        msgCount = 0;
         for (var msg in item["msgList"]) {
           Timestamp timestamp = msg['dateTime'];
           DateTime dateTime =DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);

@@ -57,6 +57,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener,Warni
       body: Container(
         width : _width,
         height :_height,
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: SafeArea(
           child: Column(
             children: [
@@ -82,6 +83,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener,Warni
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -93,7 +95,8 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener,Warni
                             "My Uploads",
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),
@@ -106,7 +109,7 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener,Warni
               Expanded(
                 child: Container(
                   width: _width,
-                  child: _loading?SpinKitSquareCircle(
+                  child: _loading?SpinKitDoubleBounce(
                     color: AppData.thirdColor,
                     size: 50.0,
                     ):_postViewList.length ==0?

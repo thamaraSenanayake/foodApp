@@ -65,19 +65,20 @@ class _ViewReviewState extends State<ViewReview> {
     });
     return Scaffold(
       body: Container(
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         height:_height,
         width:_width,
         child: Stack(
           children: [
 
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                width: _width,
-                height: 50,
-                color: AppData.secondaryColor,
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.topCenter,
+            //   child: Container(
+            //     width: _width,
+            //     height: 50,
+            //     color: AppData.secondaryColor,
+            //   ),
+            // ),
 
             // Align(
             //   alignment: Alignment.bottomCenter,
@@ -98,7 +99,7 @@ class _ViewReviewState extends State<ViewReview> {
                       height: 40,
                       width: _width,
                       decoration: BoxDecoration(
-                        color: AppData.secondaryColor,
+                        // color: AppData.secondaryColor,
                       ),
                       child: Stack(
                         children: [
@@ -114,7 +115,7 @@ class _ViewReviewState extends State<ViewReview> {
                                   alignment: Alignment.centerLeft,
                                   child: Icon(
                                     Icons.arrow_back,
-                                    color: AppData.primaryColor,
+                                    color: AppData.secondaryColor,
                                     size: 35,
                                   ),
                                 ),
@@ -132,7 +133,7 @@ class _ViewReviewState extends State<ViewReview> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
-                                    color: AppData.primaryColor
+                                    color: AppData.secondaryColor
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -146,8 +147,8 @@ class _ViewReviewState extends State<ViewReview> {
                       child:_loading ?Container(
                         width: _width,
                         color:AppData.secondaryColor.withOpacity(0.8) ,
-                        child: SpinKitSquareCircle(
-                          color: AppData.secondaryColor,
+                        child: SpinKitDoubleBounce(
+                          color: AppData.thirdColor,
                           size: 50.0,
                         ),
                       ): Padding(
