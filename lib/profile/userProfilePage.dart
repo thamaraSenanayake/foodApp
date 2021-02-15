@@ -210,7 +210,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Container(
-                                                  color: AppData.secondaryColor,
+                                                  // color: AppData.secondaryColor,
                                                   child: Padding(
                                                     padding: const EdgeInsets.all(3.0),
                                                     child: Text(
@@ -225,7 +225,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                                   ),
                                                 ),
                                                 Container(
-                                                  color: AppData.secondaryColor ,
+                                                  // color: AppData.secondaryColor ,
                                                   child: Padding(
                                                     padding: const EdgeInsets.all(3.0),
                                                     child: Text(
@@ -613,7 +613,14 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
 
   @override
   moveToProfile(String userTelNumber) {
-    // TODO: implement moveToProfile
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => UserProfilePage(
+          user: widget.user, otherUserId: userTelNumber,
+        ),
+        opaque: false
+      ),
+    );
   }
 
   @override

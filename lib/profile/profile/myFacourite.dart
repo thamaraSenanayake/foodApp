@@ -6,6 +6,7 @@ import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
 
 import '../../const.dart';
+import '../userProfilePage.dart';
 
 
 class FavoriteScreen extends StatefulWidget {
@@ -176,7 +177,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
 
   @override
   moveToProfile(String userTelNumber) {
-    // TODO: implement moveToProfile
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => UserProfilePage(
+          user: widget.user, otherUserId: userTelNumber,
+        ),
+        opaque: false
+      ),
+    );
   }
 
   @override

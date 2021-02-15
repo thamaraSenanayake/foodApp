@@ -31,8 +31,8 @@ class Database{
     if(querySnapshot.documents.length == 0){
       return null;
     }
-
-    return _setUser(querySnapshot);
+    List<User> userList = await _setUser(querySnapshot);
+    return userList[0];
   }
 
   Future<User> getUser(String telNumber) async{
@@ -40,6 +40,21 @@ class Database{
 
     querySnapshot = await users
     .where('telNumber',isEqualTo: telNumber )
+    .getDocuments();
+
+    if(querySnapshot.documents.length == 0){
+      return null;
+    }
+
+    List<User> userList = await _setUser(querySnapshot);
+    return userList[0];
+  }
+
+  Future<List<User>> getUserList(List<String> telNumber) async{
+    QuerySnapshot querySnapshot;
+
+    querySnapshot = await users
+    .where('telNumber',whereIn: telNumber )
     .getDocuments();
 
     if(querySnapshot.documents.length == 0){
@@ -455,8 +470,8 @@ class Database{
     return postList;
   }
 
-  Future<User> _setUser(QuerySnapshot querySnapshot) async {
-    User user;
+  Future<List<User>> _setUser(QuerySnapshot querySnapshot) async {
+    List<User> user = [];
     for (var item in querySnapshot.documents) {
       List<Review> review = [];
       if(item["reviewList"] != null){
@@ -477,7 +492,7 @@ class Database{
           );
         }
       }
-      user = User()
+      user.add(User()
         ..telNumber= item['telNumber']
         ..name= item['name']
         ..flowers= item['flowers'].cast<String>()
@@ -488,7 +503,7 @@ class Database{
         ..favoritePost=item['favoritePost'].cast<String>()
         ..productList=item['productList'].cast<String>()
         ..category = stringToUserCategory(item['category'])
-        ..reviewList = review;
+        ..reviewList = review);
     }
 
     return user;
@@ -581,6 +596,8 @@ class Database{
 
     return messageHeader; 
   }
+
+
 
 
 

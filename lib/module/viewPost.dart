@@ -314,10 +314,10 @@ class _ViewPostState extends State<ViewPost> {
                               child: Text(
                                 widget.user.name[0],
                                 style: TextStyle(
-                                 color: AppData.secondaryColor,
+                                //  color: AppData.secondaryColor,
                                   fontSize: 35,
                                   fontWeight: FontWeight.w800,
-                                  // color: AppData.primaryColor
+                                  color: AppData.primaryColor
                                 ),
                               ),
                             ),

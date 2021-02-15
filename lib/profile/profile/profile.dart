@@ -6,6 +6,7 @@ import 'package:food_app/profile/profile/myUploads.dart';
 import 'package:food_app/profile/profile/notification.dart';
 import 'package:food_app/profile/profile/personalInformation.dart';
 import 'package:food_app/profile/profile/settings/settings.dart';
+import 'package:food_app/profile/profile/uesrList.dart';
 import 'package:food_app/profile/profile/viewReview.dart';
 
 import '../homeBase.dart';
@@ -153,41 +154,65 @@ class _ProfileState extends State<Profile> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: AppData.secondaryColor,
-                                            width: 3
-                                          )
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(5),
-                                          child: Text(
-                                            "Following "+widget.user.flowing.length.toString(),
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              color: AppData.secondaryColor
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.of(context).push(
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, _, __) => UserList(
+                                                title: "Followings", user: widget.user, userList: widget.user.flowing,
+                                              ),
+                                              opaque: false
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: AppData.secondaryColor,
+                                              width: 3
+                                            )
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              "Following "+widget.user.flowing.length.toString(),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppData.secondaryColor
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
 
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: AppData.secondaryColor,
-                                            width: 3
-                                          )
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(5),
-                                          child: Text(
-                                            "Followers "+widget.user.flowers.length.toString(),
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800,
-                                              color: AppData.secondaryColor
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.of(context).push(
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, _, __) => UserList(
+                                                title: "Followers", user: widget.user, userList: widget.user.flowers,
+                                              ),
+                                              opaque: false
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: AppData.secondaryColor,
+                                              width: 3
+                                            )
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              "Followers "+widget.user.flowers.length.toString(),
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w800,
+                                                color: AppData.secondaryColor
+                                              ),
                                             ),
                                           ),
                                         ),
