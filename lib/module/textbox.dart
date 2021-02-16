@@ -63,7 +63,7 @@ class _TextBoxState extends State<TextBox> {
     return Container(
       width: _width - 40,
       constraints: BoxConstraints(
-        minHeight: widget.textInputType == TextInputType.multiline? 100:50
+        minHeight: widget.textInputType == TextInputType.multiline? 50:50
       ),
       padding:EdgeInsets.only(
         left:widget.prefixIcon == null ? 20 : 0,
@@ -116,7 +116,7 @@ class _TextBoxState extends State<TextBox> {
           hintStyle:TextStyle(fontSize: 14, color: AppData.secondaryColor, height: 1.8),
           suffixIcon: widget.suffixIcon != null ? Icon(widget.suffixIcon) : null,
         ),
-        maxLines: widget.textInputType == TextInputType.multiline?null:1,
+        maxLines: widget.textInputType == TextInputType.multiline?10:1,
         obscureText: widget.obscureText,
         keyboardType: widget.textInputType,
         textCapitalization: widget.firstLetterCapital?TextCapitalization.sentences:TextCapitalization.none,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/const.dart';
 
 class SaveImage extends ModalRoute<void> {
   final SaveImageListener listener;
@@ -66,14 +67,15 @@ class SaveImage extends ModalRoute<void> {
                             child: Text(
                               'Open gallery',
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: AppData.isDarkMode?Colors.white: Colors.blue,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w800
                               ),
                             ),
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            // color: Colors.white,
+                           color: AppData.primaryColor,
                             borderRadius: BorderRadius.only(
                               topLeft:Radius.circular(10),
                               topRight:Radius.circular(10),
@@ -82,6 +84,7 @@ class SaveImage extends ModalRoute<void> {
                         ),
                       ),
                       Container(
+                        width: (MediaQuery.of(context).size.width-50),
                         height: 1,
                         color: Colors.blueGrey,
                       ),
@@ -94,7 +97,7 @@ class SaveImage extends ModalRoute<void> {
                           height: 50,
                           width: (MediaQuery.of(context).size.width-50),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppData.primaryColor,
                             borderRadius: BorderRadius.only(
                               bottomLeft:Radius.circular(10),
                               bottomRight:Radius.circular(10),
@@ -104,7 +107,7 @@ class SaveImage extends ModalRoute<void> {
                             child: Text(
                               'Open camera',
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: AppData.isDarkMode?Colors.white: Colors.blue,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w800
                               ),
@@ -126,7 +129,7 @@ class SaveImage extends ModalRoute<void> {
                       height: 50,
                       width: (MediaQuery.of(context).size.width-50),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppData.primaryColor,
                         borderRadius: BorderRadius.circular(
                           10
                         )
@@ -135,7 +138,7 @@ class SaveImage extends ModalRoute<void> {
                           child: Text(
                             'Cancel',
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: AppData.isDarkMode?Colors.white: Colors.blue,
                               fontSize: 18.0,
                               fontWeight: FontWeight.w800
                             ),

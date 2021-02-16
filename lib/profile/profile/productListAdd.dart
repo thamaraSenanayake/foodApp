@@ -75,6 +75,7 @@ class _ProductListAddState extends State<ProductListAdd> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
       contentPadding:EdgeInsets.all(0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0))
@@ -102,7 +103,7 @@ class _ProductListAddState extends State<ProductListAdd> {
                         child: Text(
                           "Add Product List",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: AppData.secondaryColor,
                             fontSize: 18.0,
                             fontWeight: FontWeight.w600
                           ),

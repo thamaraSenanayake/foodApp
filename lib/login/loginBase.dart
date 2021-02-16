@@ -35,13 +35,14 @@ class _LoginBaseState extends State<LoginBase> implements LoginBaseListener{
     if(isDark == true.toString()){
       setState(() {
         AppData.isDarkMode = true;
-        Color primaryColor = AppData.primaryColor; 
-        AppData.primaryColor = AppData.secondaryColor;
-        AppData.secondaryColor = primaryColor;
+        AppData.primaryColor = AppData.blackColor;
+        AppData.secondaryColor =AppData.whiteColor ;
       });
     }else{
       setState(() {
         AppData.isDarkMode = false;
+        AppData.primaryColor = AppData.whiteColor;
+        AppData.secondaryColor =AppData.blackColor ;
       });
     }
 

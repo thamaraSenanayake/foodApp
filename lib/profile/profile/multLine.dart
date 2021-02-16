@@ -75,9 +75,10 @@ class _MultiLineDialogState extends State<MultiLineDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0))
       ),
+      backgroundColor: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
       content: Container(
         width: 260.0,
-        height: 250.0,
+        height: 300.0,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           color: const Color(0xFFFFFF),
@@ -96,7 +97,7 @@ class _MultiLineDialogState extends State<MultiLineDialog> {
                       child: Text(
                         _title,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppData.secondaryColor,
                           fontSize: 18.0,
                         ),
                         // textAlign: TextAlign.center,

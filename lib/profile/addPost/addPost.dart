@@ -69,7 +69,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: _post.intendDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2025),
     );
     if (picked != null && picked != _post.intendDate)
@@ -143,6 +143,7 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
         _post.id = postId;
       }
 
+      _post.forSale = _radioValues ==1?true:false;
       _post.postCategory = stringToUserCategory(_selectedUserCategory);
 
       await Database().addPost(_post);
@@ -801,7 +802,11 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                         _post.description = val;
                       }, 
                       errorText: _descriptionError,
-                      textBoxHint: "Description",
+                      textBoxHint: "1) The raw material you use to make the product .....\n"
+                      "2) Good health policies that you follow while making products ........\n"
+                      "3) Details about the quality certificates you have obtained for the products ..................\n"
+                      "4) How your product differs from other products .....\n"
+                      "5) Discounts offered ....",
                       textInputType: TextInputType.multiline,
                       initText: _post.description,
                     ),

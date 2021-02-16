@@ -43,6 +43,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
         child: Stack(
           children: [
             Container(
+              color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
               width : _width,
               height :_height,
               child: SafeArea(
@@ -71,6 +72,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                                       child: Icon(
                                         Icons.arrow_back,
                                         size: 35,
+                                        color: AppData.secondaryColor
                                       ),
                                     ),
                                   ),
@@ -82,7 +84,8 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                                   "Profile Information",
                                   style: TextStyle(
                                     fontSize: 22,
-                                    fontWeight: FontWeight.w800
+                                    fontWeight: FontWeight.w800,
+                                    color: AppData.secondaryColor
                                   ),
                                 ),
                               ),
@@ -99,7 +102,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                                   height: 150,
                                   width: 150,
                                   decoration: BoxDecoration(
-                                    color: AppData.secondaryColor,
+                                    color: AppData.primaryColor,
                                     borderRadius: BorderRadius.circular(
                                       100
                                     ),
@@ -133,7 +136,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                                   child: Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: AppData.primaryColor,
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25)),
@@ -150,6 +153,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                                     ),
                                     child: Icon(
                                       Icons.add_a_photo,
+                                      color: AppData.secondaryColor,
                                     ),
                                   ),
                                 )
@@ -168,7 +172,6 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                     Column(
                       children: [
                         Container(
-                          color: Colors.white,
                           child: ListTile(
                             onTap: (){
                               Navigator.of(context).push(
@@ -184,17 +187,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                             title: Text(
                               "Your name or business name",
                               style: TextStyle(
-                                color: Colors.black,
+                                color:AppData.secondaryColor,
                                 fontSize: 20
                               ),
                             ),
                             trailing: Icon(
                               Icons.arrow_forward,
+                              color:AppData.secondaryColor,
                             ),
                           ),
                         ),
                         Container(
-                          color: Colors.white,
                           child: ListTile(
                             onTap: (){
                               Navigator.of(context).push(
@@ -210,17 +213,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                             title: Text(
                               "Permanent Address",
                               style: TextStyle(
-                                color: Colors.black,
+                                color:AppData.secondaryColor,
                                 fontSize: 20
                               ),
                             ),
                             trailing: Icon(
                               Icons.arrow_forward,
+                              color:AppData.secondaryColor,
                             ),
                           ),
                         ),
                         Container(
-                          color: Colors.white,
                           child: ListTile(
                             onTap: (){
                               Navigator.of(context).push(
@@ -236,17 +239,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                             title: Text(
                               "Email",
                               style: TextStyle(
-                                color: Colors.black,
+                                color:AppData.secondaryColor,
                                 fontSize: 20
                               ),
                             ),
                             trailing: Icon(
                               Icons.arrow_forward,
+                              color:AppData.secondaryColor,
                             ),
                           ),
                         ),
                         Container(
-                          color: Colors.white,
                           child: ListTile(
                             onTap: (){
                               Navigator.of(context).push(
@@ -262,17 +265,17 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                             title: Text(
                               "Description",
                               style: TextStyle(
-                                color: Colors.black,
+                                color:AppData.secondaryColor,
                                 fontSize: 20
                               ),
                             ),
                             trailing: Icon(
                               Icons.arrow_forward,
+                              color:AppData.secondaryColor,
                             ),
                           ),
                         ),
                         Container(
-                          color: Colors.white,
                           child: ListTile(
                             onTap: (){
                               Navigator.of(context).push(
@@ -287,12 +290,13 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                             title: Text(
                               "Your product or service list",
                               style: TextStyle(
-                                color: Colors.black,
+                                color:AppData.secondaryColor,
                                 fontSize: 20
-                              ),
+                              )
                             ),
                             trailing: Icon(
                               Icons.arrow_forward,
+                              color:AppData.secondaryColor,
                             ),
                           ),
                         ),

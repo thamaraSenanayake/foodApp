@@ -4,6 +4,7 @@ import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/post.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/module/viewPost.dart';
+import 'package:food_app/profile/message/messageView.dart';
 
 import '../../const.dart';
 import '../userProfilePage.dart';
@@ -189,7 +190,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
 
   @override
   sendMessage(User otherUser) {
-    // TODO: implement sendMessage
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => MessageScreen(
+          user: widget.user,
+          otherUser:otherUser
+        ),
+        opaque: false
+      ),
+    );
   }
 
   @override

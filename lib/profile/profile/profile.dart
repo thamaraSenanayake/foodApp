@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.only(top:20.0),
               child: Container(
                 width: _width-20,
-                height: 100,
+                height: 150,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color:AppData.primaryColor,
@@ -65,7 +65,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     Container(
                       width: _width-40,
-                      height: 80,
+                      height: 150,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -394,7 +394,7 @@ class _ProfileState extends State<Profile> {
                           );
                         },
                         leading: Icon(
-                          Icons.star,
+                          Icons.favorite,
 
                           color: AppData.secondaryColor,
                         ),

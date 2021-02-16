@@ -72,6 +72,7 @@ class _EditDialogState extends State<EditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0))
       ),
@@ -95,7 +96,7 @@ class _EditDialogState extends State<EditDialog> {
                     child: Text(
                       _title,
                       style: TextStyle(
-                        color: Colors.black,
+                        color: AppData.secondaryColor,
                         fontSize: 18.0,
                       ),
                       // textAlign: TextAlign.center,

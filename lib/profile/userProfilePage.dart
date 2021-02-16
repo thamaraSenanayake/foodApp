@@ -7,6 +7,7 @@ import 'package:food_app/module/viewPost.dart';
 import 'package:food_app/profile/addReview.dart';
 
 import '../const.dart';
+import 'message/messageView.dart';
 
 class UserProfilePage extends StatefulWidget {
   final User user;
@@ -625,7 +626,15 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
 
   @override
   sendMessage(User otherUser) {
-    // TODO: implement sendMessage
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => MessageScreen(
+          user: widget.user,
+          otherUser:otherUser
+        ),
+        opaque: false
+      ),
+    );
   }
 
   @override
