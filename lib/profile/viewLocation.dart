@@ -35,14 +35,15 @@ class _ViewLocationState extends State<ViewLocation>  {
       position: LatLng(position.latitude,position.longitude),
       // icon: BitmapDescriptor.fromBytes(markerIcon),
     );
-
-    setState(() {
-      _cameraPosition =  CameraPosition(
-        target: LatLng(position.latitude,position.longitude),
-        zoom: 15
-      );
-      _markers[MarkerId("YOUR_LOCATION")] = marker;
-    });
+    if(mounted){
+      setState(() {
+        _cameraPosition =  CameraPosition(
+          target: LatLng(position.latitude,position.longitude),
+          zoom: 15
+        );
+        _markers[MarkerId("YOUR_LOCATION")] = marker;
+      });
+    }
   }
 
   @override
@@ -136,10 +137,12 @@ class _ViewLocationState extends State<ViewLocation>  {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      _mapController = controller;
-      // controller.setMapStyle(_mapStyle);
-    });
+    if(mounted){
+      setState(() {
+        _mapController = controller;
+        // controller.setMapStyle(_mapStyle);
+      });
+    }
   }
 
 }

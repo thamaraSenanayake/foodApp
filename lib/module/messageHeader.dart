@@ -28,11 +28,11 @@ class _MessageHeaderViewState extends State<MessageHeaderView> {
     return Padding(
       padding: const EdgeInsets.only(bottom:8.0),
       child: GestureDetector(
-        onTap: (){
+        onTap: () async {
           // setState(() {
           // });
           unReadCount = 0;
-          Navigator.of(context).push(
+          await Navigator.of(context).push(
             PageRouteBuilder(
               pageBuilder: (context, _, __) => MessageScreen(
                 user: widget.user,
@@ -41,6 +41,11 @@ class _MessageHeaderViewState extends State<MessageHeaderView> {
               opaque: false
             ),
           );
+          if(mounted){
+            setState(() {
+              
+            });
+          }
         },
         child: Container(
           width: MediaQuery.of(context).size.width - 40,

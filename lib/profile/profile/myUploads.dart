@@ -36,10 +36,12 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener,Warni
         ViewPost(post: item, user: widget.user, listener: this,myPost: true,canEdit: true,),
       );
     }
-    setState(() {
-      _postViewList =postViewList;
-      _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _postViewList =postViewList;
+        _loading = false;
+      });
+    }
   }
 
   @override
@@ -166,9 +168,11 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener,Warni
         opaque: false
       ),
     );
-    setState(() {
-      _loading = true;
-    });
+    if(mounted){
+      setState(() {
+        _loading = true;
+      });
+    }
     _loadPost();
   }
 
@@ -215,9 +219,11 @@ class _MyUploadsState extends State<MyUploads> implements ViewPostListener,Warni
 
   @override
   clickYes() async {
-    setState(() {
-      _loading = true;
-    });
+    if(mounted){
+      setState(() {
+        _loading = true;
+      });
+    }
     await Database().deletePost(_deletePostId);
     _loadPost();
   }

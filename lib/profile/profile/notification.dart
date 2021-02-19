@@ -32,11 +32,12 @@ class _NotificationScreenState extends State<NotificationScreen>  {
         NotificationItem(post: item)
       );
     }
-
-    setState(() {
-      _clapList = clapList;
-      _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _clapList = clapList;
+        _loading = false;
+      });
+    }
     Database().resetClapCount(widget.user.telNumber);
 
   }

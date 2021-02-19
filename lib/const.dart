@@ -54,3 +54,9 @@ class KeyContainer {
   static const String PASSWORD = 'password';
   static const String IS_DARK = 'isDark';
 }
+
+enum UserType{
+  Passenger,
+  BusOwner,
+  Admin
+}

@@ -32,10 +32,12 @@ class _ViewReviewState extends State<ViewReview> {
      reviewListWidget.add(
       ReviewView(
         review: item,
-        submitReview: (Review newReview  ,Review  oldReview) async {  
-          setState(() {
-            _loading = true;
-          });
+        submitReview: (Review newReview  ,Review  oldReview) async { 
+          if(mounted){
+            setState(() {
+              _loading = true;
+            });
+          } 
           int index = widget.user.reviewList.indexOf(oldReview);
           widget.user.reviewList.remove(oldReview);
           widget.user.reviewList.insert(index,newReview);
@@ -46,14 +48,18 @@ class _ViewReviewState extends State<ViewReview> {
       )
     );
     }
-    setState(() {
-      _reviewListWidget = reviewListWidget;
-      _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _reviewListWidget = reviewListWidget;
+        _loading = false;
+      });
+    }
     Database().updateReview(widget.user.reviewList, widget.user,readAll: true);
-    setState(() {
-      AppData.reviewCount = 0;
-    });
+    if(mounted){
+      setState(() {
+        AppData.reviewCount = 0;
+      });
+    }
   }
 
 

@@ -116,7 +116,7 @@ class _TextBoxState extends State<TextBox> {
           hintStyle:TextStyle(fontSize: 14, color: AppData.secondaryColor, height: 1.8),
           suffixIcon: widget.suffixIcon != null ? Icon(widget.suffixIcon) : null,
         ),
-        maxLines: widget.textInputType == TextInputType.multiline?10:1,
+        maxLines: widget.textInputType == TextInputType.multiline?16:1,
         obscureText: widget.obscureText,
         keyboardType: widget.textInputType,
         textCapitalization: widget.firstLetterCapital?TextCapitalization.sentences:TextCapitalization.none,

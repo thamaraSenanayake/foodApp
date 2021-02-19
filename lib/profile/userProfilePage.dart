@@ -48,10 +48,12 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
       productList += item+", ";
     }
     productList.substring(0,productList.length-2);
-    setState(() {
-      _widgetList = widgetList;
-       _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _widgetList = widgetList;
+        _loading = false;
+      });
+    }
     for (var item in otherUser.reviewList) {
       _startCount += item.starCount;
     }
@@ -269,9 +271,11 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                         Database().follow(otherUser, widget.user);
                                         widget.user.flowing.add(otherUser.telNumber);
                                       }
-                                      setState(() {
-                                        
-                                      });
+                                      if(mounted){
+                                        setState(() {
+                                          
+                                        });
+                                      }
                                     },
                                     child: Container(
                                       height: 30,
@@ -304,8 +308,8 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: (){
-                                      Navigator.of(context).push(
+                                    onTap: () async {
+                                      await Navigator.of(context).push(
                                         PageRouteBuilder(
                                           pageBuilder: (context, _, __) => AddReview(
                                             user: widget.user,
@@ -314,6 +318,11 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                           opaque: false
                                         ),
                                       );
+                                      if(mounted){
+                                        setState(() {
+                                          
+                                        });
+                                      }
                                     },
                                     child: Container(
                                       height: 30,
@@ -365,9 +374,11 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                 padding: const EdgeInsets.only(top:10.0),
                                 child: GestureDetector(
                                   onTap: (){
-                                    setState(() {
-                                      _viewContactDetails = !_viewContactDetails;
-                                    });
+                                    if(mounted){
+                                      setState(() {
+                                        _viewContactDetails = !_viewContactDetails;
+                                      });
+                                    }
                                   },
                                   child: Container(
                                     height: 30,
@@ -409,7 +420,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:"Tel: ",
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w800,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -417,7 +428,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:otherUser.telNumber,
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -434,7 +445,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:"Email: ",
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w800,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -442,7 +453,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:otherUser.email,
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -459,7 +470,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:"Address: ",
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w800,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -467,7 +478,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:otherUser.address,
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -484,7 +495,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:"Description: \n",
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w800,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -492,7 +503,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:otherUser.description,
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -507,9 +518,9 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                         text: TextSpan(
                                           children:[
                                             TextSpan(
-                                              text:"ProductList: ",
+                                              text:"Product List: ",
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w800,
                                                 color: AppData.secondaryColor,
                                               ),
@@ -517,7 +528,7 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                             TextSpan(
                                               text:productList.toString(),
                                               style: TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                                 color: AppData.secondaryColor,
                                               ),

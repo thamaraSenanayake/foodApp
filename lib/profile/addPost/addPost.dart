@@ -121,13 +121,20 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
     }
 
     if(validation == true){
-      setState(() {
-        _loading = true;
-      });
+      double _barWidth = (_width-80)/(_image.length+1);
+      if(widget.listener != null){
+        widget.listener.progressBarStart();
+        widget.listener.moveToPage(ProfilePage.Home);
+      }else{
+        Navigator.pop(context);
+      }
 
       if(_image != null){
         for (var item in _image) {
           _post.imgUrl.add( await _uploadPic(item));
+          if(widget.listener != null){
+            widget.listener.progressBarUpdate(_barWidth);
+          }
         }
       }
 
@@ -147,16 +154,12 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       _post.postCategory = stringToUserCategory(_selectedUserCategory);
 
       await Database().addPost(_post);
-
-      setState(() {
-        _loading = false;
-      });
-
       if(widget.listener != null){
-        widget.listener.moveToPage(ProfilePage.Home);
-      }else{
-        Navigator.pop(context);
+        widget.listener.progressBarUpdate(_barWidth);
+        widget.listener.progressBarHide();
       }
+
+      
 
     }
 
@@ -350,10 +353,11 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
         )
       );
     }
-
-    setState(() {
-      _photoList = photoList;
-    });
+    if(mounted){
+      setState(() {
+        _photoList = photoList;
+      });
+    }
     
   }
 
@@ -802,11 +806,17 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
                         _post.description = val;
                       }, 
                       errorText: _descriptionError,
-                      textBoxHint: "1) The raw material you use to make the product .....\n"
+                      textBoxHint: 
+                      "Providing a complete description of your product here can enhance customer attraction and trust in your product.\n\n"
+
+
+                      "Examples-\n"
+                      "1) The raw material you use to make the product .....\n"
                       "2) Good health policies that you follow while making products ........\n"
                       "3) Details about the quality certificates you have obtained for the products ..................\n"
                       "4) How your product differs from other products .....\n"
-                      "5) Discounts offered ....",
+                      "5) Discounts offered ....\n\n"
+                      "(The above information can be confirmed by the pictures you have added.)",
                       textInputType: TextInputType.multiline,
                       initText: _post.description,
                     ),

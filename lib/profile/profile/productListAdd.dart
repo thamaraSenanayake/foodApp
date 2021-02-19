@@ -47,10 +47,11 @@ class _ProductListAddState extends State<ProductListAdd> {
         )
       );
     }
-
-    setState(() {
-      _productListWidget = productListWidget;
-    });
+    if(mounted){
+      setState(() {
+        _productListWidget = productListWidget;
+      });
+    }
   }
 
   _close(){

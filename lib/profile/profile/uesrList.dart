@@ -33,11 +33,13 @@ class _UserListState extends State<UserList> implements UserListItemListener {
         UserListItem( user: item, listener: this)
       );
     }
+    if(mounted){
+      setState(() {
+        _userViewList = userViewList;
+        _loading = false;
+      });
+    }
 
-    setState(() {
-      _userViewList = userViewList;
-      _loading = false;
-    });
 
 
   }

@@ -37,11 +37,12 @@ class _PostsToCategoryState extends State<PostsToCategory> implements ViewPostLi
         ViewPost(post: item, user: widget.user, listener: this,myPost: false,canEdit: false,),
       );
     }
-    
-    setState(() {
-      _postViewList =postViewList;
-      _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _postViewList =postViewList;
+        _loading = false;
+      });
+    }
   }
 
   @override

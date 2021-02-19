@@ -493,6 +493,7 @@ class Database{
         }
       }
       user.add(User()
+        ..description =item['description']
         ..telNumber= item['telNumber']
         ..name= item['name']
         ..flowers= item['flowers'].cast<String>()

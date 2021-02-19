@@ -136,9 +136,11 @@ class _ProfileState extends State<Profile> {
                                               opaque: false
                                             ),
                                           );
-                                          setState(() {
-                                        
-                                          });
+                                          if(mounted){
+                                            setState(() {
+                                          
+                                            });
+                                          }
                                         },
                                         child: Icon(
                                           Icons.arrow_forward,
@@ -432,9 +434,11 @@ class _ProfileState extends State<Profile> {
                               opaque: false
                             ),
                           );
-                          setState(() {
-                            
-                          });
+                          if(mounted){
+                            setState(() {
+                              
+                            });
+                          }
                         },
                         leading: Icon(
                           Icons.settings,

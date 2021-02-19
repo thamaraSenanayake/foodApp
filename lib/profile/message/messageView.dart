@@ -49,11 +49,12 @@ class _MessageScreenState extends State<MessageScreen> {
         SingleMessageView(singleMessage: item, user: widget.user,)
       );
     }
-
-    setState(() {
-      _msgListWidget = _msgListWidgetTemp;
-      _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _msgListWidget = _msgListWidgetTemp;
+        _loading = false;
+      });
+    }
 
     _controller.animateTo(
       0.0,
@@ -136,10 +137,11 @@ class _MessageScreenState extends State<MessageScreen> {
         SingleMessageView(singleMessage: item, user: widget.user,)
       );
     }
-
-    setState(() {
-      _msgListWidget = _msgListWidgetTemp;
-    });
+    if(mounted){
+      setState(() {
+        _msgListWidget = _msgListWidgetTemp;
+      });
+    }
 
   }
 

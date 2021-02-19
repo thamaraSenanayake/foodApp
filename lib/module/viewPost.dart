@@ -106,9 +106,12 @@ class _ViewPostState extends State<ViewPost> {
         )
       );
     }
-    setState(() {
-      _imageList = imageList;
-    });
+    if(mounted){
+      setState(() {
+        _imageList = imageList;
+      });
+    }
+
   }
 
   @override
@@ -142,6 +145,29 @@ class _ViewPostState extends State<ViewPost> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              height: 30,
+              width: _width-20,
+              child:Text(
+                widget.post.forSale?"for Sale":"to Buy",
+                style: TextStyle(
+                  color: AppData.thirdColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800
+                ),
+                textAlign: TextAlign.right,
+              ),
+              // decoration: BoxDecoration(
+                // gradient: LinearGradient(
+                  // begin: Alignment.centerLeft,
+                  // end:Alignment(0.8, 0.0), // 10% of the width, so there are ten blinds.
+                  // colors: [
+                    // AppData.thirdColor,
+                    // AppData.whiteColor
+                  // ], // red to yellow
+                // ),
+              // )
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom:3.0),
               child: Row(
@@ -160,15 +186,19 @@ class _ViewPostState extends State<ViewPost> {
                       // List<String> favoritePost = widget.user.favoritePost;
                       Database().addRemoveFavorite(widget.post.id, widget.user);
                       if(widget.user.favoritePost.contains(widget.post.id)){
-                        setState(() {
-                          // widget.user.favoritePost = favoritePost;
-                          _isFavorite = true;
-                        });
+                        if(mounted){
+                          setState(() {
+                            // widget.user.favoritePost = favoritePost;
+                            _isFavorite = true;
+                          });
+                        }
                       }else{
-                        setState(() {
-                          // widget.user.favoritePost = favoritePost;
-                          _isFavorite = false;
-                        });
+                        if(mounted){
+                          setState(() {
+                            // widget.user.favoritePost = favoritePost;
+                            _isFavorite = false;
+                          });
+                        }
                       }
                       widget.listener.addToFavorite(widget.post.id);
                       print("_isFavorite"+_isFavorite.toString());
@@ -378,9 +408,11 @@ class _ViewPostState extends State<ViewPost> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      setState(() {
-                        _clapped = true;
-                      });
+                      if(mounted){
+                        setState(() {
+                          _clapped = true;
+                        });
+                      }
                       bool clap = await Database().addClap(widget.post.clapUser, widget.user, widget.post);
                       Scaffold.of(context).showSnackBar(
                         SnackBar(

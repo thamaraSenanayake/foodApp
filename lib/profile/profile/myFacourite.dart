@@ -33,11 +33,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
         ViewPost(post: item, user: widget.user, listener: this)
       );
     }
-
-    setState(() {
-      _favoriteList = favoriteList;
-      _loading = false;
-    });
+    if(mounted){
+      setState(() {
+        _favoriteList = favoriteList;
+        _loading = false;
+      });
+    }
 
 
   }
@@ -151,9 +152,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> implements ViewPostList
     
     _postList.remove(_post);
 
-    setState(() {
-      _favoriteList = favoriteList;
-    });
+    if(mounted){
+      setState(() {
+        _favoriteList = favoriteList;
+      });
+    }
   }
 
   @override

@@ -344,9 +344,11 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
 
     widget.user.profilePicUrl = url;
     Database().updateUser(widget.user);
-    setState(() {
-      _loading = false;
-    });  
+    if(mounted){
+      setState(() {
+        _loading = false;
+      });  
+    }
     
   }
 
@@ -361,10 +363,12 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
       image = await picker.getImage(source: ImageSource.gallery);
     }
     if(image != null){
-      setState(() {
-        _image = File(image.path);
-        _loading = true;
-      });
+      if(mounted){
+        setState(() {
+          _image = File(image.path);
+          _loading = true;
+        });
+      }
       _uploadPic();
     }
   }

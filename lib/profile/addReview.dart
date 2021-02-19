@@ -42,9 +42,11 @@ class _AddReviewState extends State<AddReview> {
         )
       );
     }
-    setState(() {
-      _reviewListWidget = reviewListWidget;
-    });
+    if(mounted){
+      setState(() {
+        _reviewListWidget = reviewListWidget;
+      });
+    }
   }
 
   _addReview(){

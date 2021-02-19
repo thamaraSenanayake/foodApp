@@ -61,14 +61,16 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
       position: LatLng(position.latitude,position.longitude),
       // icon: BitmapDescriptor.fromBytes(markerIcon),
     );
+    if(mounted){
+      setState(() {
+        _cameraPosition =  CameraPosition(
+          target: LatLng(position.latitude,position.longitude),
+          zoom: 15
+        );
+        _markers[MarkerId("YOUR_LOCATION")] = marker;
+      });
 
-    setState(() {
-      _cameraPosition =  CameraPosition(
-        target: LatLng(position.latitude,position.longitude),
-        zoom: 15
-      );
-      _markers[MarkerId("YOUR_LOCATION")] = marker;
-    });
+    }
   }
 
   @override
@@ -79,6 +81,7 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
 
   @override
   Widget build(BuildContext context) {
+    
     setState(() {
       _width = MediaQuery.of(context).size.width;
       _height= MediaQuery.of(context).size.height;
@@ -160,10 +163,12 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      _mapController = controller;
-      // controller.setMapStyle(_mapStyle);
-    });
+    if(mounted){
+      setState(() {
+        _mapController = controller;
+        // controller.setMapStyle(_mapStyle);
+      });
+    }
   }
 
   @override

@@ -29,10 +29,12 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
       return;
     }
     List<Widget> viewPost = [];
-    setState(() {
-      _loading = true;
-      _noResult = false;
-    });
+    if(mounted){
+      setState(() {
+        _loading = true;
+        _noResult = false;
+      });
+    }
     viewPost = [];
     List<Post> _post = await Database().searchPostList(searchKey, _radioValues ==1?true:false,widget.user.telNumber);
     for (var item in _post) {
@@ -42,15 +44,18 @@ class _SearchScreenState extends State<SearchScreen> implements ViewPostListener
     }
 
     if(viewPost.length == 0){
+      if(mounted){
+        setState(() {
+          _noResult = true;
+        });
+      }
+    }
+    if(mounted){
       setState(() {
-        _noResult = true;
+        _viewPost = viewPost;
+        _loading = false;
       });
     }
-
-    setState(() {
-      _viewPost = viewPost;
-      _loading = false;
-    });
   }
 
   @override
