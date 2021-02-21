@@ -109,7 +109,7 @@ class _MessageHeaderViewState extends State<MessageHeaderView> {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => CircularProgressIndicator(),
+                placeholder: (context, url) => Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>( AppData.thirdColor,))),
                 errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
               ),
               

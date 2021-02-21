@@ -87,14 +87,14 @@ class _ViewPostState extends State<ViewPost> {
                   height: 200,
                   width: _width-40,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                    // shape: BoxShape.circle,
                     image: DecorationImage(
                       image: imageProvider, 
                       fit: BoxFit.cover
                     ),
                   ),
                 ),
-                placeholder: (context, url) => CircularProgressIndicator(),
+                placeholder: (context, url) => Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>( AppData.thirdColor,))),
                 errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
               ),
               
@@ -346,8 +346,8 @@ class _ViewPostState extends State<ViewPost> {
                                   image: imageProvider, fit: BoxFit.cover),
                               ),
                             ),
-                            placeholder: (context, url) => CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => Icon(Icons.broken_image),
+                            placeholder: (context, url) => Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>( AppData.thirdColor,))),
+                            errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
                           ):Container(
                             height: 60,
                             width: 60,

@@ -124,13 +124,14 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                                       height:100,
                                       width: 100,
                                       decoration: BoxDecoration(
+                                        shape:BoxShape.circle,
                                         image: DecorationImage(
                                           image: imageProvider, 
                                           fit: BoxFit.cover
                                         ),
                                       ),
                                     ),
-                                    placeholder: (context, url) => CircularProgressIndicator(),
+                                    placeholder: (context, url) => Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>( AppData.thirdColor,))),
                                     errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
                                   ):Container(
                                     height:100,
