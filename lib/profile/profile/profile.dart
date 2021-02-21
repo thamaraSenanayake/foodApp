@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
 import 'package:food_app/model/user.dart';
@@ -71,19 +72,39 @@ class _ProfileState extends State<Profile> {
                         children: [
                          widget.user.profilePicUrl.isNotEmpty? Padding(
                            padding: const EdgeInsets.only(left:10.0),
-                           child: Container(
+                          //  child: Container(
+                          //     height: 80,
+                          //     width: 80,
+                          //     decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(
+                          //         100
+                          //       ),
+                          //       image: DecorationImage(
+                          //         image:widget.user.profilePicUrl.isNotEmpty? NetworkImage(widget.user.profilePicUrl):null,
+                          //         fit: BoxFit.cover,
+                          //       )
+                          //     ),
+                          //   ),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.user.profilePicUrl,
+                            imageBuilder: (context, imageProvider) => Container(
                               height: 80,
                               width: 80,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  100
+                                border: Border.all(
+                                  width: 2,
                                 ),
+                                shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image:widget.user.profilePicUrl.isNotEmpty? NetworkImage(widget.user.profilePicUrl):null,
-                                  fit: BoxFit.cover,
-                                )
+                                  image: imageProvider, 
+                                  fit: BoxFit.cover
+                                ),
                               ),
                             ),
+                            placeholder: (context, url) => CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
+                          ),
+
                          ):Container(
                             height: 80,
                             width: 80,

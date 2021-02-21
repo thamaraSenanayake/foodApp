@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -240,16 +241,31 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
           width: _width-20,
           child: Stack(
             children: [
-              Container(
-                height: 200,
+              // Container(
+              //   height: 200,
+              //   width: _width-20,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(10.0),
+              //     image: DecorationImage(
+              //       image:NetworkImage(item),
+              //       fit: BoxFit.cover,
+              //     )
+              //   ),
+              // ),
+              CachedNetworkImage(
+                imageUrl: item,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 200,
                 width: _width-20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  image: DecorationImage(
-                    image:NetworkImage(item),
-                    fit: BoxFit.cover,
-                  )
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider, 
+                      fit: BoxFit.cover
+                    ),
+                  ),
                 ),
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
               ),
               (_post.imgUrl.length + _image.length ) >1? Align(
                 alignment: Alignment.topRight,

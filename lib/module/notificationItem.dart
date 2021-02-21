@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/model/post.dart';
 
@@ -54,16 +55,23 @@ class _NotificationItemState extends State<NotificationItem> {
         ),
         child: Row(
           children: [
-            Container(
-              height: 80,
-              width: 80,
-              decoration: BoxDecoration(
-                image:DecorationImage(
-                  image: NetworkImage(widget.post.imgUrl[0]),
-                  fit: BoxFit.cover,
-                ) 
+
+            CachedNetworkImage(
+              imageUrl: widget.post.imgUrl[0],
+              imageBuilder: (context, imageProvider) => Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider, 
+                    fit: BoxFit.cover
+                  ),
+                ),
               ),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
             ),
+            
             Container(
               height: 80,
               width: _width - 140,

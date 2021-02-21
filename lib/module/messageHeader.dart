@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/message/messageView.dart';
@@ -75,22 +76,43 @@ class _MessageHeaderViewState extends State<MessageHeaderView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    100
+              // Container(
+              //   height: 80,
+              //   width: 80,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(
+              //       100
+              //     ),
+              //     border: Border.all(
+              //       width: 2,
+              //     ),
+              //     image: DecorationImage(
+              //       image: NetworkImage(widget.otherUser.profilePicUrl),
+              //       fit: BoxFit.cover,
+              //     )
+              //   ),
+              // ),
+
+              CachedNetworkImage(
+                imageUrl: widget.otherUser.profilePicUrl,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                    ),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imageProvider, 
+                      fit: BoxFit.cover
+                    ),
                   ),
-                  border: Border.all(
-                    width: 2,
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(widget.otherUser.profilePicUrl),
-                    fit: BoxFit.cover,
-                  )
                 ),
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
               ),
+              
               Text(
                 widget.otherUser.name,
                 style: TextStyle(

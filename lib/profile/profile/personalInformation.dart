@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -110,7 +111,7 @@ class _PersonalInformationState extends State<PersonalInformation> implements Sa
                                       width: 2
                                     ),
                                     image:_image != null || widget.user.profilePicUrl.isNotEmpty?  DecorationImage(
-                                      image:_image != null ? FileImage(_image): NetworkImage(widget.user.profilePicUrl),
+                                      image:_image != null ? FileImage(_image): CachedNetworkImageProvider(widget.user.profilePicUrl),
                                       fit: BoxFit.cover,
                                     ):null
                                   ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
 import 'package:food_app/database/databse.dart';
@@ -79,17 +80,24 @@ class _ViewPostState extends State<ViewPost> {
           width: _width-40,
           child: Stack(
             children: [
-              Container(
-                height: 200,
-                width: _width-40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  image: DecorationImage(
-                    image: NetworkImage(item),
-                    fit: BoxFit.cover,
-                  )
+
+              CachedNetworkImage(
+                imageUrl: item,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 200,
+                  width: _width-40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imageProvider, 
+                      fit: BoxFit.cover
+                    ),
+                  ),
                 ),
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
               ),
+              
               widget.post.imgUrl.length >1? Align(
                 alignment: Alignment.topRight,
                 child: Padding(
@@ -326,17 +334,20 @@ class _ViewPostState extends State<ViewPost> {
                     child: Container(
                       child: Row(
                         children: [
-                          widget.post.user.profilePicUrl.isNotEmpty? Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(100),
-                              image: DecorationImage(
-                                image: NetworkImage(widget.post.user.profilePicUrl),
-                                fit: BoxFit.cover,
-                              )
-                            )
+                          widget.post.user.profilePicUrl.isNotEmpty?
+                          CachedNetworkImage(
+                            imageUrl: widget.post.user.profilePicUrl,
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 60.0,
+                              height: 60.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                            placeholder: (context, url) => CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => Icon(Icons.broken_image),
                           ):Container(
                             height: 60,
                             width: 60,

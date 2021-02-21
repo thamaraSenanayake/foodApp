@@ -40,6 +40,8 @@ dependencies:
   flutter_keyboard_visibility: ^3.2.1
   flutter_secure_storage: ^3.3.5
   share: ^0.6.5+4
+  cached_network_image: ^2.5.0
+
 
 
 

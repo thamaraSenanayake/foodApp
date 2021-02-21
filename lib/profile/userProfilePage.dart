@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:food_app/database/databse.dart';
@@ -116,17 +117,21 @@ class _UserProfilePageState extends State<UserProfilePage> implements ViewPostLi
                               height: 110,
                               child: Row(
                                 children:[
-                                  otherUser.profilePicUrl.isNotEmpty? Container(
-                                    height:100,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(100),
-                                      image: DecorationImage(
-                                        image: NetworkImage(otherUser.profilePicUrl),
-                                        fit: BoxFit.cover,
-                                      )
-                                    )
+                                  otherUser.profilePicUrl.isNotEmpty? 
+                                  CachedNetworkImage(
+                                    imageUrl: otherUser.profilePicUrl,
+                                    imageBuilder: (context, imageProvider) => Container(
+                                      height:100,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: imageProvider, 
+                                          fit: BoxFit.cover
+                                        ),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Center(child: Icon(Icons.broken_image,color: AppData.secondaryColor,)),
                                   ):Container(
                                     height:100,
                                     width: 100,
