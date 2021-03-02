@@ -41,6 +41,8 @@ dependencies:
   flutter_secure_storage: ^3.3.5
   share: ^0.6.5+4
   cached_network_image: ^2.5.0
+  image: ^2.1.18
+  path_provider: ^1.6.18
 
 
 

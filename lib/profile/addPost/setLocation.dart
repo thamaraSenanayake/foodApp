@@ -90,6 +90,7 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
       body: Container(
         width : _width,
         height :_height,
+        color: AppData.isDarkMode? Colors.black.withOpacity(0.8):Colors.white,
         child: SafeArea(
           child: Column(
             children: [
@@ -115,6 +116,7 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
                                 child: Icon(
                                   Icons.arrow_back,
                                   size: 35,
+                                  color: AppData.secondaryColor,
                                 ),
                               ),
                             ),
@@ -126,7 +128,8 @@ class _SetLocationState extends State<SetLocation> implements LocationErrorListe
                             "Set Location",
                             style: TextStyle(
                               fontSize: 22,
-                              fontWeight: FontWeight.w800
+                              fontWeight: FontWeight.w800,
+                              color: AppData.secondaryColor,
                             ),
                           ),
                         ),

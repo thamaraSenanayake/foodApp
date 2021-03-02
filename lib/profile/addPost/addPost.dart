@@ -15,6 +15,8 @@ import 'package:food_app/res/convert.dart';
 import 'package:food_app/res/saveImage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:image/image.dart' as im;
+import 'package:path_provider/path_provider.dart';
 
 import '../../const.dart';
 import '../homeBase.dart';
@@ -963,7 +965,19 @@ class _AddPostState extends State<AddPost> implements SaveImageListener {
       image = await picker.getImage(source: ImageSource.gallery);
     }
     if(image != null){
-      _image.add(File(image.path));
+      File file = File(image.path);
+
+      if(file.lengthSync() > 1000000){
+        Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path;
+        im.Image image = im.decodeImage(file.readAsBytesSync());
+
+        im.Image thumbnail = im.copyResize(image, width: 500);
+
+        // Save the thumbnail as a PNG.
+        file = File(tempPath+"/filename"+_image.length.toString()+".jpg")..writeAsBytesSync(im.encodePng(thumbnail));
+      }
+      _image.add(file);
       setState(() {
         _imgUrlError = "";
       });

@@ -19,9 +19,11 @@ class _NotificationItemState extends State<NotificationItem> {
 
   @override
   void initState() {
-    _clappedUserList += widget.post.clapUser.last.name;
-    if(widget.post.clapUser.length > 1 ){
-      _clappedUserList += " and "+(widget.post.clapUser.length -1).toString()+" others";
+    if(widget.post.clapUser.isNotEmpty ){
+      _clappedUserList += widget.post.clapUser.last.name;
+      if(widget.post.clapUser.length > 1 ){
+        _clappedUserList += " and "+(widget.post.clapUser.length -1).toString()+" others";
+      }
     }
     _clappedUserList += " clapped to your post";
     super.initState();
