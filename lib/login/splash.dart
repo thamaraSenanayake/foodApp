@@ -71,19 +71,19 @@ class _SplashScreenState extends State<SplashScreen> {
               text:TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'my',
+                    text: 'Moon',
                     style:TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue
+                      color: AppData.blackColor
                     )
                   ),
                   TextSpan(
-                    text: ' POCKET',
+                    text: ' App',
                     style:TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.yellow[800]
+                      color: Color(0xff202020)
                     )
                   ),
                 ],
@@ -106,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   text:TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        text: "Welcome to ",
+                        text: "Welcome to\n ",
                         style:TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w500,
@@ -114,19 +114,19 @@ class _SplashScreenState extends State<SplashScreen> {
                         )
                       ),
                       TextSpan(
-                        text: 'my',
+                        text: 'Moon',
                         style:TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue
+                          color: AppData.blackColor
                         )
                       ),
                       TextSpan(
-                        text: ' POCKET',
+                        text: ' App',
                         style:TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
-                          color: Colors.yellow[800]
+                          color: Color(0xff202020)
                         )
                       ),
                     ],

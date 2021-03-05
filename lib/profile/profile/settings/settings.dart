@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/profile/settings/aboutUs.dart';
+import 'package:food_app/profile/profile/settings/language.dart';
 import 'package:food_app/profile/profile/settings/privacypolicy.dart';
 import 'package:food_app/res/WarningDialog.dart';
 
@@ -115,6 +116,15 @@ class _SettingsScreenState extends State<SettingsScreen> implements WarningDialo
                   ),
                   Container(
                     child: ListTile(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) => Language(
+                            ),
+                            opaque: false
+                          ),
+                        );
+                      },
                       title: Text(
                         "Choose the language",
                         style: TextStyle(

@@ -64,7 +64,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "About Us",
+                            "Privacy Policy",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w800,
