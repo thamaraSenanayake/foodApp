@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/const.dart';
+import 'package:food_app/database/databse.dart';
 import 'package:food_app/model/user.dart';
 import 'package:food_app/profile/profile/myFacourite.dart';
 import 'package:food_app/profile/profile/myUploads.dart';
@@ -9,6 +10,7 @@ import 'package:food_app/profile/profile/personalInformation.dart';
 import 'package:food_app/profile/profile/settings/settings.dart';
 import 'package:food_app/profile/profile/uesrList.dart';
 import 'package:food_app/profile/profile/viewReview.dart';
+import 'package:share/share.dart';
 
 import '../homeBase.dart';
 
@@ -24,6 +26,16 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   double _width = 0.0;
   double _height = 0.0;
+  String appId;
+
+  @override
+  void initState() { 
+    super.initState();
+    _getAppId();
+  }
+  _getAppId() async {
+    appId = await Database().getAppId();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -485,12 +497,15 @@ class _ProfileState extends State<Profile> {
                     Container(
                       // color: Colors.white,
                       child: ListTile(
+                        onTap: (){
+                          Share.share('download app here https://play.google.com/store/apps/details?id='+appId, subject: 'Moon app');
+                        },
                         leading: Icon(
-                          Icons.support,
+                          Icons.share,
                           color: AppData.secondaryColor,
                         ),
                         title: Text(
-                          "Support",
+                          "Share",
                           style: TextStyle(
                             color: AppData.secondaryColor,
                             fontSize: 20

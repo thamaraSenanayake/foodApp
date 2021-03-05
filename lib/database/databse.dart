@@ -133,6 +133,16 @@ class Database{
     });
   }
 
+  Future<String> getAppId() async{
+    String appId = "";
+
+    await systemData.document('appId').get().then((document){
+      appId = document['appId'];
+    });
+
+    return appId;
+
+  }
 
   Future updatePost(Post post) async{
 
